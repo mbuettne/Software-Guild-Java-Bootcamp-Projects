@@ -25,7 +25,7 @@ public class rockPaperScissors {
             // Get user input for number of rounds, validate
             System.out.println("How many rounds would you like to play? (1-10) ");
             int rounds = input.nextInt();
-            if (rounds > 10 || rounds < 1) {
+            while (rounds > 10 || rounds < 1) {
                 System.out.println("Number of rounds must be between 1 and 10. Try again: ");
                 rounds = input.nextInt();
             }
@@ -43,7 +43,7 @@ public class rockPaperScissors {
                 input.nextLine();
 
                 // Validate user's choice
-                if (userChoice > 3 || userChoice < 1) {
+                while (userChoice > 3 || userChoice < 1) {
                     System.out.println("Please enter 1, 2, or 3: ");
                     userChoice = input.nextInt();
                     input.nextLine();
@@ -52,15 +52,18 @@ public class rockPaperScissors {
                 int compChoice = rdm.nextInt(3) + 1;
 
                 //Compare user's choice to computer's choice
-                if (compChoice == userChoice) {
-                    System.out.println("This round is a tie! \n");
-                    ties++;
-                } else if ((compChoice == 1 && userChoice == 2) || (compChoice == 2 && userChoice == 3) || (compChoice == 3 && userChoice == 1)) {
-                    System.out.println("You won this round! \n");
-                    wins++;
-                } else {
-                    System.out.println("You lost this round! \n");
-                    losses++;
+                
+                int roundScore = checkRound(userChoice, compChoice);
+                switch(roundScore){
+                    case 1:
+                        ties++;
+                        break;
+                    case 2:
+                        wins++;
+                        break;
+                    case 3:
+                        losses++;
+                        break;
                 }
                 count++;
             }
@@ -82,9 +85,35 @@ public class rockPaperScissors {
             System.out.println("Would you like to play again? (y/n) ");
             String playAgain = input.nextLine();
 
-            boolean endGame = true;
+            isGame = endGame(isGame, playAgain);
 
-            while (endGame) {
+            
+
+        }
+    }
+    
+    public static int checkRound(int userChoice, int compChoice){
+        int outcome = 0;
+        
+        if (compChoice == userChoice) {
+                    System.out.println("This round is a tie! \n");
+                    outcome = 1;
+                } else if ((compChoice == 1 && userChoice == 2) || (compChoice == 2 && userChoice == 3) || (compChoice == 3 && userChoice == 1)) {
+                    System.out.println("You won this round! \n");
+                    outcome = 2;
+                } else {
+                    System.out.println("You lost this round! \n");
+                    outcome = 3;
+                }
+        
+        return outcome;
+    }
+    
+    public static boolean endGame(boolean endGame, String playAgain){
+        Scanner input = new Scanner(System.in);
+        boolean isGame = true;
+        
+        while (endGame) {
                 if (playAgain.equalsIgnoreCase("n")) {
                     System.out.println("Thanks for playing!");
                     isGame = false;
@@ -96,7 +125,6 @@ public class rockPaperScissors {
                     playAgain = input.nextLine();
                 }
             }
-
-        }
+        return isGame;
     }
 }
