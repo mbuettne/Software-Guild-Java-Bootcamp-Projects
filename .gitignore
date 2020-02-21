@@ -441,3 +441,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/Summatives/RockPaperScissors/target/
