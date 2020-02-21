@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * @author mbuet
  */
-public class RPSGame {
+public class rockPaperScissors {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
