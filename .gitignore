@@ -441,3 +441,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/Summatives/m1-summative/target/
