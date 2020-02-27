@@ -18,10 +18,8 @@ import java.util.List;
  * @author mbuet
  */
 public class ClassRosterController {
-
-    private UserIO io = new UserIOConsoleImpl();
-    ClassRosterView view = new ClassRosterView();
-    ClassRosterDao dao = new ClassRosterDaoFileImpl();
+    ClassRosterView view;
+    ClassRosterDao dao;
 
     public void run() {
         boolean keepGoing = true;
@@ -48,12 +46,17 @@ public class ClassRosterController {
                     keepGoing = false;
                     break;
                 default:
-                    io.print("UNKNOWN COMMAND");
+                    unknownCommand();
             }
 
         }
 
-        io.print("GOODBYE");
+        exitMessage();
+    }
+    
+    public ClassRosterController(ClassRosterDao dao, ClassRosterView view){
+        this.dao = dao;
+        this.view = view;
     }
 
     private int getMenuSelection() {
@@ -86,5 +89,13 @@ public class ClassRosterController {
         String studentId = view.getStudentIdChoice();
         dao.removeStudent(studentId);
         view.displayRemoveSuccessBanner();
+    }
+    
+    private void unknownCommand(){
+        view.displayUnknownCommandBanner();
+    }
+    
+    private void exitMessage(){
+        view.displayExitBanner();
     }
 }

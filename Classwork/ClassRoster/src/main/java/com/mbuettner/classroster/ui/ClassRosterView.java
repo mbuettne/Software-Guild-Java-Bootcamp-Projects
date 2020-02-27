@@ -14,7 +14,11 @@ import java.util.List;
  */
 public class ClassRosterView {
 
-    UserIO io = new UserIOConsoleImpl();
+    private UserIO io;
+    
+    public ClassRosterView(UserIO io){
+        this.io = io;
+    }
 
     public int printMenuAndGetSelection() {
 
@@ -99,5 +103,13 @@ public class ClassRosterView {
     public void displayRemoveSuccessBanner(){
         io.readString("Student successfully removed. Please hit enter to continue.");
         io.print("");
+    }
+    
+    public void displayExitBanner(){
+        io.print("Good Bye!!!");
+    }
+    
+    public void displayUnknownCommandBanner(){
+        io.print("Unknown Command!!");
     }
 }
