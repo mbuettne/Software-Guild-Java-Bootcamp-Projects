@@ -68,4 +68,26 @@ public class ClassRosterView {
         io.print("=== Display All Students ===");
         io.print("");
     }
+    
+    public void displayDisplayStudentBanner(){
+        io.print("=== Display Student ===");
+        io.print("");
+    }
+    
+    public String getStudentIdChoice(){
+        io.readString("");
+        return io.readString("Please enter the Student ID.");
+    }
+    
+    public void displayStudent(Student student){
+        if(student != null){
+            io.print(student.getStudentId());
+            io.print(student.getFirstName() + " " + student.getLastName());
+            io.print(student.getCohort());
+            io.print("");
+        } else {
+            io.print("No such student.");
+        }
+        io.readString("Please hit enter to continue.");
+    }
 }
