@@ -90,4 +90,14 @@ public class ClassRosterView {
         }
         io.readString("Please hit enter to continue.");
     }
+    
+    public void displayRemoveStudentBanner(){
+        io.print("=== Remove Student ===");
+        io.print("");
+    }
+    
+    public void displayRemoveSuccessBanner(){
+        io.readString("Student successfully removed. Please hit enter to continue.");
+        io.print("");
+    }
 }
