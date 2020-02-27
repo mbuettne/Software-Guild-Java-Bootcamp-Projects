@@ -11,6 +11,7 @@ import com.mbuettner.classroster.dto.Student;
 import com.mbuettner.classroster.ui.ClassRosterView;
 import com.mbuettner.classroster.ui.UserIO;
 import com.mbuettner.classroster.ui.UserIOConsoleImpl;
+import java.util.List;
 
 /**
  *
@@ -32,7 +33,7 @@ public class ClassRosterController {
 
             switch (menuSelection) {
                 case 1:
-                    io.print("LIST STUDENTS");
+                    listStudents();
                     break;
                 case 2:
                     createStudent();
@@ -64,5 +65,12 @@ public class ClassRosterController {
         Student newStudent = view.getNewStudentInfo();
         dao.addStudent(newStudent.getStudentId(), newStudent);
         view.displayCreateSuccessBanner();
+    }
+    
+    private void listStudents(){
+        view.displayDisplayAllBanner();
+        List<Student> studentList = dao.getAllStudents();
+        view.displayStudentList(studentList);
+        
     }
 }

@@ -6,6 +6,7 @@
 package com.mbuettner.classroster.ui;
 
 import com.mbuettner.classroster.dto.Student;
+import java.util.List;
 
 /**
  *
@@ -24,10 +25,12 @@ public class ClassRosterView {
         io.print("4. Remoe a Student");
         io.print("5. Exit");
 
-        return io.readInt("Please Select from the above choices.", 1, 5);
+        return io.readInt("Please Select from the above choices.\n", 1, 5);
+        
     }
 
     public Student getNewStudentInfo() {
+        io.readString("");
         String studentId = io.readString("Please enter Student ID");
         String firstName = io.readString("Please enter First Name");
         String lastName = io.readString("Please enter Last Name");
@@ -44,9 +47,25 @@ public class ClassRosterView {
     
     public void displayCreateStudentBanner(){
         io.print("=== Create Student ===");
+        io.print("");
     }
     
     public void displayCreateSuccessBanner(){
         io.readString("Student successfully created. Please hit enter to continue.");
+        io.print("");
+    }
+    
+    public void displayStudentList(List<Student> studentList){
+        io.readString("");
+        for(Student currentStudent: studentList){
+            io.print(currentStudent.getStudentId() + ": " + currentStudent.getFirstName() + " " + currentStudent.getLastName());
+        }
+        io.readString("Please hit enter to continue. ");
+        io.print("");
+    }
+    
+    public void displayDisplayAllBanner(){
+        io.print("=== Display All Students ===");
+        io.print("");
     }
 }
