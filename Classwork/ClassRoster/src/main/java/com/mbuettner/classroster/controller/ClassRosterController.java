@@ -5,6 +5,9 @@
  */
 package com.mbuettner.classroster.controller;
 
+import com.mbuettner.classroster.dao.ClassRosterDao;
+import com.mbuettner.classroster.dao.ClassRosterDaoFileImpl;
+import com.mbuettner.classroster.dto.Student;
 import com.mbuettner.classroster.ui.ClassRosterView;
 import com.mbuettner.classroster.ui.UserIO;
 import com.mbuettner.classroster.ui.UserIOConsoleImpl;
@@ -16,7 +19,8 @@ import com.mbuettner.classroster.ui.UserIOConsoleImpl;
 public class ClassRosterController {
 
     private UserIO io = new UserIOConsoleImpl();
-    ClassRosterView classRosterView = new ClassRosterView();
+    ClassRosterView view = new ClassRosterView();
+    ClassRosterDao dao = new ClassRosterDaoFileImpl();
 
     public void run() {
         boolean keepGoing = true;
@@ -31,7 +35,7 @@ public class ClassRosterController {
                     io.print("LIST STUDENTS");
                     break;
                 case 2:
-                    io.print("CREATE STUDENT");
+                    createStudent();
                     break;
                 case 3:
                     io.print("VIEW STUDENT");
@@ -50,8 +54,15 @@ public class ClassRosterController {
 
         io.print("GOODBYE");
     }
+
+    private int getMenuSelection() {
+        return view.printMenuAndGetSelection();
+    }
     
-    private int getMenuSelection(){
-        return classRosterView.printMenuAndGetSelection();
+    private void createStudent(){
+        view.displayCreateStudentBanner();
+        Student newStudent = view.getNewStudentInfo();
+        dao.addStudent(newStudent.getStudentId(), newStudent);
+        view.displayCreateSuccessBanner();
     }
 }
