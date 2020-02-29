@@ -6,11 +6,9 @@
 package com.mbuettner.m2.controller;
 
 import com.mbuettner.m2.dao.m2Dao;
-import com.mbuettner.m2.dao.m2DaoFileImpl;
+import com.mbuettner.m2.dao.m2DaoException;
 import com.mbuettner.m2.dto.DVD;
 import com.mbuettner.m2.ui.DVDLibraryView;
-import com.mbuettner.m2.ui.UserIO;
-import com.mbuettner.m2.ui.UserIOConsoleImpl;
 import java.util.List;
 
 /**
@@ -18,79 +16,101 @@ import java.util.List;
  * @author mbuet
  */
 public class DVDLibraryController {
-    private UserIO io = new UserIOConsoleImpl();
-    DVDLibraryView view = new DVDLibraryView();
-    m2Dao dao = new m2DaoFileImpl();
-    
-    public void run(){
+
+    DVDLibraryView view;
+    m2Dao dao;
+
+    public void run() {
         boolean keepGoing = true;
         int menuSelection = 0;
-        while(keepGoing){
-            menuSelection = getMenuSelection();
-            
-            switch(menuSelection){
-                case 1:
-                    createDVD();
-                    break;
-                case 2:
-                    removeDVD();
-                    break;
-                case 3:
-                    editDVD();
-                    break;
-                case 4:
-                    listDVDs();
-                    break;
-                case 5:
-                    dvdSearch();
-                    break;
-                case 6:
-                    keepGoing = false;
-                    break;
-                default:
-                    io.print("UNKNOWN COMMAND");
+        try {
+            while (keepGoing) {
+                menuSelection = getMenuSelection();
+
+                switch (menuSelection) {
+                    case 1:
+                        createDVD();
+                        break;
+                    case 2:
+                        removeDVD();
+                        break;
+                    case 3:
+                        editDVD();
+                        break;
+                    case 4:
+                        listDVDs();
+                        break;
+                    case 5:
+                        dvdSearch();
+                        break;
+                    case 6:
+                        keepGoing = false;
+                        break;
+                    default:
+                        displayUnknownCommand();
+                }
+
             }
-            
+            displayExit();
+        } catch (m2DaoException e) {
+            view.displayError(e.getMessage());
         }
-        io.print("GOODBYE");
     }
-    
-    private int getMenuSelection(){
+
+    private int getMenuSelection() {
         return view.printMenuAndGetSelection();
     }
-    
-    private void createDVD(){
+
+    private void createDVD() throws m2DaoException {
         view.displayCreateDVDBanner();
         DVD newDvd = view.getNewDvdInfo();
         dao.addDvd(newDvd.getTitle(), newDvd);
         view.displayCreateSuccessBanner();
     }
-    
-    private void listDVDs(){
+
+    private void listDVDs() throws m2DaoException {
         view.displayShowAllDVDBanner();
         List<DVD> dvdList = dao.getAllDVDs();
         view.displayDVDList(dvdList);
     }
-    
-    private void dvdSearch(){
+
+    private void dvdSearch() throws m2DaoException {
         view.displayShowDVDBanner();
         String dvdTitle = view.getDVDChoice();
         DVD dvd = dao.getDVD(dvdTitle);
         view.displayDVD(dvd);
     }
-    
-    private void removeDVD(){
+
+    private void removeDVD() throws m2DaoException {
         view.displayRemoveDVDBanner();
         String dvdTitle = view.getDVDChoice();
         dao.removeDVD(dvdTitle);
     }
-    
-    private void editDVD(){
+
+    private void editDVD() throws m2DaoException {
         int editToMake = view.printEditMenu();
-        String title = view.getDVDChoice();
-        String edit = view.getEdit();
-        
-        dao.editDVD(title, editToMake, edit);
+        if (editToMake > 0 && editToMake < 7) {
+            String title = view.getDVDChoice();
+            String edit = view.getEdit();
+
+            dao.editDVD(title, editToMake, edit);
+            view.displayEditSuccessBanner();
+        } else if (editToMake == 7) {
+            view.returnToMenu();
+        }
+
     }
-        
+
+    private void displayExit() {
+        view.displayExitBanner();
+    }
+
+    private void displayUnknownCommand() {
+        view.displayUnknownCommand();
+    }
+
+    public DVDLibraryController(m2Dao dao, DVDLibraryView view) {
+        this.dao = dao;
+        this.view = view;
+    }
 }

@@ -13,13 +13,14 @@ import java.util.List;
  * @author mbuet
  */
 public interface m2Dao {
-    DVD addDvd(String title, DVD dvd);
-    
-    List<DVD> getAllDVDs();
-    
-    DVD getDVD(String title);
-    
-    DVD removeDVD(String title);
-    
-    DVD editDVD(String title, int whatToEdit, String edit);
+
+    DVD addDvd(String title, DVD dvd) throws m2DaoException;
+
+    List<DVD> getAllDVDs() throws m2DaoException;
+
+    DVD getDVD(String title) throws m2DaoException;
+
+    DVD removeDVD(String title) throws m2DaoException;
+
+    DVD editDVD(String title, int whatToEdit, String edit) throws m2DaoException;
 }

@@ -5,6 +5,8 @@
  */
 package com.mbuettner.m2.ui;
 
+import com.mbuettner.m2.dao.m2DaoException;
+import java.util.InputMismatchException;
 import com.mbuettner.m2.dto.DVD;
 import java.util.List;
 
@@ -14,9 +16,11 @@ import java.util.List;
  */
 public class DVDLibraryView {
 
-    UserIO io = new UserIOConsoleImpl();
+    private UserIO io;
 
     public int printMenuAndGetSelection() {
+        int choice = 0;
+
         io.print("---Main Menu---");
         io.print("1. Add DVD To Collection");
         io.print("2. Remove DVD From Collection");
@@ -24,10 +28,24 @@ public class DVDLibraryView {
         io.print("4. List All DVDs In Collection");
         io.print("5. Search For DVD In Collection");
         io.print("6. Exit DVD Library");
-        return io.readInt("Please Select From The Above Menu.", 1, 6);
+
+        try {
+            choice = io.readInt("Please Select From The Above Menu.", 1, 6);
+        } catch (InputMismatchException e) {
+            io.print("Selection Must Be A Number Between 1 and 6. Exiting Program.....");
+        }
+
+        if (choice != 0) {
+            return choice;
+        } else {
+            choice = 6;
+            return choice;
+        }
     }
-    
-    public int printEditMenu(){
+
+    public int printEditMenu() {
+        int choice = 0;
+
         io.print("---Edit Menu---");
         io.print("1. Edit Title");
         io.print("2. Edit Release Date");
@@ -36,10 +54,21 @@ public class DVDLibraryView {
         io.print("5. Edit Studio");
         io.print("6. Edit/Add Notes");
         io.print("7. Exit Edit Menu");
-        return io.readInt("Please Select From The Above Menu.", 1, 7);
+        try {
+            choice = io.readInt("Please Select From The Above Menu.", 1, 7);
+        } catch (InputMismatchException e) {
+            io.print("Selection Must Be A Number Between 1 and 7. Exiting Program.....");
+        }
+
+        if (choice != 0) {
+            return choice;
+        } else {
+            choice = 7;
+            return choice;
+        }
     }
-    
-    public String getEdit(){
+
+    public String getEdit() {
         return io.readString("Enter The New Information: ");
     }
 
@@ -82,37 +111,60 @@ public class DVDLibraryView {
         io.print("");
         io.readString("Please Hit Enter To Continue.");
     }
-    
+
     public void displayShowDVDBanner() {
         io.print("-----DVD Search-----");
         io.print("");
     }
-    
-    public String getDVDChoice(){
+
+    public String getDVDChoice() {
         io.readString("");
         return io.readString("Please Enter Title Of The Desired DVD");
     }
-    
-    public void displayDVD(DVD dvd){
-        if (dvd != null){
-           io.print("Title: " + dvd.getTitle() + "\n----------------" + "\nRelease Date: " + dvd.getReleaseDate() + "\nMPAA Rating: "
+
+    public void displayDVD(DVD dvd) {
+        if (dvd != null) {
+            io.print("Title: " + dvd.getTitle() + "\n----------------" + "\nRelease Date: " + dvd.getReleaseDate() + "\nMPAA Rating: "
                     + dvd.getRating() + "\nDirector: " + dvd.getDirectorName() + "\nProduction Studio: "
                     + dvd.getStudio() + "\nNotes: " + dvd.getNote() + "\n");
         } else {
             io.print("DVD Not Found. Try Making Sure You Spelled The Title Correctly.");
         }
-        
+
         io.readString("Please Hit Enter To Continue.");
     }
-    
-     public void displayRemoveDVDBanner() {
-        io.readString("");
+
+    public void displayRemoveDVDBanner() {
         io.print("-----Remove DVD-----");
         io.print("");
     }
-     
-     public void displayRemoveSuccessBanner(){
-         io.readString("DVD Successfully Removed From Collection. Please Hit Enter To Continue.");
-     }
 
+    public void displayRemoveSuccessBanner() {
+        io.readString("DVD Successfully Removed From Collection. Please Hit Enter To Continue.");
+    }
+
+    public void displayEditSuccessBanner() {
+        io.readString("DVD Successfully Edited. Please Hit Enter To Continue.");
+    }
+
+    public void displayExitBanner() {
+        io.print("Thank You For Using The DVD Library. Happy Watching!");
+    }
+
+    public void displayUnknownCommand() {
+        io.print("Unknown Command. Returning To Main Menu...");
+    }
+
+    public void returnToMenu() {
+        io.print("Returning To Main Menu...");
+    }
+
+    public void displayError(String errorMsg) {
+        io.print("--ERROR--");
+        io.print(errorMsg);
+    }
+
+    public DVDLibraryView(UserIO io) {
+        this.io = io;
+    }
 }

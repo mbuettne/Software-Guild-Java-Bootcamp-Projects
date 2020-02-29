@@ -10,6 +10,7 @@ package com.mbuettner.m2.ui;
  * @author mbuet
  */
 public interface UserIO {
+
     void print(String msg);
 
     double readDouble(String prompt);

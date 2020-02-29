@@ -10,6 +10,7 @@ package com.mbuettner.m2.dto;
  * @author mbuet
  */
 public class DVD {
+
     private String title;
     private String releaseDate;
     private String rating;
@@ -24,8 +25,6 @@ public class DVD {
         this.directorName = directorName;
         this.studio = studio;
     }
-    
-    
 
     public String getTitle() {
         return title;
@@ -74,6 +73,5 @@ public class DVD {
     public void setNote(String note) {
         this.note = note;
     }
-    
-    
+
 }
