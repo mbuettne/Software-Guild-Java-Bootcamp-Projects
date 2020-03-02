@@ -25,8 +25,8 @@ public class DVDLibraryController {
         int menuSelection = 0;
         try {
             while (keepGoing) {
-                menuSelection = getMenuSelection();
-
+                    menuSelection = getMenuSelection();
+               
                 switch (menuSelection) {
                     case 1:
                         createDVD();
@@ -47,14 +47,14 @@ public class DVDLibraryController {
                         keepGoing = false;
                         break;
                     default:
-                        displayUnknownCommand();
+                        //displayUnknownCommand();
                 }
-
             }
-            displayExit();
         } catch (m2DaoException e) {
             view.displayError(e.getMessage());
         }
+
+        displayExit();
     }
 
     private int getMenuSelection() {
@@ -94,7 +94,6 @@ public class DVDLibraryController {
             String edit = view.getEdit();
 
             dao.editDVD(title, editToMake, edit);
-            view.displayEditSuccessBanner();
         } else if (editToMake == 7) {
             view.returnToMenu();
         }

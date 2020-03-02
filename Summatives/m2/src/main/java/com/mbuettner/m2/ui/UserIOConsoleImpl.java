@@ -20,11 +20,13 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     public double readDouble(String prompt) {
-        double doubleIn;
-        System.out.println(prompt);
-        doubleIn = input.nextDouble();
-        input.nextLine();
-        return doubleIn;
+        int numDub = 0;
+        do{
+            System.out.println(prompt);
+            String numString = input.next();
+            numDub= Integer.parseInt(numString);
+        } while (numDub != 0);
+        return numDub;
     }
 
     public double readDouble(String prompt, double min, double max) {
@@ -63,24 +65,28 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     public int readInt(String prompt) {
-        int intIn;
-        System.out.println(prompt);
-        intIn = input.nextInt();
-        input.nextLine();
-        return intIn;
+        int numInt = 0;
+        do{
+            System.out.println(prompt);
+            String numString = input.next();
+            numInt = Integer.parseInt(numString);
+        } while (numInt != 0);
+        return numInt;
     }
 
     public int readInt(String prompt, int min, int max) {
-        int intIn;
-        System.out.println(prompt);
-        intIn = input.nextInt();
-
-        while (intIn < min || intIn > max) {
-            System.out.println("Invalid input. Please enter a number between " + min + " and " + max);
-            intIn = input.nextInt();
+        int numInt = 0;
+        try{
+        do {
+            System.out.println(prompt);
+            String numString = input.next();
+            numInt = Integer.parseInt(numString);
+        } while (numInt < min || numInt > max);
+        } catch(NumberFormatException e) {
+            System.out.println("Unknown Input. Please Try Again.");
         }
 
-        return intIn;
+        return numInt;
     }
 
     public long readLong(String prompt) {

@@ -83,20 +83,28 @@ public class m2DaoFileImpl implements m2Dao {
                     dvdToBeEdited = dvds.remove(title);
                     dvds.put(edit, dvdToBeEdited);
                     dvdToBeEdited.setTitle(edit);
+                    view.displayEditSuccessBanner();
                     break;
                 case 2:
                     dvdToBeEdited.setReleaseDate(edit);
+                    view.displayEditSuccessBanner();
                     break;
                 case 3:
                     dvdToBeEdited.setRating(edit);
+                    view.displayEditSuccessBanner();
                     break;
                 case 4:
                     dvdToBeEdited.setDirectorName(edit);
+                    view.displayEditSuccessBanner();
                     break;
                 case 5:
                     dvdToBeEdited.setStudio(edit);
+                    view.displayEditSuccessBanner();
+                    break;
                 case 6:
                     dvdToBeEdited.setNote(edit);
+                    view.displayEditSuccessBanner();
+                    break;
                 case 7:
                     io.readString("Returning To Main Menu. Please Hit Enter To Continue.");
                 default:

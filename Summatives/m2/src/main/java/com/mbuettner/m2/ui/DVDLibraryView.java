@@ -28,24 +28,15 @@ public class DVDLibraryView {
         io.print("4. List All DVDs In Collection");
         io.print("5. Search For DVD In Collection");
         io.print("6. Exit DVD Library");
+        choice = io.readInt("Please Select From The Above Menu.", 1, 6);
 
-        try {
-            choice = io.readInt("Please Select From The Above Menu.", 1, 6);
-        } catch (InputMismatchException e) {
-            io.print("Selection Must Be A Number Between 1 and 6. Exiting Program.....");
-        }
-
-        if (choice != 0) {
-            return choice;
-        } else {
-            choice = 6;
-            return choice;
-        }
+        return choice;
     }
 
     public int printEditMenu() {
         int choice = 0;
 
+        io.print("");
         io.print("---Edit Menu---");
         io.print("1. Edit Title");
         io.print("2. Edit Release Date");
@@ -54,18 +45,10 @@ public class DVDLibraryView {
         io.print("5. Edit Studio");
         io.print("6. Edit/Add Notes");
         io.print("7. Exit Edit Menu");
-        try {
-            choice = io.readInt("Please Select From The Above Menu.", 1, 7);
-        } catch (InputMismatchException e) {
-            io.print("Selection Must Be A Number Between 1 and 7. Exiting Program.....");
-        }
+        choice = io.readInt("Please Select From The Above Menu.", 1, 7);
 
-        if (choice != 0) {
-            return choice;
-        } else {
-            choice = 7;
-            return choice;
-        }
+        return choice;
+
     }
 
     public String getEdit() {
