@@ -63,7 +63,7 @@ public class m2DaoFileImpl implements m2Dao {
         DVD removedDvd;
         if (dvds.containsKey(title)) {
             removedDvd = dvds.remove(title);
-            view.displayRemoveSuccessBanner();
+            //view.displayRemoveSuccessBanner();
         } else {
             io.readString("Can't Find DVD. Please Check Spelling And Try Again. Hit Enter To Continue.");
             removedDvd = new DVD(" ", " ", " ", " ", " ");
