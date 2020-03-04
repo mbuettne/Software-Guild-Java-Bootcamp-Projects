@@ -24,10 +24,14 @@ public class UserIOConsoleImpl implements UserIO {
     public double readDouble(String prompt) {
         double numDouble = 0;
         do {
+            try{
             System.out.println(prompt);
             String numString = input.next();
             numDouble = Double.parseDouble(numString);
-        } while (numDouble != 0);
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numDouble == 0);
         return numDouble;
     }
 
@@ -53,10 +57,14 @@ public class UserIOConsoleImpl implements UserIO {
     public float readFloat(String prompt) {
         float numFloat = 0;
         do {
+            try{
             System.out.println(prompt);
             String numString = input.next();
             numFloat = Float.parseFloat(numString);
-        } while (numFloat != 0);
+            }catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numFloat == 0);
         return numFloat;
     }
 
@@ -81,10 +89,14 @@ public class UserIOConsoleImpl implements UserIO {
     public int readInt(String prompt) {
         int numInt = 0;
         do {
+            try{
             System.out.println(prompt);
             String numString = input.next();
             numInt = Integer.parseInt(numString);
-        } while (numInt != 0);
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numInt == 0);
         return numInt;
     }
 
@@ -109,15 +121,19 @@ public class UserIOConsoleImpl implements UserIO {
     public long readLong(String prompt) {
         long numLong = 0;
         do {
+            try{
             System.out.println(prompt);
             String numString = input.next();
             numLong = Long.parseLong(numString);
-        } while (numLong != 0);
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numLong == 0);
         return numLong;
     }
 
     public long readLong(String prompt, long min, long max) {
-        Long numLong = 0L;
+        long numLong = 0;
 
         do {
             try {
