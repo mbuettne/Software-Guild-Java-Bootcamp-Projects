@@ -67,7 +67,7 @@ public class DVDLibraryView {
 
     public DVD getNewDvdInfo() {
         String title = io.readString("Please Enter DVD Title");
-        String releaseDate = io.readString("Please Enter Release Date");
+        String releaseDate = io.readDate("Please Enter Release Date (Must be in MM/DD/YYY format)");
         String rating = io.readString("Please Enter MPAA Rating");
         String directorName = io.readString("Please Enter Director Name");
         String studio = io.readString("Please Enter Studio Name");

@@ -47,7 +47,7 @@ public class DVDLibraryController {
                         keepGoing = false;
                         break;
                     default:
-                        //displayUnknownCommand();
+                        displayUnknownCommand();
                 }
             }
         } catch (m2DaoException e) {

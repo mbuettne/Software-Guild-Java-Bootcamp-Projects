@@ -5,6 +5,8 @@
  */
 package com.mbuettner.m2.ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
@@ -20,53 +22,65 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     public double readDouble(String prompt) {
-        int numDub = 0;
-        do{
+        double numDouble = 0;
+        do {
             System.out.println(prompt);
             String numString = input.next();
-            numDub= Integer.parseInt(numString);
-        } while (numDub != 0);
-        return numDub;
+            numDouble = Double.parseDouble(numString);
+        } while (numDouble != 0);
+        return numDouble;
     }
 
     public double readDouble(String prompt, double min, double max) {
-        double doubleIn;
-        System.out.println(prompt);
-        doubleIn = input.nextDouble();
+        double numDouble = 0;
 
-        while (doubleIn < min || doubleIn > max) {
-            System.out.println("Invalid input. Please enter a number between " + min + " and " + max);
-            doubleIn = input.nextDouble();
-        }
-
-        return doubleIn;
+        do {
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numDouble= Double.parseDouble(numString);
+                if (numDouble > max || numDouble < min) {
+                    System.out.println("Input must be between " + min + " and " + max + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numDouble < min || numDouble > max);
+        return numDouble;
 
     }
 
     public float readFloat(String prompt) {
-        float floatIn;
-        System.out.println(prompt);
-        floatIn = input.nextFloat();
-        input.nextLine();
-        return floatIn;
+        float numFloat = 0;
+        do {
+            System.out.println(prompt);
+            String numString = input.next();
+            numFloat = Float.parseFloat(numString);
+        } while (numFloat != 0);
+        return numFloat;
     }
 
     public float readFloat(String prompt, float min, float max) {
-        float floatIn;
-        System.out.println(prompt);
-        floatIn = input.nextFloat();
+        float numFloat = 0f;
 
-        while (floatIn < min || floatIn > max) {
-            System.out.println("Invalid input. Please enter a number between " + min + " and " + max);
-            floatIn = input.nextFloat();
-        }
-
-        return floatIn;
+        do {
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numFloat= Float.parseFloat(numString);
+                if (numFloat > max || numFloat < min) {
+                    System.out.println("Input must be between " + min + " and " + max + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numFloat < min || numFloat > max);
+        return numFloat;
     }
 
     public int readInt(String prompt) {
         int numInt = 0;
-        do{
+        do {
             System.out.println(prompt);
             String numString = input.next();
             numInt = Integer.parseInt(numString);
@@ -76,38 +90,48 @@ public class UserIOConsoleImpl implements UserIO {
 
     public int readInt(String prompt, int min, int max) {
         int numInt = 0;
-        try{
-        do {
-            System.out.println(prompt);
-            String numString = input.next();
-            numInt = Integer.parseInt(numString);
-        } while (numInt < min || numInt > max);
-        } catch(NumberFormatException e) {
-            System.out.println("Unknown Input. Please Try Again.");
-        }
 
+        do {
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numInt = Integer.parseInt(numString);
+                if (numInt > max || numInt < min) {
+                    System.out.println("Input must be between " + min + " and " + max + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numInt < min || numInt > max);
         return numInt;
     }
 
     public long readLong(String prompt) {
-        long longIn;
-        System.out.println(prompt);
-        longIn = input.nextLong();
-        input.nextLine();
-        return longIn;
+        long numLong = 0;
+        do {
+            System.out.println(prompt);
+            String numString = input.next();
+            numLong = Long.parseLong(numString);
+        } while (numLong != 0);
+        return numLong;
     }
 
     public long readLong(String prompt, long min, long max) {
-        long longIn;
-        System.out.println(prompt);
-        longIn = input.nextLong();
+        Long numLong = 0L;
 
-        while (longIn < min || longIn > max) {
-            System.out.println("Invalid input. Please enter a number between " + min + " and " + max);
-            longIn = input.nextLong();
-        }
-
-        return longIn;
+        do {
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numLong= Long.parseLong(numString);
+                if (numLong > max || numLong < min) {
+                    System.out.println("Input must be between " + min + " and " + max + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numLong < min || numLong> max);
+        return numLong;
     }
 
     public String readString(String prompt) {
@@ -115,5 +139,19 @@ public class UserIOConsoleImpl implements UserIO {
         System.out.println(prompt);
         stringIn = input.nextLine();
         return stringIn;
+    }
+
+    public String readDate(String prompt) {
+        LocalDate newDate = LocalDate.parse("1900-01-01");
+        while (newDate.equals(LocalDate.parse("1900-01-01"))) {
+            try {
+                System.out.println(prompt);
+                newDate = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("MM/dd/yyy"));
+            } catch (Exception e) {
+                System.out.println("Format mismatch. Please try again in MM/DD/YYY format.");
+            }
+        }
+
+        return newDate.toString();
     }
 }

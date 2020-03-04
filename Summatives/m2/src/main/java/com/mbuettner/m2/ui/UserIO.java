@@ -5,6 +5,8 @@
  */
 package com.mbuettner.m2.ui;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author mbuet
@@ -30,4 +32,6 @@ public interface UserIO {
     long readLong(String prompt, long min, long max);
 
     String readString(String prompt);
+    
+    String readDate(String prompt);
 }
