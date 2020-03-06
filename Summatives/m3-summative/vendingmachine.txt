@@ -1,0 +1,8 @@
+Potato Chips::1.75::4
+Test::1.0::0
+Trail Mix::2.75::3
+Granola Bar::2.0::4
+Pretzels::2.25::2
+Sports Drink::2.75::4
+Candy Bar::1.25::7
+Gum::1.0::3

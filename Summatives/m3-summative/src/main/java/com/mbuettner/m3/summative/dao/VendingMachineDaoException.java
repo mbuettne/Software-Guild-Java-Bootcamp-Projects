@@ -9,6 +9,12 @@ package com.mbuettner.m3.summative.dao;
  *
  * @author mbuet
  */
-public class VendingMachineDaoException {
-    
+public class VendingMachineDaoException extends Exception{
+        public VendingMachineDaoException(String message) {
+        super(message);
+    }
+
+    public VendingMachineDaoException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
