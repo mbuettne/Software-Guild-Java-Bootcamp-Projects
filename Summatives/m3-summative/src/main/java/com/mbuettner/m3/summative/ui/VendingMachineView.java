@@ -5,8 +5,10 @@
  */
 package com.mbuettner.m3.summative.ui;
 
+import com.mbuettner.m3.summative.dto.Coins;
 import com.mbuettner.m3.summative.dto.User;
 import com.mbuettner.m3.summative.dto.VendingItem;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -40,13 +42,22 @@ public class VendingMachineView {
         double moneyIn = io.readDouble("How Much Money Would You Like To Put In The Vending Machine?");
         return moneyIn;
     }
+    
+    public void printVendingOptions(List<VendingItem> items){
+        for (VendingItem currentItem : items) {
+
+            io.print("\n----------------\nItem: " + currentItem.getName() +  "\nPrice: $" + currentItem.getPrice() + "\nQuantity Remaining: "
+                    + currentItem.getQuantity());
+        }
+        io.print("");
+    }
 
     public int printVendingOptionsGetSelection(List<VendingItem> items) {
         int i = 1;
 
         for (VendingItem currentItem : items) {
 
-            io.print("\n----------------\n" + i + ") Item: " + currentItem.getName() +  "\nPrice: " + currentItem.getPrice() + "\nQuantity Remaining: "
+            io.print("\n----------------\n" + i + ") Item: " + currentItem.getName() +  "\nPrice: $" + currentItem.getPrice() + "\nQuantity Remaining: "
                     + currentItem.getQuantity());
             i++;
         }
@@ -72,8 +83,36 @@ public class VendingMachineView {
         io.print("Unrecognized Input. Please Try Again.");
     }
 
-    public void displayChange(double change) {
-        io.print("Your Change Is $" + change);
+    public void displayChange(double userMoney) {
+        int quarters = 0;
+        int dimes = 0;
+        int nickels = 0;
+        int pennies = 0;
+        double doubleInPens = userMoney * 100; //convert to pennies for calculations
+        String stringInPens = Double.toString(doubleInPens); //convert to string 
+        BigDecimal moneyBD = new BigDecimal(stringInPens); // convert to bigdecimal
+        BigDecimal zero = new BigDecimal("0");
+        BigDecimal quarterBD = new BigDecimal(Coins.QUARTER.label);
+        BigDecimal dimeBD = new BigDecimal(Coins.DIME.label);
+        BigDecimal nickelBD = new BigDecimal(Coins.NICKEL.label);
+        BigDecimal pennyBD = new BigDecimal(Coins.PENNY.label);
+
+        while (moneyBD.compareTo(zero) > 0) {
+            if (moneyBD.compareTo(quarterBD) > 0) {
+                moneyBD.subtract(quarterBD);
+                quarters++;
+            } else if(moneyBD.compareTo(dimeBD) > 0){
+                moneyBD.subtract(dimeBD);
+                dimes++;
+            } else if(moneyBD.compareTo(nickelBD) > 0){
+                moneyBD.subtract(nickelBD);
+                nickels++;
+            } else if(moneyBD.compareTo(pennyBD) > 0){
+                moneyBD.subtract(pennyBD);
+                pennies++;
+            }
+        }
+        io.print("Your Change Is $" + userMoney + ", Which Is Given In " + quarters + " Quarters, " + dimes +" Dimes, " + nickels + " Nickels, And " + pennies + " Pennies.");
     }
 
     public void displayCurrentMoney(double money) {

@@ -22,6 +22,7 @@ public class VendingMachineController {
     User user = new User(0.00);
 
     public void run() throws VendingMachineDaoException {
+        view.printVendingOptions(dao.getAllAvailableItems());
         boolean keepGoing = true;
         int menuSelection = 0;
         try {
@@ -37,7 +38,7 @@ public class VendingMachineController {
                         vendItem();
                         break;
                     case 3:
-                        // Get Change
+                        displayChange();
                         break;
                     case 4:
                         keepGoing = false;
@@ -65,9 +66,15 @@ public class VendingMachineController {
         if(dao.hasMoney(purchasedItem, user.getMoney())){
             user.setMoney(dao.moneyCalculation(purchasedItem, user.getMoney()));
             dao.stockReduce(purchasedItem);
+            view.displayItemVended();
+            view.displayChange(user.getMoney());
         } else if ( !dao.hasMoney(purchasedItem, user.getMoney())){
             view.displayInsufFunds();
         } 
+    }
+    
+    private void displayChange(){
+        view.displayChange(user.getMoney());
     }
 
     private int getMenuSelection() {
