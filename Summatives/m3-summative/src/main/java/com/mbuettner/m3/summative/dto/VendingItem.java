@@ -5,6 +5,9 @@
  */
 package com.mbuettner.m3.summative.dto;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  *
  * @author mbuet
@@ -12,7 +15,7 @@ package com.mbuettner.m3.summative.dto;
 public class VendingItem {
     private String name;
     private int quantity;
-    private double price;
+    private BigDecimal price;
 
     public String getName() {
         return name;
@@ -26,13 +29,17 @@ public class VendingItem {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
+    public BigDecimal getPrice() {
+        return price.setScale(2, RoundingMode.HALF_UP);
+    }
+    
+    public void setPrice(BigDecimal price){
+        this.price = price;
     }
 
-    public VendingItem(String name, double price, int quantity) {
+    public VendingItem(String name, BigDecimal price, int quantity) {
         this.name = name;
-        this.price = price;
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
         this.quantity = quantity;
     }
     

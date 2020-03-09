@@ -5,18 +5,20 @@
  */
 package com.mbuettner.m3.summative.dto;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author mbuet
  */
 public class User {
-    private double money;
+    private BigDecimal money;
 
-    public double getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 
@@ -24,7 +26,7 @@ public class User {
         
     }
     
-    public User(double money) {
+    public User(BigDecimal money) {
         this.money = money;
     }
     

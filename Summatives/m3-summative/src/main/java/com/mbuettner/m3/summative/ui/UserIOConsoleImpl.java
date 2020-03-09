@@ -5,6 +5,8 @@
  */
 package com.mbuettner.m3.summative.ui;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -24,10 +26,10 @@ public class UserIOConsoleImpl implements UserIO {
     public double readDouble(String prompt) {
         double numDouble = 0;
         do {
-            try{
-            System.out.println(prompt);
-            String numString = input.next();
-            numDouble = Double.parseDouble(numString);
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numDouble = Double.parseDouble(numString);
             } catch (NumberFormatException e) {
                 System.out.println("Unknown Input. Please Try Again.");
             }
@@ -42,7 +44,7 @@ public class UserIOConsoleImpl implements UserIO {
             try {
                 System.out.println(prompt);
                 String numString = input.next();
-                numDouble= Double.parseDouble(numString);
+                numDouble = Double.parseDouble(numString);
                 if (numDouble > max || numDouble < min) {
                     System.out.println("Input must be between " + min + " and " + max + ".");
                 }
@@ -57,11 +59,11 @@ public class UserIOConsoleImpl implements UserIO {
     public float readFloat(String prompt) {
         float numFloat = 0;
         do {
-            try{
-            System.out.println(prompt);
-            String numString = input.next();
-            numFloat = Float.parseFloat(numString);
-            }catch (NumberFormatException e) {
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numFloat = Float.parseFloat(numString);
+            } catch (NumberFormatException e) {
                 System.out.println("Unknown Input. Please Try Again.");
             }
         } while (numFloat == 0);
@@ -75,7 +77,7 @@ public class UserIOConsoleImpl implements UserIO {
             try {
                 System.out.println(prompt);
                 String numString = input.next();
-                numFloat= Float.parseFloat(numString);
+                numFloat = Float.parseFloat(numString);
                 if (numFloat > max || numFloat < min) {
                     System.out.println("Input must be between " + min + " and " + max + ".");
                 }
@@ -89,10 +91,10 @@ public class UserIOConsoleImpl implements UserIO {
     public int readInt(String prompt) {
         int numInt = 0;
         do {
-            try{
-            System.out.println(prompt);
-            String numString = input.next();
-            numInt = Integer.parseInt(numString);
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numInt = Integer.parseInt(numString);
             } catch (NumberFormatException e) {
                 System.out.println("Unknown Input. Please Try Again.");
             }
@@ -121,10 +123,10 @@ public class UserIOConsoleImpl implements UserIO {
     public long readLong(String prompt) {
         long numLong = 0;
         do {
-            try{
-            System.out.println(prompt);
-            String numString = input.next();
-            numLong = Long.parseLong(numString);
+            try {
+                System.out.println(prompt);
+                String numString = input.next();
+                numLong = Long.parseLong(numString);
             } catch (NumberFormatException e) {
                 System.out.println("Unknown Input. Please Try Again.");
             }
@@ -139,14 +141,14 @@ public class UserIOConsoleImpl implements UserIO {
             try {
                 System.out.println(prompt);
                 String numString = input.next();
-                numLong= Long.parseLong(numString);
+                numLong = Long.parseLong(numString);
                 if (numLong > max || numLong < min) {
                     System.out.println("Input must be between " + min + " and " + max + ".");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Unknown Input. Please Try Again.");
             }
-        } while (numLong < min || numLong> max);
+        } while (numLong < min || numLong > max);
         return numLong;
     }
 
@@ -169,5 +171,22 @@ public class UserIOConsoleImpl implements UserIO {
         }
 
         return newDate.toString();
+    }
+
+    @Override
+    public BigDecimal readBigDecimal(String prompt) {
+        BigDecimal numberBD = new BigDecimal("0.00");
+        do {
+            try {
+                System.out.println(prompt);
+                String stringIn = input.next();
+                numberBD = new BigDecimal(stringIn);
+                numberBD.setScale(2, RoundingMode.HALF_UP);
+            } catch (NumberFormatException e) {
+                System.out.println("Unknown Input. Please Try Again.");
+            }
+        } while (numberBD.compareTo(new BigDecimal("0.00")) == 0);
+
+        return numberBD.abs();
     }
 }

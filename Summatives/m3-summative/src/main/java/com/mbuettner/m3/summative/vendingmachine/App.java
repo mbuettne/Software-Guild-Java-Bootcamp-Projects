@@ -6,9 +6,15 @@
 package com.mbuettner.m3.summative.vendingmachine;
 
 import com.mbuettner.m3.summative.controller.VendingMachineController;
+import com.mbuettner.m3.summative.dao.VendingMachineAuditDao;
+import com.mbuettner.m3.summative.dao.VendingMachineAuditDaoFileImpl;
 import com.mbuettner.m3.summative.dao.VendingMachineDao;
 import com.mbuettner.m3.summative.dao.VendingMachineDaoException;
 import com.mbuettner.m3.summative.dao.VendingMachineDaoFileImpl;
+import com.mbuettner.m3.summative.service.VendingMachineServiceLayer;
+import com.mbuettner.m3.summative.service.VendingMachineServiceLayerImpl;
+import com.mbuettner.m3.summative.service.insufficientFundsException;
+import com.mbuettner.m3.summative.service.noItemInventoryException;
 import com.mbuettner.m3.summative.ui.UserIO;
 import com.mbuettner.m3.summative.ui.UserIOConsoleImpl;
 import com.mbuettner.m3.summative.ui.VendingMachineView;
@@ -19,11 +25,13 @@ import com.mbuettner.m3.summative.ui.VendingMachineView;
  */
 public class App {
 
-    public static void main(String[] args) throws VendingMachineDaoException {
+    public static void main(String[] args) throws VendingMachineDaoException, insufficientFundsException, noItemInventoryException {
         UserIO io = new UserIOConsoleImpl();
         VendingMachineView view = new VendingMachineView(io);
         VendingMachineDao dao = new VendingMachineDaoFileImpl();
-        VendingMachineController controller = new VendingMachineController(dao, view);
+        VendingMachineAuditDao audit = new VendingMachineAuditDaoFileImpl();
+        VendingMachineServiceLayer service = new VendingMachineServiceLayerImpl(dao, audit);
+        VendingMachineController controller = new VendingMachineController(dao, view, service);
 
         controller.run();
     }

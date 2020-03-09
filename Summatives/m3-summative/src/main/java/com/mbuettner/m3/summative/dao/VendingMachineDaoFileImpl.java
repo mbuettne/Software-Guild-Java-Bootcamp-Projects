@@ -52,39 +52,6 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
         return purchased;
     }
 
-    @Override
-    public boolean hasStock(VendingItem item) {
-        if (item.getQuantity() == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    @Override
-    public boolean hasMoney(VendingItem item, double userMoney) {
-        if (userMoney < item.getPrice()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    @Override
-    public double moneyCalculation(VendingItem item, double userMoney) {
-        String priceString = Double.toString(item.getPrice());
-        String moneyString = Double.toString(userMoney);
-        BigDecimal priceBD = new BigDecimal(priceString);
-        BigDecimal moneyBD = new BigDecimal(moneyString);
-        BigDecimal newUserMoney = moneyBD.subtract(priceBD);
-        newUserMoney.setScale(2, RoundingMode.HALF_UP);
-
-        String money = newUserMoney.toString();
-
-        double newUserMoneyDub = Double.parseDouble(money);
-        return newUserMoneyDub;
-    }
-
     public void stockReduce(VendingItem item) throws VendingMachineDaoException {
         int currentStock = item.getQuantity();
         item.setQuantity(currentStock - 1);
@@ -94,7 +61,7 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
     private VendingItem unmarshallItem(String itemAsText) {
         String[] itemTokens = itemAsText.split(DELIMITER);
         String name = itemTokens[0];
-        double price = Double.parseDouble(itemTokens[1]);
+        BigDecimal price = new BigDecimal(itemTokens[1]);
         int quantity = Integer.parseInt(itemTokens[2]);
         VendingItem itemFromFile = new VendingItem(name, price, quantity);
 

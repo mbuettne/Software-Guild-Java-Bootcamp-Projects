@@ -442,3 +442,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /Summatives/m3-summative/target/
+/Summatives/m3-summative/nbproject/

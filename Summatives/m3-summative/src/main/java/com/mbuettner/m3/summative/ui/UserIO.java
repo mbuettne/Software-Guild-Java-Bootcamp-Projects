@@ -5,6 +5,7 @@
  */
 package com.mbuettner.m3.summative.ui;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -34,4 +35,6 @@ public interface UserIO {
     String readString(String prompt);
     
     String readDate(String prompt);
+    
+    BigDecimal readBigDecimal(String prompt);
 }

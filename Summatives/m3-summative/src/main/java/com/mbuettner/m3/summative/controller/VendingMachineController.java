@@ -7,9 +7,14 @@ package com.mbuettner.m3.summative.controller;
 
 import com.mbuettner.m3.summative.dao.VendingMachineDao;
 import com.mbuettner.m3.summative.dao.VendingMachineDaoException;
+import com.mbuettner.m3.summative.dto.Change;
 import com.mbuettner.m3.summative.dto.User;
 import com.mbuettner.m3.summative.dto.VendingItem;
+import com.mbuettner.m3.summative.service.VendingMachineServiceLayer;
+import com.mbuettner.m3.summative.service.insufficientFundsException;
+import com.mbuettner.m3.summative.service.noItemInventoryException;
 import com.mbuettner.m3.summative.ui.VendingMachineView;
+import java.math.BigDecimal;
 
 /**
  *
@@ -17,11 +22,13 @@ import com.mbuettner.m3.summative.ui.VendingMachineView;
  */
 public class VendingMachineController {
 
+    Change change = new Change();
+    VendingMachineServiceLayer service;
     VendingMachineView view;
     VendingMachineDao dao;
-    User user = new User(0.00);
+    User user = new User(new BigDecimal("0.00"));
 
-    public void run() throws VendingMachineDaoException {
+    public void run() throws VendingMachineDaoException, insufficientFundsException, noItemInventoryException {
         view.printVendingOptions(dao.getAllAvailableItems());
         boolean keepGoing = true;
         int menuSelection = 0;
@@ -39,8 +46,6 @@ public class VendingMachineController {
                         break;
                     case 3:
                         displayChange();
-                        break;
-                    case 4:
                         keepGoing = false;
                         break;
                     default:
@@ -55,26 +60,27 @@ public class VendingMachineController {
     }
 
     private void addMoney() {
-        double moneyIn = view.getMoney();
-        double currentMoney = user.getMoney();
-        user.setMoney(moneyIn + currentMoney);
+        BigDecimal moneyIn = view.getMoney();
+        BigDecimal currentMoney = user.getMoney();
+        user.setMoney(moneyIn.add(currentMoney));
     }
 
-    private void vendItem() throws VendingMachineDaoException {
+    private void vendItem() throws VendingMachineDaoException, insufficientFundsException, noItemInventoryException {
         int choice = view.printVendingOptionsGetSelection(dao.getAllAvailableItems());
         VendingItem purchasedItem = dao.purchaseItem(choice);
-        if(dao.hasMoney(purchasedItem, user.getMoney())){
-            user.setMoney(dao.moneyCalculation(purchasedItem, user.getMoney()));
+        if (service.hasMoney(purchasedItem, user.getMoney())) {
+            user.setMoney(service.moneyCalculation(purchasedItem, user.getMoney()));
             dao.stockReduce(purchasedItem);
             view.displayItemVended();
-            view.displayChange(user.getMoney());
-        } else if ( !dao.hasMoney(purchasedItem, user.getMoney())){
+            displayChange();
+        } else if (!service.hasMoney(purchasedItem, user.getMoney())) {
             view.displayInsufFunds();
-        } 
+        }
     }
-    
-    private void displayChange(){
-        view.displayChange(user.getMoney());
+
+    private void displayChange() {
+        change.makeChange(user.getMoney());
+        user.setMoney(new BigDecimal("0.00"));
     }
 
     private int getMenuSelection() {
@@ -89,8 +95,9 @@ public class VendingMachineController {
         view.displayUnrecognized();
     }
 
-    public VendingMachineController(VendingMachineDao dao, VendingMachineView view) {
+    public VendingMachineController(VendingMachineDao dao, VendingMachineView view, VendingMachineServiceLayer service) {
         this.dao = dao;
         this.view = view;
+        this.service = service;
     }
 }

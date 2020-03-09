@@ -10,7 +10,7 @@ package com.mbuettner.m3.summative.dto;
  * @author mbuet
  */
 public enum Coins {
-    QUARTER("25"), DIME("10"), NICKEL("5"), PENNY("1");
+    QUARTER("25.00"), DIME("10.00"), NICKEL("5.00"), PENNY("1.00");
     
     public  String label;
     

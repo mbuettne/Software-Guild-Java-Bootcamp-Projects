@@ -6,6 +6,7 @@
 package com.mbuettner.m3.summative.dao;
 
 import com.mbuettner.m3.summative.dto.VendingItem;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -17,12 +18,6 @@ public interface VendingMachineDao {
     List<VendingItem> getAllAvailableItems() throws VendingMachineDaoException;
     
     public VendingItem purchaseItem(int choice) throws VendingMachineDaoException;
-    
-    public boolean hasStock(VendingItem item);
-    
-    public boolean hasMoney(VendingItem item, double userMoney);
-    
-    public double moneyCalculation(VendingItem item, double userMoney);
     
      public void stockReduce(VendingItem item) throws VendingMachineDaoException;
     
