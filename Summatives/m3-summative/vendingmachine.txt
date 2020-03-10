@@ -1,7 +1,7 @@
 Potato Chips::1.75::2
-Trail Mix::2.75::3
-Granola Bar::2.00::2
+Trail Mix::2.75::2
+Granola Bar::2.00::0
 Pretzels::2.25::2
 Sports Drink::2.75::1
-Candy Bar::1.25::3
-Gum::1.00::1
+Candy Bar::1.25::2
+Gum::1.00::0
