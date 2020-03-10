@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -31,10 +33,13 @@ public class ClassRosterServiceLayerTest {
     private ClassRosterServiceLayer service;
 
     public ClassRosterServiceLayerTest() {
-        ClassRosterDao dao = new ClassRosterDaoStubImpl();
-        ClassRosterAuditDao auditDao = new ClassRosterAuditDaoStubImpl();
+//        ClassRosterDao dao = new ClassRosterDaoStubImpl();
+//        ClassRosterAuditDao auditDao = new ClassRosterAuditDaoStubImpl();
+//
+//        service = new ClassRosterServiceLayerImpl(dao, auditDao);
 
-        service = new ClassRosterServiceLayerImpl(dao, auditDao);
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        service = ctx.getBean("serviceLayer", ClassRosterServiceLayer.class);
     }
 
     @BeforeAll
@@ -64,34 +69,34 @@ public class ClassRosterServiceLayerTest {
         student.setCohort(".NET 0220");
         service.createStudent(student);
     }
-    
+
     @Test
-    public void testCreateStudentDuplicateId() throws Exception{
+    public void testCreateStudentDuplicateId() throws Exception {
         Student student = new Student("0001");
         student.setFirstName("Sally");
         student.setLastName("Smith");
         student.setCohort(".NET 0220");
-        
+
         try {
             service.createStudent(student);
             fail("Expected ClassRosterDuplicateException was not thrown");
-        } catch (ClassRosterDuplicateIdException e){
+        } catch (ClassRosterDuplicateIdException e) {
             return;
         }
     }
-    
+
     @Test
-    public void testCreateStudentInvalidData() throws Exception{
+    public void testCreateStudentInvalidData() throws Exception {
         Student student = new Student("0002");
         student.setFirstName("");
         student.setLastName("Smith");
         student.setCohort(".NET 0220");
-        
-        try{
+
+        try {
             service.createStudent(student);
             fail("Expected ClassRosterDataValidationException was not thrown.");
-        } catch (ClassRosterDataValidationException e){
-            
+        } catch (ClassRosterDataValidationException e) {
+
         }
     }
 
@@ -110,7 +115,7 @@ public class ClassRosterServiceLayerTest {
     public void testGetStudent() throws Exception {
         Student student = service.getStudent("0001");
         assertNotNull(student);
-        
+
         student = service.getStudent("99999");
         assertNull(student);
     }
@@ -122,7 +127,7 @@ public class ClassRosterServiceLayerTest {
     public void testRemoveStudent() throws Exception {
         Student student = service.removeStudent("0001");
         assertNotNull(student);
-        
+
         student = service.removeStudent("99999");
         assertNull(student);
     }
