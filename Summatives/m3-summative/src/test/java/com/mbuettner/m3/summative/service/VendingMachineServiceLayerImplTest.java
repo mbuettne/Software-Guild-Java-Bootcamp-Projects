@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -28,6 +30,8 @@ public class VendingMachineServiceLayerImplTest {
     VendingMachineServiceLayerImpl service = new VendingMachineServiceLayerImpl(dao, auditDao);
 
     public VendingMachineServiceLayerImplTest() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        VendingMachineServiceLayer service = ctx.getBean("serviceLayer", VendingMachineServiceLayer.class);
     }
 
     @BeforeAll
@@ -56,8 +60,8 @@ public class VendingMachineServiceLayerImplTest {
         User user = new User(new BigDecimal("2.00"));
         assertTrue(service.hasMoney(item, user.getMoney()));
     }
-    
-        @Test
+
+    @Test
     public void testHasNoMoney() throws Exception {
         VendingItem item = new VendingItem("Test", new BigDecimal("2.50"), 4);
         User user = new User(new BigDecimal("2.00"));
@@ -72,8 +76,8 @@ public class VendingMachineServiceLayerImplTest {
         VendingItem item = new VendingItem("test", new BigDecimal("1.70"), 2);
         assertTrue(service.hasStock(item));
     }
-    
-        @Test
+
+    @Test
     public void testHasNoStock() throws Exception {
         VendingItem item = new VendingItem("test3", new BigDecimal("1.70"), 0);
         assertFalse(service.hasStock(item));

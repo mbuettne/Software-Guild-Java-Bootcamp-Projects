@@ -1,4 +1,4 @@
-Potato Chips::1.75::2
+Potato Chips::1.75::1
 Trail Mix::2.75::2
 Granola Bar::2.00::0
 Pretzels::2.25::2

@@ -4,3 +4,4 @@
 2020-03-09T10:04:48.409075 : Item Gum Purchased For 1.00. 0 Items Remaining In Stock.
 2020-03-09T10:05:59.171899300 : Item Granola Bar Purchased For 2.00. 1 Items Remaining In Stock.
 2020-03-09T10:08:44.413743200 : Item Granola Bar Purchased For 2.00. 0 Items Remaining In Stock.
+2020-03-13T09:40:49.648908100 : Item Potato Chips Purchased For 1.75. 1 Items Remaining In Stock.
