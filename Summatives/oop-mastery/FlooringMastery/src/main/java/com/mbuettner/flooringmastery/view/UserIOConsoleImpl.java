@@ -93,7 +93,7 @@ public class UserIOConsoleImpl implements UserIO {
         do {
             try {
                 System.out.println(prompt);
-                String numString = input.next();
+                String numString = input.nextLine();
                 numInt = Integer.parseInt(numString);
             } catch (NumberFormatException e) {
                 System.out.println("Unknown Input. Please Try Again.");
@@ -108,7 +108,7 @@ public class UserIOConsoleImpl implements UserIO {
         do {
             try {
                 System.out.println(prompt);
-                String numString = input.next();
+                String numString = input.nextLine();
                 numInt = Integer.parseInt(numString);
                 if (numInt > max || numInt < min) {
                     System.out.println("Input must be between " + min + " and " + max + ".");
@@ -164,9 +164,9 @@ public class UserIOConsoleImpl implements UserIO {
         while (newDate.equals(LocalDate.parse("1900-01-01"))) {
             try {
                 System.out.println(prompt);
-                newDate = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("MM/dd/yyy"));
+                newDate = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
             } catch (Exception e) {
-                System.out.println("Format mismatch. Please try again in MM/DD/YYY format.");
+                System.out.println("Format mismatch. Please try again in MM/DD/YYYY format.");
             }
         }
 

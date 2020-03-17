@@ -5,10 +5,16 @@
  */
 package com.mbuettner.flooringmastery.dao;
 
+import com.mbuettner.flooringmastery.dto.Order;
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  *
  * @author mbuet
  */
 public interface FlooringMasteryDao {
-    
+    public List<Order> getOrdersByDate(LocalDate date);
+    public Order saveEdits(Order order);
+    public Order getOrder(LocalDate date, int orderNumber);
 }

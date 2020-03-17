@@ -22,7 +22,10 @@ public class Order {
     private LocalDate date;
     private BigDecimal productCost;
     private BigDecimal laborCost;
-    private BigDecimal tax;
+    private BigDecimal costSqFt;
+    private BigDecimal laborSqFt;
+    private BigDecimal taxRate;
+    private BigDecimal taxCost;
     private BigDecimal totalCost;
     private int orderNumber;
 
@@ -77,6 +80,38 @@ public class Order {
         return date;
     }
 
+    public void setDate() {
+        this.date = LocalDate.now();
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public BigDecimal getCostSqFt() {
+        return costSqFt;
+    }
+
+    public void setCostSqFt(BigDecimal costSqFt) {
+        this.costSqFt = costSqFt;
+    }
+    
+    public void setMaterialCost(){
+        this.costSqFt = this.area.multiply(this.productCost);
+    }
+
+    public BigDecimal getLaborSqFt() {
+        return laborSqFt;
+    }
+
+    public void setLaborSqFt(BigDecimal laborSqFt) {
+        this.laborSqFt = laborSqFt;
+    }
+    
+    public void setLaborTotalCost(){
+        this.laborSqFt = this.area.multiply(this.laborCost);
+    }
+
     public BigDecimal getProductCost() {
         return productCost;
     }
@@ -85,16 +120,20 @@ public class Order {
         return laborCost;
     }
 
-    public BigDecimal getTax() {
-        return tax;
+    public BigDecimal getTaxRate() {
+        return taxRate;
     }
 
     public BigDecimal getTotalCost() {
         return totalCost;
     }
 
+    public void setProductCost(BigDecimal productCost) {
+        this.productCost = productCost;
+    }
+
     public void setProductCost() {
-        BigDecimal newProductCost = new BigDecimal("");
+        BigDecimal newProductCost = new BigDecimal("0");
         if (product.equalsIgnoreCase("Carpet")) {
             newProductCost = new BigDecimal("2.25");
         } else if (product.equalsIgnoreCase("Laminate")) {
@@ -106,9 +145,13 @@ public class Order {
         }
         this.productCost = newProductCost;
     }
-    
-        public void setLaborCost() {
-        BigDecimal newLaborCost = new BigDecimal("");
+
+    public void setLaborCost(BigDecimal laborCost) {
+        this.laborCost = laborCost;
+    }
+
+    public void setLaborCost() {
+        BigDecimal newLaborCost = new BigDecimal("0");
         if (product.equalsIgnoreCase("Carpet")) {
             newLaborCost = new BigDecimal("2.10");
         } else if (product.equalsIgnoreCase("Laminate")) {
@@ -120,23 +163,43 @@ public class Order {
         }
         this.laborCost = newLaborCost;
     }
-        
-        public void setTax(){
-            BigDecimal newTax = new BigDecimal("");
-            if(state.equalsIgnoreCase("OH")){
-                newTax = new BigDecimal("6.25");
-            } else if(state.equalsIgnoreCase("PA")){
-                newTax = new BigDecimal("6.75");
-            } else if(state.equalsIgnoreCase("MI")){
-                newTax = new BigDecimal("5.75");
-            } else if(state.equalsIgnoreCase("IN")){
-                newTax = new BigDecimal("6.00");
-            }
-            this.tax = newTax;
+
+    public void setTaxRate(BigDecimal taxRate) {
+        this.taxRate = taxRate;
+    }
+
+    public void setTaxRate() {
+        BigDecimal newTaxRate = new BigDecimal("0");
+        if (state.equalsIgnoreCase("OH")) {
+            newTaxRate = new BigDecimal("6.25");
+        } else if (state.equalsIgnoreCase("PA")) {
+            newTaxRate = new BigDecimal("6.75");
+        } else if (state.equalsIgnoreCase("MI")) {
+            newTaxRate = new BigDecimal("5.75");
+        } else if (state.equalsIgnoreCase("IN")) {
+            newTaxRate = new BigDecimal("6.00");
         }
-        
-        public void setTotalCost(){
-            BigDecimal total = this.productCost.add(this.laborCost).add(this.tax);
-            this.totalCost = total.setScale(2, RoundingMode.HALF_UP);
-        }
+        this.taxRate = newTaxRate;
+    }
+
+    public BigDecimal getTaxCost() {
+        return taxCost;
+    }
+
+    public void setTaxCost(BigDecimal taxCost) {
+        this.taxCost = taxCost;
+    }
+
+    public void setTaxCost() {
+        this.taxCost = this.taxRate.multiply(this.productCost.add(this.laborCost));
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public void setTotalCost() {
+        BigDecimal total = this.productCost.add(this.laborCost).add(this.taxCost);
+        this.totalCost = total.setScale(2, RoundingMode.HALF_UP);
+    }
 }

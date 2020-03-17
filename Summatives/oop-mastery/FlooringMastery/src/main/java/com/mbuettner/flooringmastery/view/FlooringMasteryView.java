@@ -67,6 +67,7 @@ public class FlooringMasteryView {
 
     public BigDecimal getAreaFromUser() {
         BigDecimal area = io.readBigDecimal("Enter The Area (In Square Feet) For The Order: ");
+        io.readString("");
         return area;
     }
 
@@ -112,6 +113,10 @@ public class FlooringMasteryView {
     public void editSuccess() {
         io.readString("Order Successfully Edited! Press Enter To Continue.");
     }
+    
+    public void saveSuccess(){
+        io.readString("Changes Successfully Saved! Press Enter To Continue.");
+    }
 
     public void removeSuccess() {
         io.readString("Order Successfully Removed! Press Enter To Continue.");
@@ -120,8 +125,16 @@ public class FlooringMasteryView {
     public void removeFail() {
         io.readString("Order Removal Cancelled. Press Enter To Continue.");
     }
+    
+    public void returnToMenu(){
+        io.print("Returning To Main Menu...");
+    }
 
     public void unknownCommand() {
         io.print("Unknown Command Entered. Returning To Main Menu...");
+    }
+    
+    public void exitProgram(){
+        io.print("Thank You For Using The Flooring Order Program. Exiting...");
     }
 }
