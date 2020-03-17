@@ -6,6 +6,7 @@
 package com.mbuettner.flooringmastery.view;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  *
@@ -32,7 +33,7 @@ public interface UserIO {
 
     String readString(String prompt);
     
-    String readDate(String prompt);
+    LocalDate readDate(String prompt);
     
     BigDecimal readBigDecimal(String prompt);
 }

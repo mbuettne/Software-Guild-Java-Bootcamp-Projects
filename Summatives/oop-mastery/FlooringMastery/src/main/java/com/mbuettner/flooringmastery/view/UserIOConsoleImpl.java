@@ -159,7 +159,7 @@ public class UserIOConsoleImpl implements UserIO {
         return stringIn;
     }
 
-    public String readDate(String prompt) {
+    public LocalDate readDate(String prompt) {
         LocalDate newDate = LocalDate.parse("1900-01-01");
         while (newDate.equals(LocalDate.parse("1900-01-01"))) {
             try {
@@ -170,7 +170,7 @@ public class UserIOConsoleImpl implements UserIO {
             }
         }
 
-        return newDate.toString();
+        return newDate;
     }
 
     @Override
