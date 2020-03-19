@@ -6,15 +6,39 @@
 package com.mbuettner.flooringmastery.dao;
 
 import com.mbuettner.flooringmastery.dto.Order;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author mbuet
  */
 public interface FlooringMasteryDao {
-    public List<Order> getOrdersByDate(LocalDate date);
-    public Order saveEdits(Order order);
-    public Order getOrder(LocalDate date, int orderNumber);
+
+    public Order getOrder(LocalDate date, int orderNumber)  throws FlooringMasteryDaoException;
+
+    public Order removeOrder(LocalDate date, int orderNumber) throws FlooringMasteryDaoException;
+    
+    public Order editOrder(LocalDate date, int orderNumber, Order edited) throws FlooringMasteryDaoException;
+
+    public void writeOrders(LocalDate date) throws FlooringMasteryDaoException;
+
+    public void writeOrderNumbers() throws FlooringMasteryDaoException;
+
+    public HashMap<String, Order> loadOrders(LocalDate date) throws FlooringMasteryDaoException;
+
+    public void loadDates() throws FlooringMasteryDaoException;
+
+    public void loadOrderNumbers() throws FlooringMasteryDaoException;
+
+    public void createNewFile(LocalDate date) throws FlooringMasteryDaoException;
+
+    public void setMap(Order newOrder)  throws FlooringMasteryDaoException;
+
+    public void replaceMap(Order newOrder, LocalDate date) throws FlooringMasteryDaoException;
+
+    public int getNextOrderNumber() throws FlooringMasteryDaoException;
 }

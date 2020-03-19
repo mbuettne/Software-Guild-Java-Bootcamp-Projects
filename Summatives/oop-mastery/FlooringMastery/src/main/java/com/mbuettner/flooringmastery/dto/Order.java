@@ -8,6 +8,7 @@ package com.mbuettner.flooringmastery.dto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -77,7 +78,7 @@ public class Order {
     }
 
     public LocalDate getDate() {
-        return date;
+        return this.date;
     }
 
     public void setDate() {
@@ -96,8 +97,9 @@ public class Order {
         this.costSqFt = costSqFt;
     }
     
-    public void setMaterialCost(){
-        this.costSqFt = this.area.multiply(this.productCost);
+    public void setCostSqFt(){
+        BigDecimal costSqFtUnround = this.area.multiply(this.productCost);
+        this.costSqFt = costSqFtUnround.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getLaborSqFt() {
@@ -108,8 +110,9 @@ public class Order {
         this.laborSqFt = laborSqFt;
     }
     
-    public void setLaborTotalCost(){
-        this.laborSqFt = this.area.multiply(this.laborCost);
+    public void setLaborSqFt(){
+        BigDecimal laborSqFtUnround = this.area.multiply(this.laborCost);
+        this.laborSqFt = laborSqFtUnround.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getProductCost() {
@@ -191,7 +194,11 @@ public class Order {
     }
 
     public void setTaxCost() {
-        this.taxCost = this.taxRate.multiply(this.productCost.add(this.laborCost));
+        BigDecimal hundred = new BigDecimal("100");
+        BigDecimal taxRatePercent = this.taxRate.divide(hundred);
+        BigDecimal costsAdded = this.costSqFt.add(this.laborSqFt);
+        BigDecimal taxCostUnround = costsAdded.multiply(taxRatePercent);
+        this.taxCost = taxCostUnround.setScale(2, RoundingMode.HALF_UP);
     }
 
     public void setTotalCost(BigDecimal totalCost) {
@@ -199,7 +206,7 @@ public class Order {
     }
 
     public void setTotalCost() {
-        BigDecimal total = this.productCost.add(this.laborCost).add(this.taxCost);
+        BigDecimal total = this.costSqFt.add(this.laborSqFt).add(this.taxCost);
         this.totalCost = total.setScale(2, RoundingMode.HALF_UP);
     }
 }

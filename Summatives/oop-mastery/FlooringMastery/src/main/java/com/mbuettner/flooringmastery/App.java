@@ -7,6 +7,7 @@ package com.mbuettner.flooringmastery;
 
 import com.mbuettner.flooringmastery.controller.FlooringMasteryController;
 import com.mbuettner.flooringmastery.dao.FlooringMasteryDao;
+import com.mbuettner.flooringmastery.dao.FlooringMasteryDaoException;
 import com.mbuettner.flooringmastery.dao.FlooringMasteryDaoFileImpl;
 import com.mbuettner.flooringmastery.service.FlooringMasteryServiceLayer;
 import com.mbuettner.flooringmastery.service.FlooringMasteryServiceLayerImpl;
@@ -19,7 +20,7 @@ import com.mbuettner.flooringmastery.view.UserIOConsoleImpl;
  */
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FlooringMasteryDaoException {
         FlooringMasteryDao dao = new FlooringMasteryDaoFileImpl();
         FlooringMasteryServiceLayer service = new FlooringMasteryServiceLayerImpl(dao);
         UserIOConsoleImpl io = new UserIOConsoleImpl();

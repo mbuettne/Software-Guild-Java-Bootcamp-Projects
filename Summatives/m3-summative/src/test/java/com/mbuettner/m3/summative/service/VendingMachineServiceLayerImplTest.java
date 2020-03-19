@@ -25,13 +25,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class VendingMachineServiceLayerImplTest {
 
-    private VendingMachineDao dao;
-    private VendingMachineAuditDao auditDao;
-    VendingMachineServiceLayerImpl service = new VendingMachineServiceLayerImpl(dao, auditDao);
+VendingMachineServiceLayer service;
 
     public VendingMachineServiceLayerImplTest() {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-        VendingMachineServiceLayer service = ctx.getBean("serviceLayer", VendingMachineServiceLayer.class);
+        service = ctx.getBean("serviceLayer", VendingMachineServiceLayer.class);
     }
 
     @BeforeAll

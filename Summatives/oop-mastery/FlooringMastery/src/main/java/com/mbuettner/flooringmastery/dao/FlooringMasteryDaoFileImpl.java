@@ -19,44 +19,113 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  *
  * @author mbuet
  */
-public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao{
-    
-    public static final String PATH = "C:\\Users\\mbuet\\Documents\\repos\\java-mpls-0220-mbuettne\\summatives\\oop-mastery\\FlooringMastery";
+public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
+
+    public static final String PATH = "C:\\Users\\mbuet\\Documents\\repos\\java-mpls-0220-mbuettne\\Summatives\\oop-mastery\\FlooringMastery";
     public static final String DELIMITER = "::";
-    public static final String DATE_FILE = "dates.txt";
-    public ArrayList<String> fileNames = new ArrayList<>();
+    public static final String DATES_FILE = "dates.txt";
+    public static final String ORDER_NUMBERS = "orderNumbers.txt";
+    public ArrayList<String> orderNumbers = new ArrayList<>();
+    public Set<String> fileNames = new HashSet<>();
     private Map<String, Order> orders = new HashMap<>();
 
+    public Order removeOrder(LocalDate date, int orderNumber) throws FlooringMasteryDaoException {
+        orders = loadOrders(date);
+        Order removedOrder;
+        if (orders.containsKey(Integer.toString(orderNumber))) {
+            removedOrder = orders.remove(Integer.toString(orderNumber));
+        } else {
+            System.out.println("Order Not Found.");
+            removedOrder = new Order("", "", "", new BigDecimal("0"));
+        }
+        writeOrders(date);
+        return removedOrder;
+    }
+
     @Override
-    public List<Order> getOrdersByDate(LocalDate date) {
+    public Order editOrder(LocalDate date, int orderNumber, Order edited) throws FlooringMasteryDaoException {
+        orders = loadOrders(date);
+        Order orderToBeEdited;
+        if (orders.containsKey(Integer.toString(orderNumber))) {
+            orderToBeEdited = orders.get(Integer.toString(orderNumber));
+            String editedName = edited.getName();
+            if (!editedName.equals("")) {
+                orderToBeEdited.setName(editedName);
+            } 
+
+            String editedState = edited.getState();
+            if (!editedState.equals("")) {
+                orderToBeEdited.setState(editedState);
+            }
+
+            String editedProduct = edited.getProduct();
+            if (!editedProduct.equals("")) {
+                orderToBeEdited.setProduct(editedProduct);
+            } 
+
+            BigDecimal editedArea = edited.getArea();
+            if (!editedArea.equals("0.00")) {
+                orderToBeEdited.setArea(editedArea);
+            } 
+            
+            orderToBeEdited.setProductCost();
+            orderToBeEdited.setCostSqFt();
+            orderToBeEdited.setLaborCost();
+            orderToBeEdited.setLaborSqFt();
+            orderToBeEdited.setTaxRate();
+            orderToBeEdited.setTaxCost();
+            orderToBeEdited.setTotalCost();
+            orderToBeEdited.setDate(date);
+            orderToBeEdited.setOrderNumber(orderNumber);
+
+            orders.replace(Integer.toString(orderNumber), orderToBeEdited);
+            replaceMap(orderToBeEdited, date);
+            writeOrders(orderToBeEdited.getDate());
+        } else {
+            System.out.println("Can't Find Order. Please Check Spelling And Try Again.");
+            orderToBeEdited = new Order("", "", "", new BigDecimal("0"));
+        }
+
+        //writeOrders();
+        return orderToBeEdited;
+    }
+
+    @Override
+    public Order getOrder(LocalDate date, int orderNumber) throws FlooringMasteryDaoException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Order saveEdits(Order order) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setMap(Order newOrder) throws FlooringMasteryDaoException {
+        orders.put(Integer.toString(newOrder.getOrderNumber()), newOrder);
     }
 
     @Override
-    public Order getOrder(LocalDate date, int orderNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void replaceMap(Order newOrder, LocalDate date) throws FlooringMasteryDaoException {
+        loadDates();
+        orders = loadOrders(date);
+        orders.replace(Integer.toString(newOrder.getOrderNumber()), newOrder);
     }
-    
+
+    @Override
     public void createNewFile(LocalDate date) throws FlooringMasteryDaoException {
         File file = new File(PATH + date + ".txt");
         fileNames.add(date.toString());
         PrintWriter out;
         try {
-            out = new PrintWriter(new FileWriter("dates.txt", true));
+            out = new PrintWriter(new FileWriter(DATES_FILE, false));
         } catch (IOException e) {
             throw new FlooringMasteryDaoException(
                     "Could not save order data.", e);
@@ -66,7 +135,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao{
         out.close();
     }
 
-    private Order unmarshallOrder(String orderAsText, String fileName) {
+    private Order unmarshallOrder(String orderAsText) {
         String[] orderTokens = orderAsText.split(DELIMITER);
         int orderNumber = Integer.parseInt(orderTokens[0]);
         String name = orderTokens[1];
@@ -80,10 +149,9 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao{
         BigDecimal laborCost = new BigDecimal(orderTokens[9]);
         BigDecimal taxCost = new BigDecimal(orderTokens[10]);
         BigDecimal totalCost = new BigDecimal(orderTokens[11]);
-        LocalDate date = LocalDate.parse(orderTokens[12], DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         Order orderFromFile = new Order(name, state, product, area);
-        
-        orderFromFile.setDate(date);
+
+        // orderFromFile.setDate(date);
         orderFromFile.setLaborCost(laborCost);
         orderFromFile.setOrderNumber(orderNumber);
         orderFromFile.setTaxRate(taxRate);
@@ -95,18 +163,41 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao{
         return orderFromFile;
     }
 
-    private void loadDate() throws FlooringMasteryDaoException {
+    @Override
+    public void loadDates() throws FlooringMasteryDaoException {
         Scanner s;
         try {
-            s = new Scanner(new BufferedReader(new FileReader("artist.txt")));
+            s = new Scanner(new BufferedReader(new FileReader(DATES_FILE)));
         } catch (FileNotFoundException e) {
             throw new FlooringMasteryDaoException(
-                    "-_- Could not load order into memory.", e);
+                    "-_- Could not load orders from memory.", e);
         }
         while (s.hasNextLine()) {
             fileNames.add(s.nextLine());
         }
         s.close();
+    }
+
+    @Override
+    public void loadOrderNumbers() throws FlooringMasteryDaoException {
+        Scanner s;
+        orderNumbers = new ArrayList<>();
+        try {
+            s = new Scanner(new BufferedReader(new FileReader(ORDER_NUMBERS)));
+        } catch (FileNotFoundException e) {
+            throw new FlooringMasteryDaoException(
+                    "-_- Could not load orders from memory.", e);
+        }
+        while (s.hasNextLine()) {
+            orderNumbers.add(s.nextLine());
+        }
+        s.close();
+    }
+
+    @Override
+    public int getNextOrderNumber() {
+        int nextOrderNumber = orderNumbers.size() + 1;
+        return nextOrderNumber;
     }
 //THIS METHOD LOADS ALL SONGS FROM ALL FILES
 
@@ -129,13 +220,15 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao{
 //            s.close();
 //        }
 //    }
-
     //Loads all songs from a single file 
-    private void loadOrders(LocalDate date) throws FlooringMasteryDaoException {
+    @Override
+    public HashMap<String, Order> loadOrders(LocalDate date) throws FlooringMasteryDaoException {
         Scanner s;
+        HashMap<String, Order> ordersMap = new HashMap<>();
         try {
             s = new Scanner(new BufferedReader(new FileReader(date + ".txt")));
         } catch (FileNotFoundException e) {
+            //createNewFile(date);
             throw new FlooringMasteryDaoException(
                     "-_- Could not load orders from memory.", e);
         }
@@ -143,10 +236,12 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao{
         Order currentOrder;
         while (s.hasNextLine()) {
             currentLine = s.nextLine();
-            currentOrder = unmarshallOrder(currentLine, date.toString());
-            orders.put(Integer.toString(currentOrder.getOrderNumber()), currentOrder);
+            currentOrder = unmarshallOrder(currentLine);
+            ordersMap.put(Integer.toString(currentOrder.getOrderNumber()), currentOrder);
+
         }
         s.close();
+        return ordersMap;
     }
 
     private String marshallOrder(Order order) {
@@ -165,28 +260,47 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao{
         return orderAsText;
     }
 
-
-
-    private void writeOrders() throws FlooringMasteryDaoException {
+    @Override
+    public void writeOrders(LocalDate date) throws FlooringMasteryDaoException {
+        //  loadDates();
         PrintWriter out;
-        for (String currentFile : fileNames) {
-            try {
-                out = new PrintWriter(new FileWriter(currentFile + ".txt"));
-            } catch (IOException e) {
-                throw new FlooringMasteryDaoException(
-                        "Could not save order data.", e);
-            }
-            String orderAsText;
-            List<Order> orderList = orders.values()
-                    .stream()
-                    .filter(s -> s.getDate() == LocalDate.parse(currentFile))
-                    .collect(Collectors.toList());;
-            for (Order currentOrder : orderList) {
-                orderAsText = marshallOrder(currentOrder);
-                out.println(orderAsText);
-                out.flush();
-            }
-            out.close();
+        //   for (String currentFile : fileNames) {
+        try {
+            out = new PrintWriter(new FileWriter(date + ".txt", false));
+        } catch (IOException e) {
+            throw new FlooringMasteryDaoException(
+                    "Could not save order data.", e);
         }
+        String orderAsText;
+        List<Order> orderList = orders.values()
+                .stream()
+                //       .filter(s -> s.getDate().toString().equals(currentFile))
+                .collect(Collectors.toList());;
+        for (Order currentOrder : orderList) {
+            orderAsText = marshallOrder(currentOrder);
+            out.println(orderAsText);
+            out.flush();
+        }
+        out.close();
     }
+    //   }
+
+    @Override
+    public void writeOrderNumbers() throws FlooringMasteryDaoException {
+        loadOrderNumbers();
+        PrintWriter out;
+        //  for (String currentNumber : orderNumbers) {
+        try {
+            out = new PrintWriter(new FileWriter(ORDER_NUMBERS, true));
+        } catch (IOException e) {
+            throw new FlooringMasteryDaoException(
+                    "Could not save order data.", e);
+        }
+        String nextOrderNumber = Integer.toString(orderNumbers.size() + 1);
+        out.println(nextOrderNumber);
+        out.flush();
+        out.close();
+    }
+    //}
+
 }

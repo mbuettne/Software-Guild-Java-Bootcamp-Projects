@@ -5,12 +5,15 @@
  */
 package com.mbuettner.flooringmastery.controller;
 
+import com.mbuettner.flooringmastery.dao.FlooringMasteryDaoException;
 import com.mbuettner.flooringmastery.dto.Order;
 import com.mbuettner.flooringmastery.service.FlooringMasteryServiceLayer;
 import com.mbuettner.flooringmastery.view.FlooringMasteryView;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -26,7 +29,7 @@ public class FlooringMasteryController {
         this.service = service;
     }
 
-    public void run() {
+    public void run() throws FlooringMasteryDaoException {
         boolean keepGoing = true;
         int menuSelection = 0;
    //     try {
@@ -47,9 +50,6 @@ public class FlooringMasteryController {
                         removeOrder();
                         break;
                     case 5:
-                        saveWork();
-                        break;
-                    case 6:
                         keepGoing = false;
                         break;
                     default:
@@ -67,13 +67,13 @@ public class FlooringMasteryController {
         return view.printMenuGetSelection();
     }
     
-    private void listAllOrders(){
+    private void listAllOrders() throws FlooringMasteryDaoException{
         LocalDate date = view.dateToSearch();
-        List<Order> orderList = service.listAllOrders(date);
-        view.displayAllOrders(orderList);
+        HashMap <String, Order> orderMap = service.listAllOrders(date);
+        view.displayAllOrders(orderMap);
     }
     
-    private void addOrder(){
+    private void addOrder() throws FlooringMasteryDaoException{
         String name = view.getNameFromUser();
         String state = view.getStateFromUser();
         String product = view.getProductFromUser();
@@ -88,15 +88,17 @@ public class FlooringMasteryController {
         }
     }
     
-    private void editOrder(){
+    private void editOrder() throws FlooringMasteryDaoException{
         LocalDate date = view.dateToSearch();
         int orderNumber = view.orderNumberToSearch();
-        Order edited = view.editOrder(date, orderNumber);
+        Order original = service.findOrder(date, orderNumber);
+        view.displaySingleOrder(original);
+        Order edited = view.editOrder(original);
         service.editOrder(date, orderNumber, edited);
         view.editSuccess();
     }
     
-    private void removeOrder(){
+    private void removeOrder() throws FlooringMasteryDaoException{
         LocalDate date = view.dateToSearch();
         int orderNumber = view.orderNumberToSearch();
         Order orderToRemove = service.findOrder(date, orderNumber);
@@ -111,10 +113,10 @@ public class FlooringMasteryController {
         }
     }
     
-    private void saveWork(){
-        service.saveWork();
-        view.saveSuccess();
-    }
+//    private void saveWork() throws FlooringMasteryDaoException{
+//        service.saveWork();
+//        view.saveSuccess();
+//    }
     
     private void displayUnknownCommand(){
         view.unknownCommand();
