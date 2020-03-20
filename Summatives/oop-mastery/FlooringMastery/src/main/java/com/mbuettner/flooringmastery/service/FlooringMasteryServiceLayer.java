@@ -25,14 +25,20 @@ public interface FlooringMasteryServiceLayer {
     public void removeOrder(LocalDate date, int orderNumber) throws FlooringMasteryDaoException;
 
     public HashMap<String, Order> listAllOrders(LocalDate date) throws FlooringMasteryDaoException;
+    
+    public Order findOrder(LocalDate date, int orderNumber) throws FlooringMasteryDaoException;
 
     public void createNewFile(LocalDate date) throws FlooringMasteryDaoException, IOException;
-
-    public Order findOrder(LocalDate date, int orderNumber) throws FlooringMasteryDaoException;
 
     public void saveWork(LocalDate date) throws FlooringMasteryDaoException;
     
     public void saveWork(LocalDate date, Order newOrder) throws FlooringMasteryDaoException;
 
     public void saveEdits(LocalDate date) throws FlooringMasteryDaoException;
+    
+    public boolean checkDateExists(LocalDate date) throws FlooringMasteryDaoException;
+    
+    public boolean checkOrderExists(LocalDate date, int orderNumber) throws FlooringMasteryDaoException;
+    
+    public HashMap<String, Order> loadOrders(LocalDate date) throws FlooringMasteryDaoException;
 }

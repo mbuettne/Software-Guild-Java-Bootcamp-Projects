@@ -27,6 +27,7 @@ public class FlooringMasteryView {
         int choice = 0;
 
         io.print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        io.print("*");
         io.print("*  <<Flooring Program>>");
         io.print("* 1. Display Orders");
         io.print("* 2. Add an Order");
@@ -45,6 +46,7 @@ public class FlooringMasteryView {
 
         for (String o : keys) {
             io.print("~~~~~~~~~~~~~~~~~~~");
+            io.print("Order Number: " + orderMap.get(o).getOrderNumber());
             io.print("Name: " + orderMap.get(o).getName());
             io.print("State: " + orderMap.get(o).getState());
             io.print("Product: " + orderMap.get(o).getProduct());
@@ -82,6 +84,7 @@ public class FlooringMasteryView {
     }
 
     public void displaySingleOrder(Order order) {
+        io.print("");
         io.print("Name: " + order.getName());
         io.print("State: " + order.getState());
         io.print("Product: " + order.getProduct());
@@ -103,6 +106,18 @@ public class FlooringMasteryView {
             choice = io.readString("Unknown Entry. Please Try Again. Confirm Order Removal? (y/n)");
         }
         return choice;
+    }
+    
+       public boolean trainingMode() {
+           boolean isTraining = false;
+        String choice = io.readString("Open Program In Training Mode? (Unable To Save Changes In Training Mode) (y/n)");
+        while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n")) {
+            choice = io.readString("Unknown Entry. Please Try Again. Confirm Order Removal? (y/n)");
+        }
+        if(choice.equalsIgnoreCase("y")){
+            isTraining = true;
+        }
+        return isTraining;
     }
 
     public LocalDate dateToSearch() {
@@ -149,6 +164,10 @@ public class FlooringMasteryView {
     public void removeFail() {
         io.readString("Order Removal Cancelled. Press Enter To Continue.");
     }
+    
+    public void infoNotFound(){
+        io.readString("The Information Entered Is Not In The System. Please Try Again. Press Enter To Return To Main Menu.");
+    }
 
     public void returnToMenu() {
         io.print("Returning To Main Menu...");
@@ -157,8 +176,17 @@ public class FlooringMasteryView {
     public void unknownCommand() {
         io.print("Unknown Command Entered. Returning To Main Menu...");
     }
+    
+    public void trainingModeError(){
+        io.print("Information Unable To Save In Training Mode.");
+    }
 
     public void exitProgram() {
         io.print("Thank You For Using The Flooring Order Program. Exiting...");
+    }
+    
+        public void displayError(String errorMsg) {
+        io.print("--ERROR--");
+        io.print(errorMsg);
     }
 }

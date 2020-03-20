@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -24,17 +22,20 @@ public class FlooringMasteryController {
 
     FlooringMasteryServiceLayer service;
     FlooringMasteryView view;
-    
-        public FlooringMasteryController(FlooringMasteryView view, FlooringMasteryServiceLayer service) {
+
+    public FlooringMasteryController(FlooringMasteryView view, FlooringMasteryServiceLayer service) {
         this.view = view;
         this.service = service;
     }
 
     public void run() throws FlooringMasteryDaoException, IOException {
         boolean keepGoing = true;
+        boolean isTraining = false;
         int menuSelection = 0;
-   //     try {
+        isTraining = view.trainingMode();
+        try {
             while (keepGoing) {
+
                 menuSelection = getMenuSelection();
 
                 switch (menuSelection) {
@@ -42,13 +43,25 @@ public class FlooringMasteryController {
                         listAllOrders();
                         break;
                     case 2:
-                        addOrder();
+                        if (isTraining) {
+                            addOrderTrain();
+                        } else {
+                            addOrder();
+                        }
                         break;
                     case 3:
-                        editOrder();
+                        if (isTraining) {
+                            editOrderTrain();
+                        } else {
+                            editOrder();
+                        }
                         break;
                     case 4:
-                        removeOrder();
+                        if (isTraining) {
+                            removeOrderTrain();
+                        } else {
+                            removeOrder();
+                        }
                         break;
                     case 5:
                         keepGoing = false;
@@ -57,9 +70,9 @@ public class FlooringMasteryController {
                         displayUnknownCommand();
                 }
             }
-    // } catch () {
-       //     view.displayError(e.getMessage());
-      //  }
+        } catch (FlooringMasteryDaoException e) {
+            view.displayError(e.getMessage());
+        }
 
         displayExit();
     }
@@ -67,14 +80,21 @@ public class FlooringMasteryController {
     private int getMenuSelection() {
         return view.printMenuGetSelection();
     }
-    
-    private void listAllOrders() throws FlooringMasteryDaoException{
+
+    private void listAllOrders() throws FlooringMasteryDaoException {
         LocalDate date = view.dateToSearch();
-        HashMap <String, Order> orderMap = service.listAllOrders(date);
-        view.displayAllOrders(orderMap);
+        if (service.checkDateExists(date)) {
+            HashMap<String, Order> orderMap = service.listAllOrders(date);
+            view.displayAllOrders(orderMap);
+        } else {
+            view.infoNotFound();
+            view.returnToMenu();
+        }
+
     }
-    
-    private void addOrder() throws FlooringMasteryDaoException, IOException{
+
+    private void addOrder() throws FlooringMasteryDaoException, IOException {
+
         service.createNewFile(LocalDate.now());
         String name = view.getNameFromUser();
         String state = view.getStateFromUser();
@@ -82,7 +102,7 @@ public class FlooringMasteryController {
         BigDecimal area = view.getAreaFromUser();
         view.displaySingleOrder(new Order(name, state, product, area));
         String choice = view.commit();
-        if(choice.equalsIgnoreCase("y")){
+        if (choice.equalsIgnoreCase("y")) {
             Order newOrder = service.createOrder(name, state, product, area);
             service.saveWork(LocalDate.now(), newOrder);
             view.addSuccess();
@@ -90,38 +110,93 @@ public class FlooringMasteryController {
             view.returnToMenu();
         }
     }
-    
-    private void editOrder() throws FlooringMasteryDaoException{
-        LocalDate date = view.dateToSearch();
-        int orderNumber = view.orderNumberToSearch();
-        Order original = service.findOrder(date, orderNumber);
-        view.displaySingleOrder(original);
-        Order edited = view.editOrder(original);
-        service.editOrder(date, orderNumber, edited);
-        service.saveEdits(date);
-        view.editSuccess();
+
+    private void addOrderTrain() throws FlooringMasteryDaoException, IOException {
+        String name = view.getNameFromUser();
+        String state = view.getStateFromUser();
+        String product = view.getProductFromUser();
+        BigDecimal area = view.getAreaFromUser();
+        view.displaySingleOrder(new Order(name, state, product, area));
+        view.trainingModeError();
+        view.returnToMenu();
+
     }
-    
-    private void removeOrder() throws FlooringMasteryDaoException{
+
+    private void editOrder() throws FlooringMasteryDaoException {
         LocalDate date = view.dateToSearch();
         int orderNumber = view.orderNumberToSearch();
-        Order orderToRemove = service.findOrder(date, orderNumber);
-        view.displaySingleOrder(orderToRemove);
-        String choice = view.confirmRemoval();
-        if(choice.equalsIgnoreCase("n")){
-            view.removeFail();
+        if (service.checkDateExists(date) && service.checkOrderExists(date, orderNumber)) {
+            Order original = service.findOrder(date, orderNumber);
+            view.displaySingleOrder(original);
+            Order edited = view.editOrder(original);
+            service.editOrder(date, orderNumber, edited);
+            service.saveEdits(date);
+            view.editSuccess();
+        } else {
+            view.infoNotFound();
             view.returnToMenu();
-        } else if(choice.equalsIgnoreCase("y")){
-            service.removeOrder(date, orderNumber);
-            view.removeSuccess();
         }
     }
-    
-    private void displayUnknownCommand(){
+
+    private void editOrderTrain() throws FlooringMasteryDaoException {
+        LocalDate date = view.dateToSearch();
+        int orderNumber = view.orderNumberToSearch();
+        if (service.checkDateExists(date) && service.checkOrderExists(date, orderNumber)) {
+            Order original = service.findOrder(date, orderNumber);
+            view.displaySingleOrder(original);
+            Order edited = view.editOrder(original);
+            service.editOrder(date, orderNumber, edited);
+            view.trainingModeError();
+        } else {
+            view.infoNotFound();
+            view.returnToMenu();
+        }
+    }
+
+    private void removeOrder() throws FlooringMasteryDaoException {
+        LocalDate date = view.dateToSearch();
+        int orderNumber = view.orderNumberToSearch();
+        if (service.checkDateExists(date) && service.checkOrderExists(date, orderNumber)) {
+            Order orderToRemove = service.findOrder(date, orderNumber);
+            view.displaySingleOrder(orderToRemove);
+            String choice = view.confirmRemoval();
+            if (choice.equalsIgnoreCase("n")) {
+                view.removeFail();
+                view.returnToMenu();
+            } else if (choice.equalsIgnoreCase("y")) {
+                service.removeOrder(date, orderNumber);
+                view.removeSuccess();
+            }
+        } else {
+            view.infoNotFound();
+            view.returnToMenu();
+        }
+    }
+
+    private void removeOrderTrain() throws FlooringMasteryDaoException {
+        LocalDate date = view.dateToSearch();
+        int orderNumber = view.orderNumberToSearch();
+        if (service.checkDateExists(date) && service.checkOrderExists(date, orderNumber)) {
+            Order orderToRemove = service.findOrder(date, orderNumber);
+            view.displaySingleOrder(orderToRemove);
+            String choice = view.confirmRemoval();
+            if (choice.equalsIgnoreCase("n")) {
+                view.removeFail();
+                view.returnToMenu();
+            } else if (choice.equalsIgnoreCase("y")) {
+                view.trainingModeError();
+            }
+        } else {
+            view.infoNotFound();
+            view.returnToMenu();
+        }
+    }
+
+    private void displayUnknownCommand() {
         view.unknownCommand();
     }
-    
-    private void displayExit(){
+
+    private void displayExit() {
         view.exitProgram();
     }
 }

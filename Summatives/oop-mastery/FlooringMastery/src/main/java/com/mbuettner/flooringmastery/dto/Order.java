@@ -8,6 +8,7 @@ package com.mbuettner.flooringmastery.dto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  *
@@ -134,55 +135,13 @@ public class Order {
         this.productCost = productCost;
     }
 
-//    public void setProductCost() {
-//        BigDecimal newProductCost = new BigDecimal("0");
-//        if (product.equalsIgnoreCase("Carpet")) {
-//            newProductCost = new BigDecimal("2.25");
-//        } else if (product.equalsIgnoreCase("Laminate")) {
-//            newProductCost = new BigDecimal("1.75");
-//        } else if (product.equalsIgnoreCase("Tile")) {
-//            newProductCost = new BigDecimal("3.50");
-//        } else if (product.equalsIgnoreCase("Wood")) {
-//            newProductCost = new BigDecimal("5.15");
-//        }
-//        this.productCost = newProductCost;
-//    }
-
     public void setLaborCost(BigDecimal laborCost) {
         this.laborCost = laborCost;
     }
 
-//    public void setLaborCost() {
-//        BigDecimal newLaborCost = new BigDecimal("0");
-//        if (product.equalsIgnoreCase("Carpet")) {
-//            newLaborCost = new BigDecimal("2.10");
-//        } else if (product.equalsIgnoreCase("Laminate")) {
-//            newLaborCost = new BigDecimal("2.10");
-//        } else if (product.equalsIgnoreCase("Tile")) {
-//            newLaborCost = new BigDecimal("4.15");
-//        } else if (product.equalsIgnoreCase("Wood")) {
-//            newLaborCost = new BigDecimal("4.75");
-//        }
-//        this.laborCost = newLaborCost;
-//    }
-
     public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
     }
-
-//    public void setTaxRate() {
-//        BigDecimal newTaxRate = new BigDecimal("0");
-//        if (state.equalsIgnoreCase("OH")) {
-//            newTaxRate = new BigDecimal("6.25");
-//        } else if (state.equalsIgnoreCase("PA")) {
-//            newTaxRate = new BigDecimal("6.75");
-//        } else if (state.equalsIgnoreCase("MI")) {
-//            newTaxRate = new BigDecimal("5.75");
-//        } else if (state.equalsIgnoreCase("IN")) {
-//            newTaxRate = new BigDecimal("6.00");
-//        }
-//        this.taxRate = newTaxRate;
-//    }
 
     public BigDecimal getTaxCost() {
         return taxCost;
@@ -208,4 +167,79 @@ public class Order {
         BigDecimal total = this.costSqFt.add(this.laborSqFt).add(this.taxCost);
         this.totalCost = total.setScale(2, RoundingMode.HALF_UP);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + Objects.hashCode(this.state);
+        hash = 79 * hash + Objects.hashCode(this.product);
+        hash = 79 * hash + Objects.hashCode(this.area);
+        hash = 79 * hash + Objects.hashCode(this.date);
+        hash = 79 * hash + Objects.hashCode(this.productCost);
+        hash = 79 * hash + Objects.hashCode(this.laborCost);
+        hash = 79 * hash + Objects.hashCode(this.costSqFt);
+        hash = 79 * hash + Objects.hashCode(this.laborSqFt);
+        hash = 79 * hash + Objects.hashCode(this.taxRate);
+        hash = 79 * hash + Objects.hashCode(this.taxCost);
+        hash = 79 * hash + Objects.hashCode(this.totalCost);
+        hash = 79 * hash + this.orderNumber;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Order other = (Order) obj;
+        if (this.orderNumber != other.orderNumber) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.state, other.state)) {
+            return false;
+        }
+        if (!Objects.equals(this.product, other.product)) {
+            return false;
+        }
+        if (!Objects.equals(this.area, other.area)) {
+            return false;
+        }
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        if (!Objects.equals(this.productCost, other.productCost)) {
+            return false;
+        }
+        if (!Objects.equals(this.laborCost, other.laborCost)) {
+            return false;
+        }
+        if (!Objects.equals(this.costSqFt, other.costSqFt)) {
+            return false;
+        }
+        if (!Objects.equals(this.laborSqFt, other.laborSqFt)) {
+            return false;
+        }
+        if (!Objects.equals(this.taxRate, other.taxRate)) {
+            return false;
+        }
+        if (!Objects.equals(this.taxCost, other.taxCost)) {
+            return false;
+        }
+        if (!Objects.equals(this.totalCost, other.totalCost)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

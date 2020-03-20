@@ -31,39 +31,14 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     private Map<String, BigDecimal> taxes = new HashMap<>();
     private Map<String, ArrayList<BigDecimal>> products = new HashMap<>();
 
+    FlooringMasteryServiceLayerImpl() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public Order createOrder(String name, String state, String product, BigDecimal area) throws FlooringMasteryDaoException, IOException {
-//load state taxes list and products prices lists
-        dao.loadTaxes();
-        taxes = dao.getTaxList();
-        dao.loadProducts();
-        products = dao.getProductList();
+        Order newOrder = dao.createOrder(name, state, product, area);
 
-        //load orders list for date of entry, create new Order object with input data
-        orders = listAllOrders(LocalDate.now());
-        Order newOrder = new Order(name, state, product, area);
-
-        //Set all order info
-        newOrder.setTaxRate(taxes.get(state));
-        newOrder.setProductCost(products.get(product).get(0));
-        newOrder.setLaborCost(products.get(product).get(1));
-        newOrder.setCostSqFt();
-        newOrder.setLaborSqFt();
-        newOrder.setTaxCost();
-        newOrder.setTotalCost();
-        newOrder.setDate(LocalDate.now());
-
-        //Set order number after object is created and other info is set
-        dao.loadOrderNumbers();
-        dao.writeOrderNumbers();
-        int nextOrderNum = dao.getNextOrderNumber();
-        newOrder.setOrderNumber(nextOrderNum);
-        
-        //add order to list of orders for entry date, add order to map of all orders in dao
-        orders.put(Integer.toString(newOrder.getOrderNumber()), newOrder);
-        dao.setMap(newOrder);
-        
-        
         return newOrder;
     }
 
@@ -74,10 +49,20 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public Order editOrder(LocalDate date, int orderNumber, Order edited) throws FlooringMasteryDaoException {
-        //   orders = dao.loadOrders(date);
         Order orderToBeEdited = dao.editOrder(date, orderNumber, edited);
         dao.replaceMap(orderToBeEdited, date);
+
         return orderToBeEdited;
+    }
+
+    @Override
+    public boolean checkDateExists(LocalDate date) throws FlooringMasteryDaoException {
+        return dao.checkDateExists(date);
+    }
+    
+    @Override
+    public boolean checkOrderExists(LocalDate date, int orderNumber) throws FlooringMasteryDaoException{
+        return dao.checkOrderExists(date, orderNumber);
     }
 
     @Override
@@ -94,14 +79,14 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     public void saveWork(LocalDate date) throws FlooringMasteryDaoException {
         dao.writeOrders(date);
     }
-    
+
     @Override
-    public void saveWork(LocalDate date, Order newOrder) throws FlooringMasteryDaoException{
+    public void saveWork(LocalDate date, Order newOrder) throws FlooringMasteryDaoException {
         dao.writeOrders(date, newOrder);
     }
-    
+
     @Override
-    public void saveEdits(LocalDate date) throws FlooringMasteryDaoException{
+    public void saveEdits(LocalDate date) throws FlooringMasteryDaoException {
         dao.writeEdits(date);
     }
 
@@ -117,6 +102,11 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             orderToFind = orderMap.get(Integer.toString(orderNumber));
         }
         return orderToFind;
+    }
+    
+    @Override
+    public HashMap<String, Order> loadOrders(LocalDate date) throws FlooringMasteryDaoException{
+        return dao.loadOrders(date);
     }
 
 }
