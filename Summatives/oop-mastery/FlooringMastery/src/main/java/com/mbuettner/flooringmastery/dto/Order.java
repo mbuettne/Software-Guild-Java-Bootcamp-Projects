@@ -134,55 +134,55 @@ public class Order {
         this.productCost = productCost;
     }
 
-    public void setProductCost() {
-        BigDecimal newProductCost = new BigDecimal("0");
-        if (product.equalsIgnoreCase("Carpet")) {
-            newProductCost = new BigDecimal("2.25");
-        } else if (product.equalsIgnoreCase("Laminate")) {
-            newProductCost = new BigDecimal("1.75");
-        } else if (product.equalsIgnoreCase("Tile")) {
-            newProductCost = new BigDecimal("3.50");
-        } else if (product.equalsIgnoreCase("Wood")) {
-            newProductCost = new BigDecimal("5.15");
-        }
-        this.productCost = newProductCost;
-    }
+//    public void setProductCost() {
+//        BigDecimal newProductCost = new BigDecimal("0");
+//        if (product.equalsIgnoreCase("Carpet")) {
+//            newProductCost = new BigDecimal("2.25");
+//        } else if (product.equalsIgnoreCase("Laminate")) {
+//            newProductCost = new BigDecimal("1.75");
+//        } else if (product.equalsIgnoreCase("Tile")) {
+//            newProductCost = new BigDecimal("3.50");
+//        } else if (product.equalsIgnoreCase("Wood")) {
+//            newProductCost = new BigDecimal("5.15");
+//        }
+//        this.productCost = newProductCost;
+//    }
 
     public void setLaborCost(BigDecimal laborCost) {
         this.laborCost = laborCost;
     }
 
-    public void setLaborCost() {
-        BigDecimal newLaborCost = new BigDecimal("0");
-        if (product.equalsIgnoreCase("Carpet")) {
-            newLaborCost = new BigDecimal("2.10");
-        } else if (product.equalsIgnoreCase("Laminate")) {
-            newLaborCost = new BigDecimal("2.10");
-        } else if (product.equalsIgnoreCase("Tile")) {
-            newLaborCost = new BigDecimal("4.15");
-        } else if (product.equalsIgnoreCase("Wood")) {
-            newLaborCost = new BigDecimal("4.75");
-        }
-        this.laborCost = newLaborCost;
-    }
+//    public void setLaborCost() {
+//        BigDecimal newLaborCost = new BigDecimal("0");
+//        if (product.equalsIgnoreCase("Carpet")) {
+//            newLaborCost = new BigDecimal("2.10");
+//        } else if (product.equalsIgnoreCase("Laminate")) {
+//            newLaborCost = new BigDecimal("2.10");
+//        } else if (product.equalsIgnoreCase("Tile")) {
+//            newLaborCost = new BigDecimal("4.15");
+//        } else if (product.equalsIgnoreCase("Wood")) {
+//            newLaborCost = new BigDecimal("4.75");
+//        }
+//        this.laborCost = newLaborCost;
+//    }
 
     public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
     }
 
-    public void setTaxRate() {
-        BigDecimal newTaxRate = new BigDecimal("0");
-        if (state.equalsIgnoreCase("OH")) {
-            newTaxRate = new BigDecimal("6.25");
-        } else if (state.equalsIgnoreCase("PA")) {
-            newTaxRate = new BigDecimal("6.75");
-        } else if (state.equalsIgnoreCase("MI")) {
-            newTaxRate = new BigDecimal("5.75");
-        } else if (state.equalsIgnoreCase("IN")) {
-            newTaxRate = new BigDecimal("6.00");
-        }
-        this.taxRate = newTaxRate;
-    }
+//    public void setTaxRate() {
+//        BigDecimal newTaxRate = new BigDecimal("0");
+//        if (state.equalsIgnoreCase("OH")) {
+//            newTaxRate = new BigDecimal("6.25");
+//        } else if (state.equalsIgnoreCase("PA")) {
+//            newTaxRate = new BigDecimal("6.75");
+//        } else if (state.equalsIgnoreCase("MI")) {
+//            newTaxRate = new BigDecimal("5.75");
+//        } else if (state.equalsIgnoreCase("IN")) {
+//            newTaxRate = new BigDecimal("6.00");
+//        }
+//        this.taxRate = newTaxRate;
+//    }
 
     public BigDecimal getTaxCost() {
         return taxCost;

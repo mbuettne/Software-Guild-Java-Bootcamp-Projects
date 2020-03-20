@@ -64,7 +64,8 @@ public class FlooringMasteryView {
         while (!state.equalsIgnoreCase("OH") && !state.equalsIgnoreCase("PA") && !state.equalsIgnoreCase("MI") && !state.equalsIgnoreCase("IN")) {
             state = io.readString("Entry Does Not Match Our Records. Please Try Again. Enter The State The Current Order Is From (Currently Servicing OH, PA, MI, IN): ");
         }
-        return state;
+        
+        return state.toUpperCase();
     }
 
     public String getProductFromUser() {
@@ -72,7 +73,7 @@ public class FlooringMasteryView {
         while (!product.equalsIgnoreCase("Carpet") && !product.equalsIgnoreCase("Laminate") && !product.equalsIgnoreCase("Tile") && !product.equalsIgnoreCase("Wood")) {
             product = io.readString("Entry Does Not Match Our Records. Please Try Again. Enter The Product For The Current Order (Currently Offering Carpet, Laminate, Tile, And Wood): ");
         }
-        return product;
+        return product.toUpperCase();
     }
 
     public BigDecimal getAreaFromUser() {
@@ -125,7 +126,8 @@ public class FlooringMasteryView {
             newProduct = io.readString("Entry Does Not Match Our Records. Please Try Again. Enter The Product For The Current Order (Currently Offering Carpet, Laminate, Tile, And Wood): ");
         }
         BigDecimal newArea = io.readBigDecimal("Enter New Area For Order, Or Hit Enter To Keep Current Area. Current Area Is: " + order.getArea());
-        return new Order(newName, newState, newProduct, newArea);
+        
+        return new Order(newName, newState.toUpperCase(), newProduct.toUpperCase(), newArea);
     }
 
     public void addSuccess() {

@@ -13,6 +13,7 @@ import com.mbuettner.flooringmastery.service.FlooringMasteryServiceLayer;
 import com.mbuettner.flooringmastery.service.FlooringMasteryServiceLayerImpl;
 import com.mbuettner.flooringmastery.view.FlooringMasteryView;
 import com.mbuettner.flooringmastery.view.UserIOConsoleImpl;
+import java.io.IOException;
 
 /**
  *
@@ -20,7 +21,7 @@ import com.mbuettner.flooringmastery.view.UserIOConsoleImpl;
  */
 public class App {
 
-    public static void main(String[] args) throws FlooringMasteryDaoException {
+    public static void main(String[] args) throws FlooringMasteryDaoException, IOException {
         FlooringMasteryDao dao = new FlooringMasteryDaoFileImpl();
         FlooringMasteryServiceLayer service = new FlooringMasteryServiceLayerImpl(dao);
         UserIOConsoleImpl io = new UserIOConsoleImpl();

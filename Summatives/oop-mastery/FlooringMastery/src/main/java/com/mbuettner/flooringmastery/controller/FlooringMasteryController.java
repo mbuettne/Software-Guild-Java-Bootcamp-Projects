@@ -9,6 +9,7 @@ import com.mbuettner.flooringmastery.dao.FlooringMasteryDaoException;
 import com.mbuettner.flooringmastery.dto.Order;
 import com.mbuettner.flooringmastery.service.FlooringMasteryServiceLayer;
 import com.mbuettner.flooringmastery.view.FlooringMasteryView;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class FlooringMasteryController {
         this.service = service;
     }
 
-    public void run() throws FlooringMasteryDaoException {
+    public void run() throws FlooringMasteryDaoException, IOException {
         boolean keepGoing = true;
         int menuSelection = 0;
    //     try {
@@ -73,7 +74,8 @@ public class FlooringMasteryController {
         view.displayAllOrders(orderMap);
     }
     
-    private void addOrder() throws FlooringMasteryDaoException{
+    private void addOrder() throws FlooringMasteryDaoException, IOException{
+        service.createNewFile(LocalDate.now());
         String name = view.getNameFromUser();
         String state = view.getStateFromUser();
         String product = view.getProductFromUser();
@@ -81,7 +83,8 @@ public class FlooringMasteryController {
         view.displaySingleOrder(new Order(name, state, product, area));
         String choice = view.commit();
         if(choice.equalsIgnoreCase("y")){
-            service.createOrder(name, state, product, area);
+            Order newOrder = service.createOrder(name, state, product, area);
+            service.saveWork(LocalDate.now(), newOrder);
             view.addSuccess();
         } else {
             view.returnToMenu();
@@ -95,6 +98,7 @@ public class FlooringMasteryController {
         view.displaySingleOrder(original);
         Order edited = view.editOrder(original);
         service.editOrder(date, orderNumber, edited);
+        service.saveEdits(date);
         view.editSuccess();
     }
     
