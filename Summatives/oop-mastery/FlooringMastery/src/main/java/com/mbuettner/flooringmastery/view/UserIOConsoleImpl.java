@@ -153,14 +153,14 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     public String readString(String prompt) {
-       String stringIn;
-        do{
-             System.out.println(prompt);
-        stringIn = input.nextLine();
-        if(stringIn.contains("::")){
-             System.out.println("Cannot contain \"::\" ");
-        }
-        } while(stringIn.contains("::"));
+        String stringIn;
+        do {
+            System.out.println(prompt);
+            stringIn = input.nextLine();
+            if (stringIn.contains("::")) {
+                System.out.println("Cannot contain \"::\" ");
+            }
+        } while (stringIn.contains("::"));
         return stringIn;
     }
 
@@ -182,16 +182,20 @@ public class UserIOConsoleImpl implements UserIO {
     @Override
     public BigDecimal readBigDecimal(String prompt) {
         BigDecimal numberBD = new BigDecimal("0.00");
-  //      do {
-            try {
-                System.out.println(prompt);
-                String stringIn = input.nextLine();
+        //      do {
+        try {
+            System.out.println(prompt);
+            String stringIn = input.nextLine();
+            if (stringIn.equals("")) {
+                numberBD = new BigDecimal("0.00");
+            } else {
                 numberBD = new BigDecimal(stringIn);
                 numberBD.setScale(2, RoundingMode.HALF_UP);
-            } catch (NumberFormatException e) {
-                System.out.println("Unknown Input. Please Try Again.");
             }
-  //      } while (numberBD.compareTo(new BigDecimal("0.00")) == 0);
+        } catch (NumberFormatException e) {
+            System.out.println("Unknown Input. Please Try Again.");
+        }
+        //      } while (numberBD.compareTo(new BigDecimal("0.00")) == 0);
 
         return numberBD.abs();
     }

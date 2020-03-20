@@ -113,11 +113,6 @@ public class FlooringMasteryController {
         }
     }
     
-//    private void saveWork() throws FlooringMasteryDaoException{
-//        service.saveWork();
-//        view.saveSuccess();
-//    }
-    
     private void displayUnknownCommand(){
         view.unknownCommand();
     }

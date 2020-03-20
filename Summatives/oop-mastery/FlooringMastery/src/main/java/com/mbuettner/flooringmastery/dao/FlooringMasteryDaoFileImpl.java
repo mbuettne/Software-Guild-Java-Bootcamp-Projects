@@ -12,14 +12,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
-import com.mbuettner.flooringmastery.dao.FlooringMasteryDaoException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -37,9 +34,13 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     public static final String DELIMITER = "::";
     public static final String DATES_FILE = "dates.txt";
     public static final String ORDER_NUMBERS = "orderNumbers.txt";
+    public static final String TAXES = "taxes.txt";
+    public static final String PRODUCTS = "products.txt";
     public ArrayList<String> orderNumbers = new ArrayList<>();
     public Set<String> fileNames = new HashSet<>();
     private Map<String, Order> orders = new HashMap<>();
+    private Map<String, BigDecimal> taxes = new HashMap<>();
+    private Map<String, List<BigDecimal>> products = new HashMap<>();
 
     public Order removeOrder(LocalDate date, int orderNumber) throws FlooringMasteryDaoException {
         orders = loadOrders(date);
@@ -125,7 +126,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         fileNames.add(date.toString());
         PrintWriter out;
         try {
-            out = new PrintWriter(new FileWriter(DATES_FILE, false));
+            out = new PrintWriter(new FileWriter(DATES_FILE, true));
         } catch (IOException e) {
             throw new FlooringMasteryDaoException(
                     "Could not save order data.", e);
@@ -199,28 +200,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         int nextOrderNumber = orderNumbers.size() + 1;
         return nextOrderNumber;
     }
-//THIS METHOD LOADS ALL SONGS FROM ALL FILES
-
-//  private void loadAllSongs() throws EyeTunesDaoException {
-//        Scanner s;
-//        for (String currentFile : fileNames) {
-//            try {
-//                s = new Scanner(new BufferedReader(new FileReader(currentFile + ".txt")));
-//            } catch (FileNotFoundException e) {
-//                throw new EyeTunesDaoException(
-//                        "-_- Could not load songs into memory.", e);
-//            }
-//            String currentLine;
-//            Song currentSong;
-//            while (s.hasNextLine()) {
-//                currentLine = s.nextLine();
-//                currentSong = unmarshallSong(currentLine, currentFile);
-//                songs.put(currentSong.getTitle().toUpperCase(), currentSong);
-//            }
-//            s.close();
-//        }
-//    }
-    //Loads all songs from a single file 
+    
     @Override
     public HashMap<String, Order> loadOrders(LocalDate date) throws FlooringMasteryDaoException {
         Scanner s;
