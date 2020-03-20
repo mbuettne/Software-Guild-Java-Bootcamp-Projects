@@ -19,6 +19,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -26,9 +28,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class FlooringMasteryDaoTest {
 
-    private FlooringMasteryDao dao = new FlooringMasteryDaoFileImpl();
+    private FlooringMasteryDao dao;
 
     public FlooringMasteryDaoTest() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        dao = ctx.getBean("FlooringMasteryDao", FlooringMasteryDao.class);
     }
 
     @BeforeAll

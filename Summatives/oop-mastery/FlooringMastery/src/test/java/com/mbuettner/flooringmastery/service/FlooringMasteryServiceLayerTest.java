@@ -21,6 +21,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -28,10 +30,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class FlooringMasteryServiceLayerTest {
 
-    private FlooringMasteryDao dao = new FlooringMasteryDaoFileImpl();
-    private FlooringMasteryServiceLayer service = new FlooringMasteryServiceLayerImpl(dao);
+    private FlooringMasteryServiceLayer service;
 
     public FlooringMasteryServiceLayerTest() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        service = ctx.getBean("serviceLayer", FlooringMasteryServiceLayer.class);
     }
 
     @BeforeAll
