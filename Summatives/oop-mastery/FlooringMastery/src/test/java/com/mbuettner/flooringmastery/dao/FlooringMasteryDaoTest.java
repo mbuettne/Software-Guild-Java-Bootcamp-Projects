@@ -149,7 +149,7 @@ public class FlooringMasteryDaoTest {
      */
     @Test
     public void testCheckOrderExistsTrue() throws Exception {
-        assertTrue(dao.checkOrderExists(LocalDate.now(), 49));
+        assertTrue(dao.checkOrderExists(LocalDate.parse("2020-03-20"), 49));
     }
 
     @Test

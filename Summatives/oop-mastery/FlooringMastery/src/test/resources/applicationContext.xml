@@ -18,6 +18,9 @@
     <!-- Bean definitions go here -->
     <bean id="FlooringMasteryDao" 
        class="com.mbuettner.flooringmastery.dao.FlooringMasteryDaoFileImpl"/>
+    
+    <bean id="FlooringMasteryDaoStub" 
+       class="com.mbuettner.flooringmastery.dao.FlooringMasteryDaoStubImpl"/>
    
     <bean id="serviceLayer" 
        class="com.mbuettner.flooringmastery.service.FlooringMasteryServiceLayerImpl">

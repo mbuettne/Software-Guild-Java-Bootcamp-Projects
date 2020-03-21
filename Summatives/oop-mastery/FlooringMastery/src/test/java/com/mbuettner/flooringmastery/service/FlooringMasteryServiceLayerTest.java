@@ -143,7 +143,7 @@ public class FlooringMasteryServiceLayerTest {
      */
     @Test
     public void testCheckOrderExistsTrue() throws Exception {
-        assertTrue(service.checkOrderExists(LocalDate.now(), 49));
+        assertTrue(service.checkOrderExists(LocalDate.parse("2020-03-20"), 49));
     }
 
     @Test
