@@ -441,6 +441,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/Summatives/m3-summative/target/
+/Summatives/m3-summative/nbproject/
+/Summatives/oop-mastery/FlooringMastery/target/
+/Summatives/oop-mastery/FlooringMastery/nbproject/
 /Summatives/RockPaperScissors/target/
 /Classwork/ClassRoster/target/
 /Summatives/m2/target/
