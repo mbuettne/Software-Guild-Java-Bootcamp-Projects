@@ -1,0 +1,8 @@
+com\mbuettner\classroster\dto\Student.class
+com\mbuettner\classroster\ui\ClassRosterView.class
+com\mbuettner\classroster\ui\UserIO.class
+com\mbuettner\classroster\controller\ClassRosterController.class
+com\mbuettner\classroster\App.class
+com\mbuettner\classroster\ui\UserIOConsoleImpl.class
+com\mbuettner\classroster\dao\ClassRosterDao.class
+com\mbuettner\classroster\dao\ClassRosterDaoFileImpl.class
