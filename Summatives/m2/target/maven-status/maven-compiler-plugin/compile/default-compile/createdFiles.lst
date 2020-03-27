@@ -1,9 +1,0 @@
-com\mbuettner\m2\dao\m2DaoException.class
-com\mbuettner\m2\dao\m2DaoFileImpl.class
-com\mbuettner\m2\controller\DVDLibraryController.class
-com\mbuettner\m2\dao\m2Dao.class
-com\mbuettner\m2\dto\DVD.class
-com\mbuettner\m2\ui\UserIO.class
-com\mbuettner\m2\ui\UserIOConsoleImpl.class
-com\mbuettner\m2\ui\DVDLibraryView.class
-com\mbuettner\m2\App.class
