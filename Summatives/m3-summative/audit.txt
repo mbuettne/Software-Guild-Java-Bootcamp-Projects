@@ -1,7 +1,0 @@
-2020-03-08T19:00:35.541067200 : Item Candy Bar Purchased For 1.25. 3 Items Remaining In Stock.
-2020-03-09T09:32:23.360345300 : Item Trail Mix Purchased For 2.75. 2 Items Remaining In Stock.
-2020-03-09T10:00:09.626099 : Item Candy Bar Purchased For 1.25. 2 Items Remaining In Stock.
-2020-03-09T10:04:48.409075 : Item Gum Purchased For 1.00. 0 Items Remaining In Stock.
-2020-03-09T10:05:59.171899300 : Item Granola Bar Purchased For 2.00. 1 Items Remaining In Stock.
-2020-03-09T10:08:44.413743200 : Item Granola Bar Purchased For 2.00. 0 Items Remaining In Stock.
-2020-03-13T09:40:49.648908100 : Item Potato Chips Purchased For 1.75. 1 Items Remaining In Stock.

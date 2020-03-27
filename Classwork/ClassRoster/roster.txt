@@ -1,2 +1,0 @@
-0002::John::Doe::.NET 0220
-0001::Joe::Smith::Java 0220
