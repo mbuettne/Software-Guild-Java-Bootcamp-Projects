@@ -129,11 +129,11 @@ WHERE
 --    6. Write a query that returns a list of all guest names and the number of reservations per guest, sorted starting with the guest with the most reservations and then by the guest's last name.
 SELECT
 	g.LastName GuestLastName,
-    COUNT(*) NumberOfReservations
+    COUNT(g.LastName) NumberOfReservations
 FROM Reservation r 
 INNER JOIN Guest g ON r.GuestId = g.GuestId
 GROUP BY g.LastName
-ORDER BY COUNT(*) DESC, g.LastName;
+ORDER BY NumberOfReservations DESC, g.LastName;
 
 -- Answer6: 11 Rows
 -- GuestLastName  NumberOfReservations
