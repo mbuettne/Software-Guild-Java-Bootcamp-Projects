@@ -121,8 +121,8 @@ FROM Reservation r
 INNER JOIN Guest g ON r.GuestId = g.GuestId
 WHERE 
 	r.Adults + r.Children >= 3 AND
-    ((r.StartDate BETWEEN '2023-04-01' AND '2023-04-30') OR
-    (r.EndDate BETWEEN '2023-04-01' AND '2023-04-30'));
+    (((r.StartDate BETWEEN '2023-04-01' AND '2023-04-30') OR (r.EndDate BETWEEN '2023-04-01' AND '2023-04-30')) OR 
+    ((r.StartDate BETWEEN '2023-03-01' AND '2023-03-31') AND (r.EndDate BETWEEN '2023-05-01' AND '2023-05-31')));
 
 -- Answer5: 0 Rows
 
