@@ -17,6 +17,7 @@ public class Round {
     private String guess;
     private String timestamp;
     private String result;
+ //   private boolean wonGame;
     private int gameId;
 
     public Round() {
@@ -70,6 +71,14 @@ public class Round {
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }    
+    
+//    public boolean getWon(){
+//        return wonGame;
+//    }
+//    
+//    public void setWon(boolean hasWon){
+//        this.wonGame = hasWon;
+//    }
 
     @Override
     public int hashCode() {

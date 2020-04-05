@@ -8,21 +8,22 @@ package com.mbuettner.m7sumnumberguess.Service;
 import com.mbuettner.m7sumnumberguess.DTO.Game;
 import com.mbuettner.m7sumnumberguess.DTO.Round;
 import com.mbuettner.m7sumnumberguess.Dao.NumberGuessDao;
-import com.mbuettner.m7sumnumberguess.Dao.RoundDao;
 import java.util.List;
 import java.util.Random;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author mbuet
  */
+@Repository
 public class NumberGuessService {
+
     NumberGuessDao dao;
-    RoundDao roundDao;
-    
-    public NumberGuessService(NumberGuessDao dao, RoundDao roundDao){
+
+    public NumberGuessService(NumberGuessDao dao) {
         this.dao = dao;
-        this.roundDao = roundDao;
     }
 
     public String generateNewAnswer() {
@@ -101,35 +102,65 @@ public class NumberGuessService {
             partial++;
         }
         String roundResult = "e:" + full + ":p:" + partial;
-        round.setResult(roundResult);
-        return roundResult;
-    }
-    
-    public boolean checkWin(String guess, Game game){
-        boolean hasWon = false;
-        
-        if(guess.equals(game.getAnswer())){
-            hasWon = true;
+        if (full == 4) {
+            Game game = dao.getGameById(round.getGameId());
             game.setProgress("Finished");
             dao.updateGame(game);
         }
-        return hasWon;
+        return roundResult;
     }
-    
-    public Game createNewGame(String answer){
+
+//    public boolean checkWin(String guess, Game game){
+//        boolean hasWon = false;
+//        
+//        if(guess.equals(game.getAnswer())){
+//            hasWon = true;
+//            game.setProgress("Finished");
+//            dao.updateGame(game);
+//        }
+//        return hasWon;
+//    }
+    public Game createNewGame(String answer) {
         Game newGame = dao.createGame(answer);
         return newGame;
     }
-    
-    public void addRound(Round round){
-        roundDao.addRound(round);
+
+    public Round addRound(Round round) {
+        return dao.addRound(round);
     }
-    
-    public List<Game> getAllGames(){
-        return dao.getAllGames();
+
+    public void updateRound(Round round) {
+        dao.updateRound(round);
     }
-    
-    public Game getGameById(int id){
-        return dao.getGameById(id);
+
+    public Round getLatestRound(int gameId) {
+        return dao.getLatestRound(gameId);
+    }
+
+    public List<Round> getRoundsByGame(int gameId) {
+        return dao.getAllRoundsByGame(gameId);
+    }
+
+    public List<Game> getAllGames() {
+        List<Game> games = dao.getAllGames();
+        for (Game game : games) {
+            if (game.getProgress().equals("In Progress")) {
+                game.setAnswer("****");
+            }
+        }
+        return games;
+    }
+
+    public Game getGameById(int id) {
+        Game game = dao.getGameById(id);
+        if (game.getProgress().equals("In Progress")) {
+            game.setAnswer("****");
+        }
+        return game;
+    }
+
+    public Game getGameByIdNoStars(int id) {
+        Game game = dao.getGameById(id);
+        return game;
     }
 }
