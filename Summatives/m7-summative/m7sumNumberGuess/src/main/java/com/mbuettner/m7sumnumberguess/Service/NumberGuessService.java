@@ -5,6 +5,11 @@
  */
 package com.mbuettner.m7sumnumberguess.Service;
 
+import com.mbuettner.m7sumnumberguess.DTO.Game;
+import com.mbuettner.m7sumnumberguess.DTO.Round;
+import com.mbuettner.m7sumnumberguess.Dao.NumberGuessDao;
+import com.mbuettner.m7sumnumberguess.Dao.RoundDao;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -12,6 +17,13 @@ import java.util.Random;
  * @author mbuet
  */
 public class NumberGuessService {
+    NumberGuessDao dao;
+    RoundDao roundDao;
+    
+    public NumberGuessService(NumberGuessDao dao, RoundDao roundDao){
+        this.dao = dao;
+        this.roundDao = roundDao;
+    }
 
     public String generateNewAnswer() {
         Random rand = new Random();
@@ -36,7 +48,7 @@ public class NumberGuessService {
 
     }
 
-    public String calculateRoundResult(String guess, String answer) {
+    public String calculateRoundResult(String guess, String answer, Round round) {
         int partial = 0;
         int full = 0;
 
@@ -88,16 +100,36 @@ public class NumberGuessService {
         if (guess.charAt(3) == answer.charAt(2)) {
             partial++;
         }
-
-        return "e:" + full + ":p: " + partial;
+        String roundResult = "e:" + full + ":p:" + partial;
+        round.setResult(roundResult);
+        return roundResult;
     }
     
-    public boolean checkWin(String guess, String answer){
+    public boolean checkWin(String guess, Game game){
         boolean hasWon = false;
         
-        if(guess.equals(answer)){
+        if(guess.equals(game.getAnswer())){
             hasWon = true;
+            game.setProgress("Finished");
+            dao.updateGame(game);
         }
         return hasWon;
+    }
+    
+    public Game createNewGame(String answer){
+        Game newGame = dao.createGame(answer);
+        return newGame;
+    }
+    
+    public void addRound(Round round){
+        roundDao.addRound(round);
+    }
+    
+    public List<Game> getAllGames(){
+        return dao.getAllGames();
+    }
+    
+    public Game getGameById(int id){
+        return dao.getGameById(id);
     }
 }

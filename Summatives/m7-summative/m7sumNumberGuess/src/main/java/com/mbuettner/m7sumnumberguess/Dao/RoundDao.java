@@ -5,20 +5,17 @@
  */
 package com.mbuettner.m7sumnumberguess.Dao;
 
-import com.mbuettner.m7sumnumberguess.DTO.Game;
+import com.mbuettner.m7sumnumberguess.DTO.Round;
 import java.util.List;
 
 /**
  *
  * @author mbuet
  */
-public interface NumberGuessDao {
+public interface RoundDao {
+    public Round addRound(Round round);
     
-    public Game createGame(String answer);
+    public List<Round> getAllRoundsByGame(int gameId);
     
-    public List<Game> getAllGames();
-    
-    public Game getGameById(int id);
-    
-    public void updateGame(Game game);
+    public Round getLatestRound(int gameId);
 }

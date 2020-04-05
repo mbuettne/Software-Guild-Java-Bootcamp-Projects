@@ -5,6 +5,8 @@
  */
 package com.mbuettner.m7sumnumberguess.DTO;
 
+import java.util.Objects;
+
 /**
  *
  * @author mbuet
@@ -16,6 +18,10 @@ public class Game {
 
     public Game(String answer) {
         this.answer = answer;
+    }
+    
+    public Game(){
+        
     }
 
     public int getGameId() {
@@ -40,6 +46,39 @@ public class Game {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + this.gameId;
+        hash = 79 * hash + Objects.hashCode(this.progress);
+        hash = 79 * hash + Objects.hashCode(this.answer);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Game other = (Game) obj;
+        if (this.gameId != other.gameId) {
+            return false;
+        }
+        if (!Objects.equals(this.progress, other.progress)) {
+            return false;
+        }
+        if (!Objects.equals(this.answer, other.answer)) {
+            return false;
+        }
+        return true;
     }
     
     

@@ -40,27 +40,13 @@ public class NumberGuessView {
         return guess;
     }
 
-    public void printGuessResult(String guess, String guessResult, int guesses) {
-        io.print("Your guess was " + guess + " and the result is: " + "\n" + guessResult);
-        if (guesses == 1) {
-            io.print("You have used " + guesses + " guess.");
-            io.print("");
-        } else {
-            io.print("You have used " + guesses + " guesses.");
-            io.print("");
-        }
+    public void printGuessResult(String guess, String guessResult) {
+        io.print("Your guess was " + guess + " and the result is: " + guessResult);
     }
 
-    public void printSuccess(int guesses) {
+    public void printSuccess() {
         io.print("Success! You have successfully guessed the number! Great job!");
         io.print("");
-        if (guesses == 1) {
-            io.print("It took you " + guesses + " guess! That's going to be hard to beat!");
-            io.print("");
-        } else {
-            io.print("It took you " + guesses + " guesses. Play again to see if you can beat that!");
-            io.print("");
-        }
     }
 
     public boolean playAgain() {
@@ -76,5 +62,10 @@ public class NumberGuessView {
         } while (!playerResponse.equalsIgnoreCase("y") && !playerResponse.equalsIgnoreCase("n"));
 
         return playAgain;
+    }
+    
+    public void printGameOver(){
+        io.print("Thanks for playing!");
+        io.print("Exiting program....");
     }
 }
