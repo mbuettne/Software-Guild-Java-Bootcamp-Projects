@@ -106,20 +106,11 @@ public class NumberGuessService {
             Game game = dao.getGameById(round.getGameId());
             game.setProgress("Finished");
             dao.updateGame(game);
+            roundResult = "You win!";
         }
         return roundResult;
     }
 
-//    public boolean checkWin(String guess, Game game){
-//        boolean hasWon = false;
-//        
-//        if(guess.equals(game.getAnswer())){
-//            hasWon = true;
-//            game.setProgress("Finished");
-//            dao.updateGame(game);
-//        }
-//        return hasWon;
-//    }
     public Game createNewGame(String answer) {
         Game newGame = dao.createGame(answer);
         return newGame;
