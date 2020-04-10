@@ -15,7 +15,6 @@ CREATE TABLE Rounds(
 `guess` VARCHAR(4) NOT NULL,
 `time` VARCHAR(50) NOT NULL,
 `result` VARCHAR(10) NOT NULL,
--- `hasWon` BOOLEAN NOT NULL,
 FOREIGN KEY (`gameId`) REFERENCES Game(`gameId`)
 );
 
