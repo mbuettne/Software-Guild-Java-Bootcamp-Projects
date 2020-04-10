@@ -42,17 +42,6 @@ public class NumberGuessDaoImpl implements NumberGuessDao {
             return game;
         }
     }
-    
-        public static final class gameMapperNoAnswer implements RowMapper<Game> {
-
-        @Override
-        public Game mapRow(ResultSet rs, int index) throws SQLException {
-            Game game = new Game();
-            game.setGameId(rs.getInt("gameId"));
-            game.setProgress(rs.getString("progress"));
-            return game;
-        }
-    }
 
     @Override
     public List<Game> getAllGames() {
@@ -104,7 +93,6 @@ public class NumberGuessDaoImpl implements NumberGuessDao {
             round.setGuess(rs.getString("guess"));
             round.setTimestamp(rs.getString("time"));
             round.setResult(rs.getString("result"));
-           // round.setWon(rs.getBoolean("hasWon"));
 
             return round;
         }
