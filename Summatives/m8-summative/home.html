@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vending Machine</title>
+    <link href="css/bootstrap.css"
+    rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+            <h1 class="text-center">Vending Machine</h1>
+        <ul id="errorMessages"></ul>
+        <hr>
+
+        <div class="container-fluid col-xs-2">
+            <div class="itemCards row" id="column1">
+               
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="container-fluid col-xs-2">
+            <div class="itemCards row" id="column2">
+                
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="container-fluid col-xs-2">
+            <div class="itemCards row" id="column3">
+                
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="container-fluid col-xs-3">
+            <div id="moneyIn" class = "row text-center">
+                <h3>Total $ In</h3>
+                <div class="panel panel-primary " style="width: 50%; margin: 0 auto; margin-bottom: 2rem;">
+                    <div class="panel-body" id="moneyDisplay" >$0.00</div>
+                </div>
+                <div class="row" style="margin-bottom: 1rem;">
+                    <button class="btn btn-primary" id="dollar">Add Dollar</button>
+                    <button class="btn btn-primary" id="quarter">Add Quarter</button>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary" id="dime">Add Dime</button>
+                    <button class="btn btn-primary" id="nickel">Add Nickel</button>
+                </div>
+                <hr>
+            </div>
+            <div id="purchase" class = "row text-center">
+                <h3>Messages</h3>
+                <div class="panel panel-primary " style="width: 50%; margin: 0 auto; margin-bottom: 2rem;">
+                    <div class="panel-body" id="messageDisplay" >Message Here</div>
+                </div>
+                <form action="" class="form">
+                    <div class="form-group">
+                        <label for="itemInput">Item: </label>
+                        <input type="text" name="itemInput" id="itemInput" readonly>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="purchaseBtn">Make Purchase</button>
+                </form>
+                <hr>
+            </div>
+            <div id="changeOut" class = "row text-center">
+                <h3>Change</h3>
+                <div class="panel panel-primary" style="width: 50%; margin: 0 auto; margin-bottom: 2rem;">
+                    <div class="panel-body" id="changeBack">
+                        2 Quarters 1 Dime 1 Nickel
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="getChange">Change Return</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="js/jquery-2.2.4.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
