@@ -83,6 +83,7 @@ $('#purchaseBtn').click(function(event){
             loadItemList();
         },
         error: function(jqXHR, exception){
+            console.log(jqXHR);
             if(jqXHR.status === 422){
                 var errorMessage = jQuery.parseJSON(jqXHR.responseText).message;
                 $('#messageDisplay').text(errorMessage);
