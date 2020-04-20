@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+                <!-- Bootstrap CSS -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+                    <title>Field Agent: Home</title>
+                    </head>
+                    <body>
+                        <body>
+                            <div class="container mt-4">
+                                <div class="row mt-3 justify-content-between">
+                                    <h1>Home</h1>
+                                    <a href="/addAgent" class="btn btn-outline-primary ">Add An Agent</a>
+                                </div>
+                                <hr>
+                                <div class="row m-4 border border-dark">
+                                    <div class="col text-center m-3">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>Field Agent</th>
+                                                    <th>Agency</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="agent : ${agents}">
+                                                    <td><a href="#" th:href="@{/agent(id=${agent.identifier})}" th:text="${agent.firstName} + ' ' + ${agent.lastName}"  class="align-middle">Field Agent</a></td>
+                                                    <td th:text="${agent.agency.name}" class="align-middle">Agency</td>
+                                                    <td><a href="#" th:href="@{/deleteAgent(id=${agent.identifier})}"  class="btn btn-outline-danger">Delete</a></td>
+                                                    <td><a href="#" th:href="@{/assignment(id=${agent.identifier})}"  class="btn btn-outline-dark">Add Assignment</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Optional JavaScript -->
+                            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+                        </body>
+                        </html>
+

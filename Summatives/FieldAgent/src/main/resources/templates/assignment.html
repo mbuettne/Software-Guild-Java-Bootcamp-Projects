@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+                <!-- Bootstrap CSS -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+                    <title>Field Agent: Assignment</title>
+                    </head>
+                    <body>
+                        <div class="container mt-4">
+                            <h1>Assignment</h1>
+                            <div class="col-12 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}">Error message</p>
+                            </div>
+                            <form action="addAssignment" method="post">
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="agent">Field Agent</label>
+                                        <select class="form-control" id="agent" name="agent">
+                                            <option th:each="agent : ${agents}" 
+                                                    th:text="${agent.firstName} + ' ' + ${agent.lastName}" 
+                                                    th:value="${agent.identifier}" 
+                                                    th:selected="${agent == thisAgent}">
+                                                Field Agent
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="country">Country</label>
+                                        <select class="form-control" id="country" name="country">
+                                            <option th:each="country : ${countries}" th:value="${country.countryCode}" th:text="${country.name}" >Country</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="startDate">Start</label>
+                                        <input type="date" name="startDate" id="startDate" class="form-control" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="projectedEndDate">Projected End</label>
+                                        <input
+                                            type="date"
+                                            name="projectedEndDate"
+                                            id="projectedEndDate"
+                                            class="form-control"
+                                            />
+                                    </div>
+                                    <div class="col">
+                                        <label for="actualEndDate">Actual End</label>
+                                        <input type="date" name="actualEndDate" id="actualEndDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="notes">Notes</label>
+                                        <textarea
+                                            name="notes"
+                                            id="notes"
+                                            cols="30"
+                                            rows="10"
+                                            class="form-control"
+                                            ></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <button class="btn btn-outline-primary btn-lg" type="submit">
+                                            Save
+                                        </button>
+                                        <a class="btn btn-outline-secondary btn-lg"  href="/">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <!-- Optional JavaScript -->
+                        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+                    </body>
+                    </html>
