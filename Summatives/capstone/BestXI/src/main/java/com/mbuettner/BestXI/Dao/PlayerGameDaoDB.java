@@ -65,6 +65,54 @@ public class PlayerGameDaoDB implements playerGameDao {
         return playerGames;
     }
 
+    @Override
+    public PlayerGame totalStatsByPlayer(int playerId) {
+        int totalShots = 0;
+        int totalGoals = 0;
+        int totalAssists = 0;
+        int totalDribbles = 0;
+        int totalPasses = 0;
+        int avePassPercentage = 0;
+        int totalTackles = 0;
+        int totalInterceptions = 0;
+        int totalShotsDefensed = 0;
+        int totalShotsSaved = 0;
+        int totalGoalsAllowed = 0;
+
+        final String SELECT_ALL_PLAYERGAMES_BY_PLAYER = "SELECT * FROM playerGame WHERE playerId = ?";
+        List<PlayerGame> playerGames = jdbc.query(SELECT_ALL_PLAYERGAMES_BY_PLAYER, new PlayerGameMapper(), playerId);
+
+        for (PlayerGame pg : playerGames) {
+             totalShots += pg.getShots();
+             totalGoals += pg.getGoals();
+             totalAssists += pg.getAssists();
+             totalDribbles += pg.getDribbles();
+             totalPasses += pg.getPasses();
+             avePassPercentage += pg.getPassPercentage();
+             totalTackles += pg.getTackles();
+             totalInterceptions += pg.getInterceptions();
+             totalShotsDefensed += pg.getShotsDefensed();
+             totalShotsSaved += pg.getShotsSaved();
+             totalGoalsAllowed += pg.getGoalsAllowed();
+        }
+        
+        PlayerGame totalStats = new PlayerGame();
+        totalStats.setShots(totalShots);
+        totalStats.setGoals(totalGoals);
+        totalStats.setAssists(totalAssists);
+        totalStats.setDribbles(totalDribbles);
+        totalStats.setPasses(totalPasses);
+        totalStats.setPassPercentage((avePassPercentage / playerGames.size()));
+        totalStats.setTackles(totalTackles);
+        totalStats.setInterceptions(totalInterceptions);
+        totalStats.setShotsDefensed(totalShotsDefensed);
+        totalStats.setShotsSaved(totalShotsSaved);
+        totalStats.setGoalsAllowed(totalGoalsAllowed);
+        totalStats.setPlayer(playerDao.getPlayerById(playerId));
+        
+        return totalStats;
+    }
+
     private void associatePlayers(List<PlayerGame> playerGames) {
         for (PlayerGame playerGame : playerGames) {
             playerGame.setPlayer(getPlayerForPlayerGame(playerGame.getPlayerGameId()));

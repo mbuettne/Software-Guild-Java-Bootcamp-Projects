@@ -22,21 +22,21 @@ import org.springframework.stereotype.Service;
  *
  * @author mbuet
  */
-//@Service
-//public class UserDetailsServiceImpl implements UserDetailsService {
-//
-//    @Autowired
-//    userDao users;
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = users.getUserByUsername(username);
-//        Role role = user.getRole();
-//
-//        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-//        grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-//
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
-//    }
-//
-//}
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Autowired
+    userDao users;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = users.getUserByUsername(username);
+        Role role = user.getRole();
+
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+    }
+
+}

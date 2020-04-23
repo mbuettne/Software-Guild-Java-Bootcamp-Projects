@@ -19,6 +19,8 @@ public interface playerGameDao {
     List<PlayerGame> getAllPlayerGames();
 
     List<PlayerGame> getAllPlayerGamesByPlayer(int playerId);
+    
+    PlayerGame totalStatsByPlayer(int playerId);
 
     void updatePlayerGame(PlayerGame playerGame);
 

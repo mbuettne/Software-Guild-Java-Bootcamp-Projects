@@ -89,5 +89,5 @@ insert into users(userId, roleId, firstName, lastName, username, `password`, ena
 	values(1, 1, "AdminFName", "AdminLName", "Admin", "admin", true, 1),
 		  (2, 2, "UserFName", "UserLName", "User", "user", true, 1);
           
--- UPDATE users SET `password` = '$2a$10$drm6FN9XjL0uEXpb9BaQheBVxxmEt65VT6x/6DNz9LtKCT9iYdupG' WHERE userId = 1;
--- UPDATE users SET `password` = '$2a$10$GKttED.JCtgRPhnohx66/OsPLCfp9sGtqYN9g5XOamv1cGsArEbb2' WHERE userId = 2;
+ UPDATE users SET `password` = '$2a$10$ZSPklaDVcwY8H6c3P04NK.y9Id3e5w5e0RjtHpYevXYwolpWZECFu' WHERE userId = 1;
+ UPDATE users SET `password` = '$2a$10$Kf35HWbQ8B2j8gk2MVJOAOL8ObcKDg297uKlpJgv8aRJ75Km0w/.G' WHERE userId = 2;
