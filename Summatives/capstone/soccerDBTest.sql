@@ -1,8 +1,8 @@
-drop database if exists soccerDB;
+drop database if exists soccerDBTest;
 
-create database soccerDB;
+create database soccerDBTest;
 
-use soccerDB;
+use soccerDBTest;
 
 create table team(
 teamId int primary key auto_increment,
@@ -88,6 +88,3 @@ insert into `role`(roleId, roleName)
 insert into users(userId, roleId, firstName, lastName, username, `password`, enabled, teamId)
 	values(1, 1, "AdminFName", "AdminLName", "Admin", "admin", true, 1),
 		  (2, 2, "UserFName", "UserLName", "User", "user", true, 1);
-          
--- UPDATE users SET `password` = '$2a$10$drm6FN9XjL0uEXpb9BaQheBVxxmEt65VT6x/6DNz9LtKCT9iYdupG' WHERE userId = 1;
--- UPDATE users SET `password` = '$2a$10$GKttED.JCtgRPhnohx66/OsPLCfp9sGtqYN9g5XOamv1cGsArEbb2' WHERE userId = 2;
