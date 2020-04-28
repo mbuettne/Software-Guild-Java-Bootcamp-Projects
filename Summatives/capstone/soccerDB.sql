@@ -37,17 +37,17 @@ foreign key (teamId) references team(teamId)
 
 create table playerGame(
 playerGameId int primary key auto_increment,
-shots int null,
-goals int null,
-assists int null,
-dribbles int null,
-passes int null,
-passPercentage int null,
-tackles int null,
-interceptions int null,
-shotsDefensed int null,
-shotsSaved int null,
-goalsAllowed int null,
+shots int not null,
+goals int not null,
+assists int not null,
+dribbles int not null,
+passes int not null,
+passPercentage int not null,
+tackles int not null,
+interceptions int not null,
+shotsDefensed int not null,
+shotsSaved int not null,
+goalsAllowed int not null,
 playerId int not null,
 foreign key (playerId) references player(playerId)
 );

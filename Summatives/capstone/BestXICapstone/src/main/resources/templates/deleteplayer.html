@@ -1,0 +1,114 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>BestXI | Delete Player</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+            crossorigin="anonymous"
+            />
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+            integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+            crossorigin="anonymous"
+            />
+        <style>
+            body {
+                text-align: center;
+                background-color: #eef0fd;
+                height: 100%;
+            }
+            .navbar {
+                background-color: #1b4a78;
+                color: #eef0fd;
+            }
+
+            .header-display {
+                justify-content: center;
+            }
+
+            .thead,
+            .card-header {
+                background-color: #1b4a78 !important;
+                color: #eef0fd;
+            }
+
+            .table-link {
+                color: black;
+                text-decoration: none;
+            }
+
+            .btn-primary,
+            .btn-outline-primary:hover {
+                background-color: #1b4a78 !important;
+                border-color: #1b4a78;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm navbar-dark mb-3 py-1">
+            <div class="container">
+                <a href="/" class="navbar-brand">
+                    BestXI
+                </a>
+                <div>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/team" class="nav-link">
+                                <i class="fas fa-futbol"></i> Team
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/add" class="nav-link">
+                                <i class="fas fa-plus"></i> Add
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/account" class="nav-link">
+                                <i class="fas fa-user-cog"></i> Account
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row mt-3">
+                <h1>Delete <span th:text="${player.firstname} + ' ' + ${player.lastname}"></span>?</h1>
+            </div>
+            <div class="row mt-2">
+                <p>Deletions are permanent.</p>
+            </div>
+            <div class="row mt-2">
+                <p>Both the player and all of their game information will be deleted forever.</p>
+            </div>
+            <div class="row mt-2">
+                <p>Continue?</p>
+            </div>
+
+            <div class="row mt-2">
+                <form action="#" th:action="@{/deleteplayer(id=${player.playerid})}" method="POST" class="mb-0 mr-3">
+                    <button type="submit"  class="btn btn-outline-danger btn-lg" >Delete</button>
+                </form>
+
+                <a href="/" class="btn btn-outline-secondary btn-lg">Cancel</a>
+            </div>
+
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>
+
