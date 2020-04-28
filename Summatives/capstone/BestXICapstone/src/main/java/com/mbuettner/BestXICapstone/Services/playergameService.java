@@ -54,7 +54,7 @@ public class playergameService {
             playergameRepo.delete(pg);
         }
     }
-
+    
     public Map<Integer,Player> findTopGoalScorers(int teamid) {
         List<Player> players = playerRepo.findByTeamid(teamid);
         int comparison = 100;

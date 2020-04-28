@@ -19,6 +19,8 @@ public interface playerRepo extends JpaRepository<Player, Integer>{
     
     List<Player> findByTeamid(int teamid);
     
+    List<Player> findByTeamidAndPlayerposition(int teamid, String playerposition);
+    
     Player findByLastname(String lastname);
     
     Player findByPlayerid(int playerid);

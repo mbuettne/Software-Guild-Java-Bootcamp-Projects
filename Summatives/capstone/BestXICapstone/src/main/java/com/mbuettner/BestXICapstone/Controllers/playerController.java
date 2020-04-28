@@ -50,6 +50,13 @@ public class playerController {
         Player player1 = playerService.saveOrUpdatePlayer(player);
         return new ResponseEntity<Player>(player, HttpStatus.CREATED);
     }
+    
+    @GetMapping("/trial/{teamid}/{playerposition}")
+    public ResponseEntity<?> teamAndPosition(@PathVariable int teamid, @PathVariable String playerposition){
+        List<Player> playersReturned = playerService.getByTeamAndPosition(teamid, playerposition);
+        
+        return new ResponseEntity<List<Player>>(playersReturned, HttpStatus.OK);
+    }
 
     @PostMapping("/edit")
     public ResponseEntity<?> editPlayer(@Valid @RequestBody Player player, BindingResult result) {

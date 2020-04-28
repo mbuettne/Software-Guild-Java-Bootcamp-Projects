@@ -86,6 +86,13 @@
                     Data
                 </h1>
             </div>
+
+            <div class="col-12 m-1 text-center" 
+                 th:if="${!errors.isEmpty()}">
+                <p class="alert alert-danger" 
+                   th:each="error : ${errors}" th:text="${error.message}">Error message</p>
+            </div>
+
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card mb-2">
@@ -99,7 +106,7 @@
                                         name="playerid"
                                         class="form-control"
                                         >
-                                        <option default>Choose Player...</option>
+                                        <option default value=0>Choose Player...</option>
 
                                         <option
                                             th:each="player : ${players}"
@@ -115,7 +122,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="shots"
                                             name="shots"
@@ -127,7 +134,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="goals"
                                             name="goals"
@@ -142,7 +149,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="assists"
                                             name="assists"
@@ -154,7 +161,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="dribbles"
                                             name="dribbles"
@@ -169,7 +176,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="passes"
                                             name="passes"
@@ -183,7 +190,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             max="100"
                                             class="form-control"
                                             id="passpercentage"
@@ -199,7 +206,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="tackles"
                                             name="tackles"
@@ -211,7 +218,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="interceptions"
                                             name="interceptions"
@@ -226,7 +233,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="shotsdefensed"
                                             name="shotsdefensed"
@@ -238,7 +245,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="shotssaved"
                                             name="shotssaved"
@@ -257,7 +264,7 @@
                                         id="goalsallowed"
                                         name="goalsallowed"
                                         placeholder="Goals Allowed..."
-                                        
+
                                         />
                                 </div>
 
@@ -302,7 +309,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="height"
                                             name="height"
@@ -314,7 +321,7 @@
                                         <input
                                             type="number"
                                             min="0"
-                                             value="0"
+                                            value="0"
                                             class="form-control"
                                             id="weight"
                                             name="weight"
@@ -330,10 +337,10 @@
                                             name="playerposition"
                                             class="form-control"
                                             >
-                                            <option selected>Choose Position...</option>
+                                            <option selected value="">Choose Position...</option>
                                             <option value="Forward">Forward</option>
                                             <option value="Midfield">Midfield</option>
-                                            <option value="Defense">Defense</option>
+                                            <option value="Defender">Defender</option>
                                             <option value="Goalkeeper">Goalkeeper</option>
                                         </select>
 
@@ -346,7 +353,7 @@
                                             name="dominantfoot"
                                             class="form-control"
                                             >
-                                            <option selected>Choose Dominant Foot...</option>
+                                            <option selected value="">Choose Dominant Foot...</option>
                                             <option value="Right">Right</option>
                                             <option value="Left">Left</option>
                                         </select>
@@ -393,7 +400,7 @@
                                             name="gamelocation"
                                             class="form-control"
                                             >
-                                            <option selected>Choose Location...</option>
+                                            <option selected value="">Choose Location...</option>
                                             <option value="Home">Home</option>
                                             <option value="Away">Away</option>
                                         </select>
@@ -418,7 +425,7 @@
                                             name="result"
                                             class="form-control"
                                             >
-                                            <option selected>Choose Result...</option>
+                                            <option selected value="">Choose Result...</option>
                                             <option value="Win">Win</option>
                                             <option value="Loss">Loss</option>
                                             <option value="Draw">Draw</option>
