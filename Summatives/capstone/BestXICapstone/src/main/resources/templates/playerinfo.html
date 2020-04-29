@@ -47,6 +47,154 @@
                 background-color: #1b4a78 !important;
                 border-color: #1b4a78;
             }
+
+            .card-graph {
+                margin-top: 20px;
+            }
+
+            .skills {
+                width: 100%;
+                max-width: 960px;
+                height: 400px;
+                margin: auto;
+                position: relative;
+            }
+
+            .lines {
+                height: 100%;
+                position: relative;
+            }
+
+            .line {
+                height: inherit;
+                width: 2px;
+                position: absolute;
+                background: rgba(238, 238, 238, 0.6);
+            }
+            .line.l--0 {
+                left: 0;
+            }
+            .line.l--25 {
+                left: 25%;
+            }
+            .line.l--50 {
+                left: 50%;
+            }
+            .line.l--75 {
+                left: 75%;
+            }
+            .line.l--100 {
+                left: calc(100% - 1px);
+            }
+
+            .line__label {
+                display: block;
+                width: 100px;
+                text-align: center;
+                position: absolute;
+                bottom: -20px;
+                right: -50px;
+            }
+            .line__label.title {
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            .charts {
+                width: 100%;
+                height: 40%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 10;
+            }
+
+            .chart {
+                margin: 30px 0 0;
+            }
+            .chart:first-child {
+                margin: 0;
+            }
+
+            .chart__title {
+                display: block;
+                margin: 0 0 10px;
+                font-weight: bold;
+                opacity: 0;
+                animation: 1s anim-lightspeed-in ease forwards;
+            }
+            .chart--prod .chart__title {
+                animation-delay: 3.2s;
+            }
+            .chart--design .chart__title {
+                animation-delay: 4.7s;
+            }
+
+            .chart--horiz {
+                overflow: hidden;
+            }
+
+            .chart__bar {
+                height: 30px;
+                margin-bottom: 10px;
+                background-color: #6F8CA9;
+                border-top-right-radius: 4px; 
+                border-bottom-right-radius: 4px;
+                opacity: 0;
+                animation: 1s anim-lightspeed-in ease forwards;
+            }
+            .chart--dev .chart__bar:nth-of-type(5) {
+                animation-delay: 2.7s;
+            }
+            .chart--dev .chart__bar:nth-of-type(4) {
+                animation-delay: 2.2s;
+            }
+            .chart--dev .chart__bar:nth-of-type(3) {
+                animation-delay: 1.7s;
+            }
+            .chart--dev .chart__bar:nth-of-type(2) {
+                animation-delay: 1.2s;
+            }
+            .chart--dev .chart__bar:nth-of-type(1) {
+                animation-delay: 0.7s;
+            }
+            .chart--prod .chart__bar:nth-of-type(2) {
+                animation-delay: 4.2s;
+            }
+            .chart--prod .chart__bar:nth-of-type(1) {
+                animation-delay: 3.7s;
+            }
+            .chart--design .chart__bar:nth-of-type(3) {
+                animation-delay: 6.2s;
+            }
+            .chart--design .chart__bar:nth-of-type(2) {
+                animation-delay: 5.7s;
+            }
+            .chart--design .chart__bar:nth-of-type(1) {
+                animation-delay: 5.2s;
+            }
+
+            .chart__label {
+                padding-left: 10px;
+                line-height: 30px;
+                color: black;
+                white-space: nowrap;
+            }
+
+            ul {
+                list-style-type: none;
+            }
+
+            @keyframes anim-lightspeed-in {
+                0% {
+                    transform: translateX(-200%);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
         </style>
     </head>
     <body>
@@ -113,175 +261,168 @@
 
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="card mb-2">
+                    <div class="card mb-1">
                         <div class="card-header">Player Season Stats</div>
-                        <div class="card-body">
+                        <div class="card-body card-graph mt-0 pt-1">
                             <h5><span th:text="${#lists.size(games)}"></span> Games Played This Season</h5>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="shots">Shots</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.shots}"
-                                        class="form-control"
-                                        id="shots"
-                                        name="shots"
-                                        readonly
-                                        placeholder="Shots..."
-                                        />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="goals">Goals</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.goals}"
-                                        class="form-control"
-                                        id="goals"
-                                        name="goals"
-                                        readonly
-                                        placeholder="Goals..."
-                                        />
-                                </div>
-                            </div>
+                            <div class="skills">
+                                <ul class="lines">
+                                    <li class="line l--0">
+                                    </li>
+                                    <li class="line l--25">
+                                    </li>
+                                    <li class="line l--50">
+                                    </li>
+                                    <li class="line l--75">
+                                    </li>
+                                    <li class="line l--100">
+                                    </li>
+                                </ul>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="assists">Assists</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.assists}"
-                                        class="form-control"
-                                        id="assists"
-                                        name="assists"
-                                        readonly
-                                        placeholder="Assists..."
-                                        />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="dribbles">Dribbles</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.dribbles}"
-                                        class="form-control"
-                                        id="dribbles"
-                                        name="dribbles"
-                                        readonly
-                                        placeholder="Dribbles..."
-                                        />
-                                </div>
-                            </div>
+                                <div class="charts">
+                                    <div class="chart chart--dev" th:if="${player.playerposition!='Goalkeeper'}">
+                                        <span class="chart__title">Attacking</span>
+                                        <ul class="chart--horiz">
+                                            <li class="chart__bar" style="width: 20%;" th:if="${player.playerposition=='Defender'}">
+                                                <span class="chart__label">
+                                                    Shots: <span th:text="${seasonStats.shots}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 65%;" th:if="${player.playerposition=='Midfield'}">
+                                                <span class="chart__label">
+                                                    Shots: <span th:text="${seasonStats.shots}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 80%;" th:if="${player.playerposition=='Forward'}">
+                                                <span class="chart__label">
+                                                    Shots: <span th:text="${seasonStats.shots}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 15%;" th:if="${player.playerposition=='Defender'}">
+                                                <span class="chart__label">
+                                                    Goals: <span th:text="${seasonStats.goals}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 35%;" th:if="${player.playerposition=='Midfield'}">
+                                                <span class="chart__label">
+                                                    Goals: <span th:text="${seasonStats.goals}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 60%;" th:if="${player.playerposition=='Forward'}">
+                                                <span class="chart__label">
+                                                    Goals: <span th:text="${seasonStats.goals}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 30%;" th:if="${player.playerposition=='Defender'}">
+                                                <span class="chart__label">
+                                                    Assists: <span th:text="${seasonStats.assists}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 70%;" th:if="${player.playerposition=='Midfield'}">
+                                                <span class="chart__label">
+                                                    Assists: <span th:text="${seasonStats.assists}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 60%;" th:if="${player.playerposition=='Forward'}">
+                                                <span class="chart__label">
+                                                    Assists: <span th:text="${seasonStats.assists}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 20%;" th:if="${player.playerposition=='Defender'}">
+                                                <span class="chart__label">
+                                                    Dribbles: <span th:text="${seasonStats.dribbles}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 45%;" th:if="${player.playerposition=='Midfield'}">
+                                                <span class="chart__label">
+                                                    Dribbles: <span th:text="${seasonStats.dribbles}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 55%;" th:if="${player.playerposition=='Forward'}">
+                                                <span class="chart__label">
+                                                    Dribbles: <span th:text="${seasonStats.dribbles}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 85%">
+                                                <span class="chart__label">
+                                                    Avg Pass Completion %: <span th:text="${seasonStats.passpercentage}"></span>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="passes">Passes</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.passes}"
-                                        class="form-control"
-                                        id="passes"
-                                        name="passes"
-                                        readonly
-                                        placeholder="Passes..."
-                                        />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="passpercentage">
-                                        Average Pass Completion %
-                                    </label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        max="100"
-                                        th:value="${seasonStats.passpercentage}"
-                                        class="form-control"
-                                        id="passpercentage"
-                                        name="passpercentage"
-                                        readonly
-                                        placeholder="Pass Completion..."
-                                        />
-                                </div>
-                            </div>
+                                    <div class="chart chart--prod">
+                                        <span class="chart__title">Defending</span>
+                                        <ul class="chart--horiz">
+                                             <li class="chart__bar" style="width: 5%;" th:if="${player.playerposition=='Goalkeeper'}">
+                                                <span class="chart__label">
+                                                    Tackles: <span th:text="${seasonStats.tackles}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 89%;" th:if="${player.playerposition=='Defender'}">
+                                                <span class="chart__label">
+                                                    Tackles: <span th:text="${seasonStats.tackles}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 65%;" th:if="${player.playerposition=='Midfield'}">
+                                                <span class="chart__label">
+                                                    Tackles: <span th:text="${seasonStats.tackles}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 45%;" th:if="${player.playerposition=='Forward'}">
+                                                <span class="chart__label">
+                                                    Tackles: <span th:text="${seasonStats.tackles}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 5%;" th:if="${player.playerposition=='Goalkeeper'}">
+                                                <span class="chart__label">
+                                                    Interceptions: <span th:text="${seasonStats.interceptions}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 68%;" th:if="${player.playerposition=='Defender'}">
+                                                <span class="chart__label">
+                                                      Interceptions: <span th:text="${seasonStats.interceptions}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 40%;" th:if="${player.playerposition=='Midfield'}">
+                                                <span class="chart__label">
+                                                     Interceptions: <span th:text="${seasonStats.interceptions}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 30%;" th:if="${player.playerposition=='Forward'}">
+                                                <span class="chart__label">
+                                                  Interceptions: <span th:text="${seasonStats.interceptions}"></span>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="tackles">Tackles</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.tackles}"
-                                        class="form-control"
-                                        id="tackles"
-                                        name="tackles"
-                                        readonly
-                                        placeholder="Tackles..."
-                                        />
+                                    <div class="chart chart--design" th:if="${player.playerposition=='Goalkeeper'}">
+                                        <span class="chart__title">Goalkeeping</span>
+                                        <ul class="chart--horiz">
+                                            <li class="chart__bar" style="width: 95%;">
+                                                <span class="chart__label">
+                                                    Shots Defensed: <span th:text="${seasonStats.shotsdefensed}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 89%;">
+                                                <span class="chart__label">
+                                                    Shots Saved: <span th:text="${seasonStats.shotssaved}"></span>
+                                                </span>
+                                            </li>
+                                            <li class="chart__bar" style="width: 40%;">
+                                                <span class="chart__label">
+                                                    Goals Allowed: <span th:text="${seasonStats.goalsallowed}"></span>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="interceptions">Interceptions</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.interceptions}"
-                                        class="form-control"
-                                        id="interceptions"
-                                        name="interceptions"
-                                        readonly
-                                        placeholder="Interceptions..."
-                                        />
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="shotsdefensed">Shots Defensed</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.shotsdefensed}"
-                                        class="form-control"
-                                        id="shotsdefensed"
-                                        name="shotsdefensed"
-                                        readonly
-                                        placeholder="Shots Defensed..."
-                                        />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="shotssaved">Shots Saved</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        th:value="${seasonStats.shotssaved}"
-                                        class="form-control"
-                                        id="shotssaved"
-                                        name="shotssaved"
-                                        readonly
-                                        placeholder="Shots Saved..."
-                                        />
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="goalsallowed">Goals Allowed</label>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    th:value="${seasonStats.goalsallowed}"
-                                    class="form-control"
-                                    id="goalsallowed"
-                                    name="goalsallowed"
-                                    readonly
-                                    placeholder="Goals Allowed..."
-                                    />
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="col-sm-6">
                     <div class="card mb-2">
                         <div class="card-header">Update Player</div>
@@ -417,6 +558,8 @@
             </div>
         </div>
 
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
