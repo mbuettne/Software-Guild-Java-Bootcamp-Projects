@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/add", "/team", "/addTeamgame", "/addPlayer", "/addPlayergame", "/editPlayer", "/deleteplayer", "/editTeamgame", "/deleteteamgame", "/bestxi").hasRole("ADMIN")
                 .antMatchers("/", "/teamgameinfo", "/playerinfo", "/account", "/success", "/deleteSelf", "/editUser").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/login", "/create", "/createAccount", "/createTeam").permitAll()
+                .antMatchers("/login", "/create", "/createAccount", "/createTeam", "/editPassword").permitAll()
                 .antMatchers("/css/**", "/js/**", "/fonts/**").permitAll()
                 .anyRequest().hasRole("ADMIN")
                 .and()

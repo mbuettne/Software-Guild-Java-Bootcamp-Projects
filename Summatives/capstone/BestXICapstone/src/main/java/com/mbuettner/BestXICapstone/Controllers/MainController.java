@@ -149,7 +149,10 @@ public class MainController {
         User user = userService.getUserById(userid);
         user.setFirstname(firstname);
         user.setLastname(lastname);
-        user.setRoleid(roleId);
+        if(user.getRoleid()==1){
+            user.setRoleid(roleId);
+        }
+        
         userService.saveOrUpdateUser(user);
         
         return "redirect:/account?username=" + username;
