@@ -146,10 +146,11 @@ public class MainController {
     
     @PostMapping("/editUser")
     public String updateUser(Integer roleId, Integer userid, String firstname, String lastname, String username){
+        User currentUser = userService.getUserByUsername(username);
         User user = userService.getUserById(userid);
         user.setFirstname(firstname);
         user.setLastname(lastname);
-        if(user.getRoleid()==1){
+        if(currentUser.getRoleid()==1){
             user.setRoleid(roleId);
         }
         

@@ -59,6 +59,7 @@ public class createController {
     PasswordEncoder encoder;
 
     Set<ConstraintViolation<Team>> violations = new HashSet<>();
+    Set<ConstraintViolation<User>> userViolations = new HashSet<>();
 
     @GetMapping("/create")
     public String createPage() {
@@ -68,6 +69,7 @@ public class createController {
     @GetMapping("/createTeam")
     public String displayCreateTeamPage(Model model) {
         model.addAttribute("errors", violations);
+        violations.clear();
         return "createTeam";
     }
 
@@ -88,16 +90,18 @@ public class createController {
         }
 
     }
-    
+
     @GetMapping("/createAccount")
-    public String displayCreateAccountPage(Model model){
+    public String displayCreateAccountPage(Model model) {
         List<Team> teams = teamService.getAllTeams();
+        model.addAttribute("errors", userViolations);
         model.addAttribute("teams", teams);
+        userViolations.clear();
         return "createAccount";
     }
-    
+
     @PostMapping("/createAccount")
-    public String createNewAccount(HttpServletRequest request, Model model){
+    public String createNewAccount(HttpServletRequest request, Model model) {
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String username = request.getParameter("username");
@@ -109,15 +113,28 @@ public class createController {
         user.setUsername(username);
         user.setTeamid(teamid);
         user.setEnabled(true);
-        user.setPassword(encoder.encode(password));
-        
-        List<User> users = userService.getAllUsersByTeam(teamid);
-        if(users.size()==0){
-            user.setRoleid(1);
+        user.setPassword(password);
+       
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        userViolations = validate.validate(user);
+
+        if (userViolations.isEmpty()) {
+            List<User> users = userService.getAllUsersByTeam(teamid);
+            if (users.size() == 0) {
+                user.setRoleid(1);
+            } else {
+                user.setRoleid(2);
+            }
+             user.setPassword(encoder.encode(password));
+            userService.saveOrUpdateUser(user);
+            return "redirect:/login";
         } else {
-            user.setRoleid(2);
+            List<Team> teams = teamService.getAllTeams();
+            model.addAttribute("errors", userViolations);
+            model.addAttribute("teams", teams);
+            return "createAccount";
         }
-        userService.saveOrUpdateUser(user);
-        return "redirect:/login";
+
     }
 }

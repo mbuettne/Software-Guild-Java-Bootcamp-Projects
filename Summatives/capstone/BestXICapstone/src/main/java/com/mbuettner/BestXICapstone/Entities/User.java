@@ -13,7 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -48,6 +50,8 @@ public class User {
     @JoinColumn(name = "roleid", nullable = false)
     private int roleid;
     @JoinColumn(name = "teamid", nullable = false)
+    @NotNull(message = "Must choose a team.")
+    @Min(value = 1, message = "Must choose a team.")
     private int teamid;
     
     public User(){
