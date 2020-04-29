@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>BestXI | Team Portal</title>
         <meta charset="UTF-8"/>
@@ -49,28 +50,28 @@
     <body>  
         <nav class="navbar navbar-expand-sm navbar-dark mb-3 py-1">
             <div class="container">
-                <a href="/" class="navbar-brand">
+                <a href="#" th:href="@{/(username=${#authentication.name})}" class="navbar-brand">
                     BestXI
                 </a>
                 <div>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a href="/" class="nav-link">
+                            <a href="#" th:href="@{/(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-home"></i> Home
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/team" class="nav-link">
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a href="#" th:href="@{/team(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-futbol"></i> Team
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/add" class="nav-link">
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a href="#" th:href="@{/add(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-plus"></i> Add
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/account" class="nav-link">
+                            <a href="#" th:href="@{/account(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-user-cog"></i> Account
                             </a>
                         </li>
@@ -86,6 +87,22 @@
                     Portal
                 </h1>
             </div>
+            <div sec:authorize="isAuthenticated()" class="row justify-content-end">
+                <form class="form-inline" 
+                      method="POST" 
+                      action="/logout">
+                    <input type="hidden" 
+                           th:name="${_csrf.parameterName}" 
+                           th:value="${_csrf.token}"/>
+                    <label for="submit">
+                        <span th:text="${#authentication.name}">
+                        </span>&nbsp;&nbsp;
+                    </label>
+                    <button class="btn btn-primary" 
+                            id="submit" 
+                            type="submit">Logout</button>
+                </form>
+            </div>
             <div class="row">
                 <div class="col-sm-6 col-lg-4">
                     <div class="card text-center mb-5">
@@ -100,7 +117,7 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="${latestGame.teamscore} +' - '+ ${latestGame.opponentscore} +' '+${latestGame.result} +' vs ' + ${latestGame.opponent} "></h5>
                             <p class="card-text" th:text="${latestGame.gamedate} + ' - ' + ${latestGame.gamelocation}"></p>
-                            <a th:href="@{/teamgameinfo(id=${latestGame.teamgameid})}" class="btn btn-outline-primary">Game Details</a>
+                            <a th:href="@{/teamgameinfo(id=${latestGame.teamgameid}, username=${#authentication.name})}" class="btn btn-outline-primary">Game Details</a>
                         </div>
                     </div>
                     <div class="card text-center">
@@ -127,7 +144,7 @@
                         </thead>
                         <tbody>
                             <tr th:each="player: ${players}">
-                                <td scope="row" > <a href="#" th:href="@{/playerinfo(id=${player.playerid})}" th:text="${player.firstname} +' ' + ${player.lastname}"></a></td>
+                                <td scope="row" > <a href="#" th:href="@{/playerinfo(id=${player.playerid}, username=${#authentication.name})}" th:text="${player.firstname} +' ' + ${player.lastname}"></a></td>
                                 <td scope="row" th:text="${player.playerposition}"> </td>
                                 <td scope="row" th:text="${player.dominantfoot}"></td>
                             </tr>
@@ -151,7 +168,7 @@
                                 <td scope="row" th:text="${game.opponent}"></td>
                                 <td scope="row" th:text="${game.gamelocation}"> </td>
                                 <td scope="row" th:text="${game.result}"></td>
-                                <td> <a href="#" th:href="@{/teamgameinfo(id=${game.teamgameid})}" class="btn btn-primary">Game Details</a></td>
+                                <td> <a href="#" th:href="@{/teamgameinfo(id=${game.teamgameid}, username=${#authentication.name})}" class="btn btn-primary">Game Details</a></td>
                             </tr>
                         </tbody>
                     </table>

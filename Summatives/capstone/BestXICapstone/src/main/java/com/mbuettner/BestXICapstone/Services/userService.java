@@ -25,6 +25,10 @@ public class userService {
         return userRepo.save(user);
     }
     
+    public User getUserByUsername(String username){
+        return userRepo.findByUsername(username);
+    }
+    
     public User getUserById(int userid) {
         User user = userRepo.findByUserid(userid);
         if (user == null) {

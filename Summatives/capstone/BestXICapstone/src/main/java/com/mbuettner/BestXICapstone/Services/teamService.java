@@ -39,6 +39,10 @@ public class teamService {
         return teamRepo.save(team);
     }
     
+    public List<Team> getAllTeams(){
+        return teamRepo.findAll();
+    }
+    
     public Team getTeamById(int teamid){
         return teamRepo.findByTeamid(teamid);
     }

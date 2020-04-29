@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>BestXI | Team Game Details</title>
         <meta charset="UTF-8"/>
@@ -49,28 +50,28 @@
     <body>  
         <nav class="navbar navbar-expand-sm navbar-dark mb-3 py-1">
             <div class="container">
-                <a href="/" class="navbar-brand">
+                <a href="#" th:href="@{/(username=${#authentication.name})}" class="navbar-brand">
                     BestXI
                 </a>
                 <div>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a href="/" class="nav-link">
+                            <a href="#" th:href="@{/(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-home"></i> Home
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/team" class="nav-link">
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a href="#" th:href="@{/team(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-futbol"></i> Team
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/add" class="nav-link">
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a href="#" th:href="@{/add(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-plus"></i> Add
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/account" class="nav-link">
+                            <a href="#" th:href="@{/account(username=${#authentication.name})}" class="nav-link">
                                 <i class="fas fa-user-cog"></i> Account
                             </a>
                         </li>
@@ -85,13 +86,29 @@
                     Team Game <span style="color: #ad301f;">Details</span>
                 </h1>
             </div>
-            
+            <div sec:authorize="isAuthenticated()" class="row justify-content-end">
+                <form class="form-inline" 
+                      method="POST" 
+                      action="/logout">
+                    <input type="hidden" 
+                           th:name="${_csrf.parameterName}" 
+                           th:value="${_csrf.token}"/>
+                    <label for="submit">
+                        <span th:text="${#authentication.name}">
+                        </span>&nbsp;&nbsp;
+                    </label>
+                    <button class="btn btn-primary" 
+                            id="submit" 
+                            type="submit">Logout</button>
+                </form>
+            </div>
+
             <div class="col-12 m-1 text-center" 
                  th:if="${!errors.isEmpty()}">
                 <p class="alert alert-danger" 
                    th:each="error : ${errors}" th:text="${error.message}">Error message</p>
             </div>
-            
+
             <div class="card mb-2">
                 <div class="card-header">Update Team Game</div>
                 <div class="card-body">
@@ -191,16 +208,29 @@
                             />
 
                         <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            th:value="${user.username}"
+                            hidden
+                            />
+
+                        <input
                             id="teamgameid"
                             name="teamgameid"
                             th:value="${teamgame.teamgameid}"
                             hidden
                             />
 
-                        <button type="submit" class="btn btn-primary">
+                        <input type="hidden" 
+                               th:name="${_csrf.parameterName}" 
+                               th:value="${_csrf.token}"/>
+
+                        <button type="submit" class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')">
                             Update Team Game
                         </button>
-                        <a class="btn btn-danger" th:href="@{/deleteteamgame(id=${teamgame.teamgameid})}">Delete Game</a>
+                        <a class="btn btn-danger" th:href="@{/deleteteamgame(id=${teamgame.teamgameid}, username=${#authentication.name})}" sec:authorize="hasRole('ROLE_ADMIN')">Delete Game</a>
                     </form>
                 </div>
             </div>

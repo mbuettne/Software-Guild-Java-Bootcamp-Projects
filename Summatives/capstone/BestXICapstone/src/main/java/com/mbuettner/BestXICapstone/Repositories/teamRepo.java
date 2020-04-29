@@ -7,6 +7,7 @@ package com.mbuettner.BestXICapstone.Repositories;
 
 import com.mbuettner.BestXICapstone.Entities.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,4 +20,7 @@ public interface teamRepo extends JpaRepository<Team, Integer>{
     Team findByTeamname(String teamname);
     
     Team findByTeamid(int teamid);
+    
+    @Query(value="INSERT INTO team(teamName, coachName) VALUES(?, ?)", nativeQuery=true)
+    void createTeam(String teamname, String coachname);
 }

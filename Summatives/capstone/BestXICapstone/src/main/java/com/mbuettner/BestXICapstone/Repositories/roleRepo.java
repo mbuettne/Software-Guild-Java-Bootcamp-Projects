@@ -8,6 +8,7 @@ package com.mbuettner.BestXICapstone.Repositories;
 import com.mbuettner.BestXICapstone.Entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
  *
@@ -15,5 +16,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface roleRepo extends JpaRepository<Role, Integer> {
+
+    Role findByRoleid(int roleid);
     
+    List<Role> findAll();
 }
