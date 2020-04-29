@@ -25,6 +25,6 @@ public interface playerRepo extends JpaRepository<Player, Integer>{
     
     Player findByPlayerid(int playerid);
     
-    
+    List<Player> findByTeamidOrderByPlayerpositionAsc(int teamid);
     
 }

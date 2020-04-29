@@ -74,7 +74,7 @@ public class MainController {
     @GetMapping("/")
     public String dashboardPage(String username, Model model) {
         User user = userService.getUserByUsername(username);
-        List<Player> players = playerService.getAllPlayersByTeam(user.getTeamid());
+        List<Player> players = playerService.getAllPlayersByTeamSorted(user.getTeamid());
         Teamgame latestGame = teamgameService.getLatestGameByTeam(user.getTeamid());
         List<String> topScorers = playergameService.topScorerStringList(user.getTeamid());
         model.addAttribute("players", players);

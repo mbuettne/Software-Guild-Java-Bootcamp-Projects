@@ -55,10 +55,10 @@ public class TeamPageController {
     public String displayTeamPortal(String username, Model model) {
         User user = userService.getUserByUsername(username);
         Team team = teamService.getTeamById(user.getTeamid());
-        List<Player> players = playerService.getAllPlayersByTeam(user.getTeamid());
+        List<Player> players = playerService.getAllPlayersByTeamSorted(user.getTeamid());
         Teamgame latestGame = teamgameService.getLatestGameByTeam(user.getTeamid());
         List<String> topScorers = playergameService.topScorerStringList(user.getTeamid());
-        List<Teamgame> allgames = teamgameService.getAllGamesByTeam(user.getTeamid());
+        List<Teamgame> allgames = teamgameService.getAllGamesByTeamSorted(user.getTeamid());
         model.addAttribute("team", team);
         model.addAttribute("players", players);
         model.addAttribute("latestGame", latestGame);
