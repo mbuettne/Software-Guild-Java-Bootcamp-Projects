@@ -49,4 +49,7 @@ public class userService {
         }
     }
     
+    public List<User> getAllUsers(){
+        return userRepo.findAll();
+    }
 }

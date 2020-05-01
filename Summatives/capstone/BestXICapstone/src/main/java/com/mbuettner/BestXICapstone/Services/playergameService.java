@@ -153,5 +153,10 @@ public class playergameService {
         return totalStats;
 
     }
+    
+    
+    public List<Playergame> getAllPlayerGames(){
+        return playergameRepo.findAll();
+    }
 
 }

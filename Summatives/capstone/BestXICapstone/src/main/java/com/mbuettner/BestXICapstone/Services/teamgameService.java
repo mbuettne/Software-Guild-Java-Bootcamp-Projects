@@ -58,4 +58,8 @@ public class teamgameService {
         }
     }
     
+    public List<Teamgame> getAllTeamgames(){
+        return teamgameRepo.findAll();
+    }
+    
 }

@@ -52,6 +52,10 @@ public class playerService {
         public List<Player> getAllPlayersByTeamSorted(int teamid) {
         return playerRepo.findByTeamidOrderByPlayerpositionAsc(teamid);
     }
+        
+        public List<Player> getAllPlayers(){
+            return playerRepo.findAll();
+        }
 
     public void deletePlayerById(int playerid) {
         Player player = playerRepo.findByPlayerid(playerid);
