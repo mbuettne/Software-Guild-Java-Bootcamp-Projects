@@ -1,0 +1,538 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>BestXI | Add</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+            <link
+                rel="stylesheet"
+                href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+                integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+                crossorigin="anonymous"
+                />
+            <style>
+                body {
+                    text-align: center;
+                    background-color: #eef0fd;
+                    height: 100%;
+                }
+                .navbar {
+                    background-color: #1b4a78;
+                    color: #eef0fd;
+                }
+
+                .header-display {
+                    justify-content: center;
+                }
+
+                .thead,
+                .card-header {
+                    background-color: #1b4a78 !important;
+                    color: #eef0fd;
+                }
+
+                .table-link {
+                    color: black;
+                    text-decoration: none;
+                }
+
+                .btn-primary,
+                .btn-outline-primary:hover {
+                    background-color: #1b4a78 !important;
+                    border-color: #1b4a78;
+                }
+
+            </style>
+    </head>
+    <body>  
+        <nav class="navbar navbar-expand-sm navbar-dark mb-3 py-1">
+            <div class="container">
+                <a href="#" th:href="@{/(username=${#authentication.name})}" class="navbar-brand">
+                    BestXI
+                </a>
+                <div>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a href="#" th:href="@{/(username=${#authentication.name})}" class="nav-link">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a href="#" th:href="@{/team(username=${#authentication.name})}" class="nav-link">
+                                <i class="fas fa-futbol"></i> Team
+                            </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a href="#" th:href="@{/add(username=${#authentication.name})}" class="nav-link">
+                                <i class="fas fa-plus"></i> Add
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" th:href="@{/account(username=${#authentication.name})}" class="nav-link">
+                                <i class="fas fa-user-cog"></i> Account
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row header-display">
+                <h1 class="display-4 my-3">
+                    Add <span style="color: #ad301f" >Team</span>
+                    Data
+                </h1>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="row justify-content-end">
+                <form class="form-inline" 
+                      method="POST" 
+                      action="/logout">
+                    <input type="hidden" 
+                           th:name="${_csrf.parameterName}" 
+                           th:value="${_csrf.token}"/>
+                    <label for="submit">
+                        <span th:text="${#authentication.name}">
+                        </span>&nbsp;&nbsp;
+                    </label>
+                    <button class="btn btn-primary" 
+                            id="submit" 
+                            type="submit">Logout</button>
+                </form>
+            </div>
+
+            <div class="col-12 m-1 text-center" 
+                 th:if="${!errors.isEmpty()}">
+                <p class="alert alert-danger" 
+                   th:each="error : ${errors}" th:text="${error.message}">Error message</p>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card mb-2">
+                        <div class="card-header">Add Player Game</div>
+                        <div class="card-body">
+                            <form type="form" action="addPlayergame" method="POST" >
+                                <div class="form-group">
+                                    <label for="playerid">Player</label>
+                                    <select
+                                        id="playerid"
+                                        name="playerid"
+                                        class="form-control"
+                                        >
+                                        <option default value=0>Choose Player...</option>
+
+                                        <option
+                                            th:each="player : ${players}"
+                                            th:value="${player.playerid}"
+                                            th:text ="${player.firstname} +' ' + ${player.lastname} "
+                                            ></option>
+
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="shots">Shots</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="shots"
+                                            name="shots"
+                                            placeholder="Shots..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="goals">Goals</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="goals"
+                                            name="goals"
+                                            placeholder="Goals..."
+                                            />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="assists">Assists</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="assists"
+                                            name="assists"
+                                            placeholder="Assists..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="dribbles">Dribbles</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="dribbles"
+                                            name="dribbles"
+                                            placeholder="Dribbles..."
+                                            />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="passes">Passes</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="passes"
+                                            name="passes"
+                                            placeholder="Passes..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="passpercentage">
+                                            Pass Completion %
+                                        </label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            max="100"
+                                            class="form-control"
+                                            id="passpercentage"
+                                            name="passpercentage"
+                                            placeholder="Pass Completion..."
+                                            />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="tackles">Tackles</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="tackles"
+                                            name="tackles"
+                                            placeholder="Tackles..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="interceptions">Interceptions</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="interceptions"
+                                            name="interceptions"
+                                            placeholder="Interceptions..."
+                                            />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="shotsdefensed">Shots Defensed</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="shotsdefensed"
+                                            name="shotsdefensed"
+                                            placeholder="Shots Defensed..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="shotssaved">Shots Saved</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="shotssaved"
+                                            name="shotssaved"
+                                            placeholder="Shots Saved..."
+                                            />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="goalsallowed">Goals Allowed</label>
+                                    <input
+                                        type="number"
+                                        value="0"
+                                        min="0"
+                                        class="form-control"
+                                        id="goalsallowed"
+                                        name="goalsallowed"
+                                        placeholder="Goals Allowed..."
+
+                                        />
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="username"
+                                        name="username"
+                                        th:value="${user.username}"
+                                        hidden
+                                        />
+                                </div>
+
+                                <input type="hidden" 
+                                       th:name="${_csrf.parameterName}" 
+                                       th:value="${_csrf.token}"/>
+
+                                <button type="submit" class="btn btn-primary">
+                                    Add Player Game
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="card mb-2">
+                        <div class="card-header">Add Player</div>
+                        <div class="card-body">
+                            <form type="form" action="addPlayer" method="POST" >
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="firstname">First Name</label>
+                                        <input
+                                            type="text"
+                                            class=form-control
+                                            id="firstname"
+                                            name="firstname"
+                                            placeholder="First Name..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="lastname">Last Name</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="lastname"
+                                            name="lastname"
+                                            placeholder="Last Name..."
+                                            />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="height">Height (inches)</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="height"
+                                            name="height"
+                                            placeholder="Height..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="weight">Weight (lbs)</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="form-control"
+                                            id="weight"
+                                            name="weight"
+                                            placeholder="Weight..."
+                                            />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="playerposition">Player Position</label>
+                                        <select
+                                            id="playerposition"
+                                            name="playerposition"
+                                            class="form-control"
+                                            >
+                                            <option selected value="">Choose Position...</option>
+                                            <option value="Forward">Forward</option>
+                                            <option value="Midfield">Midfield</option>
+                                            <option value="Defender">Defender</option>
+                                            <option value="Goalkeeper">Goalkeeper</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="dominantfoot">Dominant Foot</label>
+                                        <select
+                                            id="dominantfoot"
+                                            name="dominantfoot"
+                                            class="form-control"
+                                            >
+                                            <option selected value="">Choose Dominant Foot...</option>
+                                            <option value="Right">Right</option>
+                                            <option value="Left">Left</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        class="form-control"
+                                        id="teamid"
+                                        name="teamid"
+                                        th:value="${teamid}"
+                                        hidden
+                                        />
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="username"
+                                        name="username"
+                                        th:value="${user.username}"
+                                        hidden
+                                        />
+                                </div>
+
+                                <input type="hidden" 
+                                       th:name="${_csrf.parameterName}" 
+                                       th:value="${_csrf.token}"/>
+                                
+
+                                <button type="submit" class="btn btn-primary">
+                                    Add Player
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="card mb-2">
+                        <div class="card-header">Add Team Game</div>
+                        <div class="card-body">
+                            <form type="form" action="addTeamgame" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="gamedate">Game Date</label>
+                                        <input
+                                            type="date"
+                                            id="gamedate"
+                                            name="gamedate"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="gamelocation">Game Location</label>
+                                        <select
+                                            id="gamelocation"
+                                            name="gamelocation"
+                                            class="form-control"
+                                            >
+                                            <option selected value="">Choose Location...</option>
+                                            <option value="Home">Home</option>
+                                            <option value="Away">Away</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="opponent">Opponent</label>
+                                        <input
+                                            type="text"
+                                            id="opponent"
+                                            name="opponent"
+                                            class="form-control"
+                                            placeholder="Opponent"
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="result">Game Result</label>
+                                        <select
+                                            id="result"
+                                            name="result"
+                                            class="form-control"
+                                            >
+                                            <option selected value="">Choose Result...</option>
+                                            <option value="Win">Win</option>
+                                            <option value="Loss">Loss</option>
+                                            <option value="Draw">Draw</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="teamscore">Team Score</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            max="100"
+                                            class="form-control"
+                                            id="teamscore"
+                                            name="teamscore"
+                                            placeholder="Team Score..."
+                                            />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="opponentscore">Opponent Score</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            max="100"
+                                            class="form-control"
+                                            id="opponentscore"
+                                            name="opponentscore"
+                                            placeholder="Opponent Score..."
+                                            />
+                                    </div>
+                                </div>
+
+                                <input
+                                    id="teamid"
+                                    name="teamid"
+                                    th:value="${teamid}"
+                                    hidden
+                                    />
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        id="username"
+                                        name="username"
+                                        th:value="${user.username}"
+                                        hidden
+                                        />
+
+                                <input type="hidden" 
+                                       th:name="${_csrf.parameterName}" 
+                                       th:value="${_csrf.token}"/>
+
+                                <button type="submit" class="btn btn-primary">
+                                    Add Team Game
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
