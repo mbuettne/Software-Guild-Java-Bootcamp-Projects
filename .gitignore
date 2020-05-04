@@ -441,5 +441,25 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+<<<<<<< HEAD
 /Summatives/capstone/BestXI/nbproject/
 /Summatives/capstone/BestXICapstone/nbproject/
+=======
+<<<<<<< HEAD
+/Summatives/RockPaperScissors/target/
+/Classwork/ClassRoster/target/
+/Summatives/m2/target/
+/Classwork/ClassRoster/nbproject/
+/Summatives/m2/nbproject/
+/Summatives/m3-summative/nbproject/
+=======
+>>>>>>> 9cd81efc9b5c678b2172fd1da886cd7e3a61a172
+/Classwork/SQL Exercises/JDBCExamples/JDBCExampleStarter/target/
+/Classwork/SQL Exercises/JDBCExamples/JDBCTemplateStarter/JDBCTemplateExampleStarter/target/
+/Classwork/SQL Exercises/JDBCTComplexExampleStarter/target/
+/Classwork/SQL Exercises/JDBCExamples/JDBCTComplexExampleStarter/target/
+/Classwork/SQL Exercises/JDBCExamples/JDBCTTestingExampleStarter/nbproject/
+/Classwork/SQL Exercises/JDBCExamples/JDBCTTestingExampleStarter/target/
+/Summatives/m7-summative/m7sumNumberGuess/target/
+/Summatives/m7-summative/m7sumNumberGuess/nbproject/
+>>>>>>> 010b435f6accc2d6440341ec0e6948defe4e16b8

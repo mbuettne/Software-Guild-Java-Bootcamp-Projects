@@ -1,0 +1,5 @@
+com\mbuettner\fieldagent\data\AgencyRepositoryTest.class
+com\mbuettner\fieldagent\data\SecurityClearanceRepositoryTest.class
+com\mbuettner\fieldagent\data\AgentRepositoryTest.class
+com\mbuettner\fieldagent\data\CountryRepositoryTest.class
+com\mbuettner\fieldagent\data\AssignmentRepositoryTest.class
