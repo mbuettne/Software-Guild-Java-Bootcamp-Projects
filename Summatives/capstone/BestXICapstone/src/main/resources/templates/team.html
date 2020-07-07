@@ -114,7 +114,7 @@
                     </div>
                     <div class="card text-center mb-5">
                         <div class="card-header">Latest Game</div>
-                        <div class="card-body">
+                        <div class="card-body"  th:if="${latestGame !=null}">
                             <h5 class="card-title" th:text="${latestGame.teamscore} +' - '+ ${latestGame.opponentscore} +' '+${latestGame.result} +' vs ' + ${latestGame.opponent} "></h5>
                             <p class="card-text" th:text="${latestGame.gamedate} + ' - ' + ${latestGame.gamelocation}"></p>
                             <a th:href="@{/teamgameinfo(id=${latestGame.teamgameid}, username=${#authentication.name})}" class="btn btn-outline-primary">Game Details</a>
@@ -122,10 +122,8 @@
                     </div>
                     <div class="card text-center">
                         <div class="card-header">Top Goalscorers</div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" th:text="${topScorers.get(0)}"></li>
-                            <li class="list-group-item" th:text="${topScorers.get(1)}"></li>
-                            <li class="list-group-item" th:text="${topScorers.get(2)}"></li>
+                        <ul class="list-group list-group-flush" th:if="${not #lists.isEmpty(topScorers)}" th:each="scorer : ${topScorers}" >
+                            <li class="list-group-item" th:text="${scorer}"></li>
                         </ul>
                     </div>
                 </div>

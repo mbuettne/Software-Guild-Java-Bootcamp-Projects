@@ -45,8 +45,13 @@ public class teamgameService {
     
     public Teamgame getLatestGameByTeam(int teamid){
         List<Teamgame> gameList = teamgameRepo.findByTeamidOrderByGamedateDesc(teamid);
-        Teamgame gameToReturn = gameList.get(0);
-        
+        Teamgame gameToReturn = new Teamgame();
+       if(gameList.size() ==0){
+           return null;
+       }
+        else if(gameList.size() > 0){
+                    gameToReturn = gameList.get(0);
+        } 
         return gameToReturn;
     }
     

@@ -54,7 +54,7 @@ public class MainController {
 
     @Autowired
     userService userService;
-    
+
     @Autowired
     roleService roleService;
 
@@ -92,9 +92,9 @@ public class MainController {
 
         return "account";
     }
-    
+
     @PostMapping("/addUser")
-    public String addUser(String firstname, String lastname, String username, String password, int teamid, String adminusername){
+    public String addUser(String firstname, String lastname, String username, String password, int teamid, String adminusername) {
         User user = new User();
         user.setFirstname(firstname);
         user.setLastname(lastname);
@@ -103,67 +103,73 @@ public class MainController {
         user.setEnabled(true);
         user.setRoleid(2);
         user.setTeamid(teamid);
-        
+
         userService.saveOrUpdateUser(user);
         return "redirect:/account?username=" + adminusername;
     }
-    
+
     @GetMapping("/deleteSelf")
-    public String deleteSelf(Integer id){
-        
+    public String deleteSelf(Integer id) {
+
         return "deleteSelf";
     }
-    
+
     @PostMapping("/deleteSelf")
-    public String deleteSelf(String username){
+    public String deleteSelf(String username) {
         User user = userService.getUserByUsername(username);
         userService.deleteUser(user.getUserid());
-        
+
         return "redirect:/login";
     }
-    
+
     @PostMapping("/deleteUser")
-    public String deleteUser(Integer userid, String adminusername){
-        userService.deleteUser(userid);
-        
-        return "redirect:/account?username=" + adminusername;
+    public String deleteUser(Integer userid, String adminusername) {
+        User user = userService.getUserByUsername(adminusername);
+        if (user.getUserid() == userid) {
+            return "deleteSelf";
+        } else {
+            userService.deleteUser(userid);
+
+            return "redirect:/account?username=" + adminusername;
+        }
+
     }
-    
+
     @GetMapping("/editUser")
-    public String editUser(Integer id, Model model, Integer error){
+    public String editUser(Integer id, Model model, Integer error) {
         User user = userService.getUserById(id);
         List<Role> roleList = roleService.returnAllRoles();
         model.addAttribute("roles", roleList);
         model.addAttribute("user", user);
-        
-        if(error !=null){
-            if(error == 1){
+
+        if (error != null) {
+            if (error == 1) {
                 model.addAttribute("error", "Passwords did not match, password was not updated.");
             }
         }
         return "editUser";
     }
-    
+
     @PostMapping("/editUser")
-    public String updateUser(Integer roleId, Integer userid, String firstname, String lastname, String username){
+    public String updateUser(Integer roleId, Integer userid, String firstname, String lastname, String username) {
         User currentUser = userService.getUserByUsername(username);
         User user = userService.getUserById(userid);
         user.setFirstname(firstname);
         user.setLastname(lastname);
-        if(currentUser.getRoleid()==1){
+        if (currentUser.getRoleid() == 1) {
             user.setRoleid(roleId);
         }
-        
+
         userService.saveOrUpdateUser(user);
-        
+
         return "redirect:/account?username=" + username;
     }
-    
+
     @PostMapping("editPassword")
-    public String editPassword(Integer userid, String password, String confirmPassword, String username){
+    public String editPassword(Integer userid, String password, String confirmPassword, String username) {
         User user = userService.getUserById(userid);
-        
-        if(password.equals(confirmPassword)){
+
+        if (password.equals(confirmPassword)) {
             user.setPassword(encoder.encode(password));
             userService.saveOrUpdateUser(user);
             return "redirect:/account?username=" + username;

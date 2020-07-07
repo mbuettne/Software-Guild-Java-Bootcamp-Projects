@@ -54,49 +54,80 @@ public class playergameService {
             playergameRepo.delete(pg);
         }
     }
-    
-    public Map<Integer,Player> findTopGoalScorers(int teamid) {
+
+    public Map<Integer, Player> findTopGoalScorers(int teamid) {
         List<Player> players = playerRepo.findByTeamid(teamid);
         int comparison = 100;
         int mapkey = 1;
         Map<Integer, Player> topScorers = new HashMap<Integer, Player>();
-        while (comparison > 0 && topScorers.size() <3) {
-            for (Player player : players) {
-                Playergame totalstats = totalStatsByPlayer(player.getPlayerid());
-                
-                if(totalstats.getGoals()==comparison){
-                    topScorers.put(mapkey,player);
-                    mapkey ++;
+        if (players.size() >= 3) {
+            while (comparison > 0 && topScorers.size() < 3) {
+                for (Player player : players) {
+                    Playergame totalstats = totalStatsByPlayer(player.getPlayerid());
+
+                    if (totalstats.getGoals() == comparison) {
+                        topScorers.put(mapkey, player);
+                        mapkey++;
+                    }
                 }
+                comparison--;
             }
-            comparison--;
+        } else if (players.size() == 2) {
+            while (comparison > 0 && topScorers.size() < 2) {
+                for (Player player : players) {
+                    Playergame totalstats = totalStatsByPlayer(player.getPlayerid());
+
+                    if (totalstats.getGoals() == comparison) {
+                        topScorers.put(mapkey, player);
+                        mapkey++;
+                    }
+                }
+                comparison--;
+            }
+        } else if (players.size() == 1) {
+            while (comparison > 0 && topScorers.size() < 1) {
+                for (Player player : players) {
+                    Playergame totalstats = totalStatsByPlayer(player.getPlayerid());
+
+                    if (totalstats.getGoals() == comparison) {
+                        topScorers.put(mapkey, player);
+                        mapkey++;
+                    }
+                }
+                comparison--;
+            }
         }
         return topScorers;
     }
-    
-    public List<String> topScorerStringList(int teamid){
-         Map topScorersMap = findTopGoalScorers(teamid);
+
+    public List<String> topScorerStringList(int teamid) {
+        Map topScorersMap = findTopGoalScorers(teamid);
         Map<Integer, Player> topScorersTree = new TreeMap<Integer, Player>(topScorersMap);
         List<String> scorerStringList = new ArrayList<>();
 
-        Player top = topScorersTree.get(1);
-        Playergame pg1 = totalStatsByPlayer(top.getPlayerid());
-        int topGoals = pg1.getGoals();
-        String topString = top.getFirstname() + " " + top.getLastname() + " - " + topGoals + " Goals";
-        scorerStringList.add(topString);
+        if (topScorersMap.containsKey(1)) {
+            Player top = topScorersTree.get(1);
+            Playergame pg1 = totalStatsByPlayer(top.getPlayerid());
+            int topGoals = pg1.getGoals();
+            String topString = top.getFirstname() + " " + top.getLastname() + " - " + topGoals + " Goals";
+            scorerStringList.add(topString);
+        }
+        if (topScorersMap.containsKey(2)) {
+            Player second = topScorersTree.get(2);
+            Playergame pg2 = totalStatsByPlayer(second.getPlayerid());
+            int secondGoals = pg2.getGoals();
+            String secondString = second.getFirstname() + " " + second.getLastname() + " - " + secondGoals + " Goals";
+            scorerStringList.add(secondString);
+        }
 
-        Player second = topScorersTree.get(2);
-        Playergame pg2 =totalStatsByPlayer(second.getPlayerid());
-        int secondGoals = pg2.getGoals();
-        String secondString = second.getFirstname() + " " + second.getLastname() + " - " + secondGoals + " Goals";
-        scorerStringList.add(secondString);
+        if (topScorersMap.containsKey(3)) {
+            Player third = topScorersTree.get(3);
+            Playergame pg3 = totalStatsByPlayer(third.getPlayerid());
+            int thirdGoals = pg3.getGoals();
+            String thirdString = third.getFirstname() + " " + third.getLastname() + " - " + thirdGoals + " Goals";
+            scorerStringList.add(thirdString);
+        }
 
-        Player third = topScorersTree.get(3);
-        Playergame pg3 = totalStatsByPlayer(third.getPlayerid());
-        int thirdGoals = pg3.getGoals();
-        String thirdString = third.getFirstname() + " " + third.getLastname() + " - " + thirdGoals + " Goals";
-        scorerStringList.add(thirdString);
-        
         return scorerStringList;
     }
 
@@ -137,12 +168,12 @@ public class playergameService {
         totalStats.setAssists(totalAssists);
         totalStats.setDribbles(totalDribbles);
         totalStats.setPasses(totalPasses);
-        if(playergames.size() !=0){
-             totalStats.setPasspercentage((avePassPercentage / playergames.size()));
+        if (playergames.size() != 0) {
+            totalStats.setPasspercentage((avePassPercentage / playergames.size()));
         } else {
             totalStats.setPasspercentage(0);
         }
-       
+
         totalStats.setTackles(totalTackles);
         totalStats.setInterceptions(totalInterceptions);
         totalStats.setShotsdefensed(totalShotsDefensed);
@@ -153,9 +184,8 @@ public class playergameService {
         return totalStats;
 
     }
-    
-    
-    public List<Playergame> getAllPlayerGames(){
+
+    public List<Playergame> getAllPlayerGames() {
         return playergameRepo.findAll();
     }
 

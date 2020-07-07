@@ -116,10 +116,8 @@
                     </div>
                     <div class="card text-center">
                         <div class="card-header">Top Goalscorers</div>
-                        <ul class="list-group list-group-flush" th:if="${not #lists.isEmpty(topScorers)}">
-                            <li class="list-group-item" th:text="${topScorers.get(0)}"></li>
-                            <li class="list-group-item" th:text="${topScorers.get(1)}"></li>
-                            <li class="list-group-item" th:text="${topScorers.get(2)}"></li>
+                        <ul class="list-group list-group-flush" th:if="${not #lists.isEmpty(topScorers)}" th:each="scorer : ${topScorers}" >
+                            <li class="list-group-item" th:text="${scorer}"></li>
                         </ul>
                     </div>
                 </div>
